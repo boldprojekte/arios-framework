@@ -57,6 +57,13 @@ export async function init(): Promise<void> {
       claudeDir
     );
 
+    // Copy .claude/agents/
+    const agentsDir = path.join(cwd, '.claude', 'agents');
+    await copyTemplates(
+      path.join(templatesDir, '.claude', 'agents'),
+      agentsDir
+    );
+
     // Render templated files
     const templateData = {
       projectName: projectInfo.name,
@@ -77,6 +84,11 @@ export async function init(): Promise<void> {
 
     // Success
     spinner.succeed('ARIOS installed successfully!');
+    console.log('');
+    console.log(chalk.dim('Created:'));
+    console.log(chalk.dim('  .arios/           ARIOS system files'));
+    console.log(chalk.dim('  .claude/commands/ Slash commands (/arios:start, /arios:orchestrate)'));
+    console.log(chalk.dim('  .claude/agents/   Subagents (researcher, planner, executor)'));
     console.log('');
     console.log(chalk.cyan('Run /arios:start in Claude Code to complete setup'));
   } catch (error) {
