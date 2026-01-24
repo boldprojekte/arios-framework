@@ -41,7 +41,7 @@ Plans:
 **Requirements**: AGENT-01, AGENT-02, AGENT-03
 **Success Criteria** (what must be TRUE):
   1. Orchestrator can spawn subagent with specific role and instructions
-  2. Researcher, explorer, planner, and executor subagent prompts exist and are loadable
+  2. Researcher, planner, and executor subagent prompts exist and are loadable
   3. Subagents write structured findings to files that orchestrator reads on completion
   4. Handoff format is consistent and parseable across all subagent types
 **Plans**: 3 plans
