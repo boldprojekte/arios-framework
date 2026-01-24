@@ -92,13 +92,13 @@ Plans:
   3. User can choose ground-up or UI-first approach at project start
   4. Generated code follows best practices and matches existing codebase patterns
   5. Checkpoint failures prevent building on broken foundation
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 05-01: Complexity detection and wave planning
-- [ ] 05-02: Testable checkpoint system
-- [ ] 05-03: Approach selection (ground-up vs UI-first)
-- [ ] 05-04: Code quality enforcement
+- [ ] 05-01-PLAN.md — Complexity detection and wave scheduling
+- [ ] 05-02-PLAN.md — Testable checkpoint verification
+- [ ] 05-03-PLAN.md — Approach selection and configuration
+- [ ] 05-04-PLAN.md — Recovery flow with retry logic
 
 ### Phase 6: Task Visibility
 **Goal**: User has real-time visibility into task execution through dashboard
