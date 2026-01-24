@@ -10,11 +10,11 @@ Update ARIOS files to the latest version while preserving user customizations.
 
 ## Context
 
-- @.arios/config.json - User preferences to preserve
+- @.planning/config.json - User preferences to preserve
 
 ## Instructions
 
-1. Check current ARIOS version in .arios/config.json
+1. Check current ARIOS version in .planning/config.json
 2. Show what's new in the update (changelog)
 3. Ask for confirmation before applying
 4. Update system files, preserving user preferences
@@ -22,7 +22,7 @@ Update ARIOS files to the latest version while preserving user customizations.
 
 ## Workflow
 
-1. Read current version from .arios/config.json
+1. Read current version from .planning/config.json
 2. Compare with latest version
 3. If already latest, report and exit
 4. Show changelog summary
