@@ -56,6 +56,47 @@ A personal AI programming system for Claude Code that acts as a creative's codin
 - State persistence via markdown files
 - Hooks system available (not yet explored by user)
 
+**Prompt Philosophy:**
+- Every line must earn its place — not too verbose, not too sparse
+- Leave room for LLM to think — Opus is smart, don't over-specify
+- Consistency in structure reduces agent confusion
+- Slash commands ≠ subagent prompts (different structures for different purposes)
+
+**Slash Command Template (Input-Workflow-Output):**
+```
+---
+description: [capability]
+model: [model]
+tools: [allowed tools]
+---
+
+# Title
+
+## Purpose
+[1-2 sentences - direct instruction]
+
+## Variables
+- dynamic: $ARG1
+- static: ./path
+
+## Context
+[Map of relevant files/structure]
+
+## Instructions
+[Rules - the HOW, not WHAT]
+
+## Workflow
+[Numbered steps with conditionals/loops]
+
+## Report
+[Output format]
+```
+
+**Subagent Prompts:**
+- More focused: role + task + output
+- Less orchestration structure, more task clarity
+- Reference GSD agents as patterns
+
 ## Constraints
 
 - **Context window**: Must manage context deliberately — not too much, not too little
@@ -71,6 +112,8 @@ A personal AI programming system for Claude Code that acts as a creative's codin
 | Build own system vs use Claude Code planning | User wants control over workflow and philosophy | — Pending |
 | Subagents write to files for handoffs | Persistence across context, orchestrator reads when ready | — Pending |
 | Testable checkpoints over arbitrary phases | Prevents building on broken foundation | — Pending |
+| Input-Workflow-Output template for slash commands | Consistency reduces confusion, proven structure from IndyDevDan | — Pending |
+| Lean prompts that leave room for LLM thinking | Opus is smart, over-specification hurts more than helps | — Pending |
 
 ---
-*Last updated: 2026-01-24 after initialization*
+*Last updated: 2026-01-24 after prompt philosophy added*
