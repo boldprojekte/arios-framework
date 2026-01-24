@@ -12,7 +12,7 @@ ARIOS v2 transforms from a manual planner into a full orchestration system lever
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation** - CLAUDE.md integration and professional project structure
+- [x] **Phase 1: Foundation** - CLAUDE.md integration and professional project structure
 - [ ] **Phase 2: Subagent System** - Orchestrator pattern with specialized subagent files and structured handoffs
 - [ ] **Phase 3: Entry Points** - Slash commands, context detection, and project type routing
 - [ ] **Phase 4: State Management** - Session persistence and project memory
@@ -33,7 +33,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 Plans:
 - [x] 01-01-PLAN.md — CLI package structure and ARIOS templates
-- [ ] 01-02-PLAN.md — Init and update command implementation
+- [x] 01-02-PLAN.md — Init and update command implementation
 
 ### Phase 2: Subagent System
 **Goal**: Orchestrator can spawn specialized subagents that persist findings for consumption
@@ -122,7 +122,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 1/2 | In progress | - |
+| 1. Foundation | 2/2 | Complete | 2026-01-24 |
 | 2. Subagent System | 0/3 | Not started | - |
 | 3. Entry Points | 0/3 | Not started | - |
 | 4. State Management | 0/2 | Not started | - |
