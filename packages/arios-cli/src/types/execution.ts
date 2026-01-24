@@ -67,3 +67,39 @@ export type WaveSchedule = {
   /** Whether plans in this wave can run in parallel */
   canParallelize: boolean;
 };
+
+/**
+ * Configuration for checkpoint verification.
+ *
+ * Defines how to verify that the app runs and tests pass.
+ */
+export type CheckpointConfig = {
+  /** Command to start the app (e.g., "npm run dev") */
+  startCommand?: string;
+  /** Regex pattern to match in stdout when app is ready (e.g., "ready on port") */
+  startReadyPattern?: string;
+  /** Timeout for app start in milliseconds (default: 30000) */
+  startTimeout?: number;
+  /** Command to run tests (e.g., "npm test") */
+  testCommand?: string;
+  /** Timeout for test execution in milliseconds (default: 120000) */
+  testTimeout?: number;
+};
+
+/**
+ * Result of checkpoint verification.
+ *
+ * Per CONTEXT.md: "testable = app runs + tests pass"
+ */
+export type CheckpointResult = {
+  /** Whether the app started successfully (or true if no startCommand) */
+  appRuns: boolean;
+  /** Whether tests passed (or true if no testCommand) */
+  testsPass: boolean;
+  /** Overall pass: appRuns AND testsPass */
+  passed: boolean;
+  /** Combined output from commands for logging */
+  output: string;
+  /** Any error messages collected during verification */
+  errors: string[];
+};
