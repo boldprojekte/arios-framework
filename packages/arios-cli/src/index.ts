@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { program } from 'commander';
 import { init } from './commands/init.js';
+import { update } from './commands/update.js';
 
 program
   .name('arios')
@@ -15,9 +16,6 @@ program
 program
   .command('update')
   .description('Update ARIOS to the latest version')
-  .action(() => {
-    console.log('ARIOS update - Not implemented yet');
-    console.log('This will update ARIOS files and show what changed.');
-  });
+  .action(update);
 
 program.parse();
