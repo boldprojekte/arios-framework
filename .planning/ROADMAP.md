@@ -63,7 +63,7 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Smart entry point (/arios) and status command
+- [x] 03-01-PLAN.md — Smart entry point (/arios) and status command
 - [ ] 03-02-PLAN.md — Core workflow commands (/ideate, /plan, /execute) and help
 
 ### Phase 4: State Management
@@ -123,7 +123,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete | 2026-01-24 |
 | 2. Subagent System | 3/3 | Complete | 2026-01-24 |
-| 3. Entry Points | 0/2 | Not started | - |
+| 3. Entry Points | 1/2 | In progress | - |
 | 4. State Management | 0/2 | Not started | - |
 | 5. Execution Flow | 0/4 | Not started | - |
 | 6. Task Visibility | 0/3 | Not started | - |
