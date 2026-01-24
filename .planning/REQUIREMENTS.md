@@ -61,27 +61,27 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CORE-01 | TBD | Pending |
-| CORE-02 | TBD | Pending |
-| CORE-03 | TBD | Pending |
-| CORE-04 | TBD | Pending |
-| AGENT-01 | TBD | Pending |
-| AGENT-02 | TBD | Pending |
-| AGENT-03 | TBD | Pending |
-| AGENT-04 | TBD | Pending |
-| UX-01 | TBD | Pending |
-| UX-02 | TBD | Pending |
-| UX-03 | TBD | Pending |
-| UX-04 | TBD | Pending |
-| QUAL-01 | TBD | Pending |
-| QUAL-02 | TBD | Pending |
-| QUAL-03 | TBD | Pending |
+| CORE-01 | Phase 3: Entry Points | Pending |
+| CORE-02 | Phase 1: Foundation | Pending |
+| CORE-03 | Phase 4: State Management | Pending |
+| CORE-04 | Phase 3: Entry Points | Pending |
+| AGENT-01 | Phase 2: Subagent System | Pending |
+| AGENT-02 | Phase 2: Subagent System | Pending |
+| AGENT-03 | Phase 2: Subagent System | Pending |
+| AGENT-04 | Phase 6: Task Visibility | Pending |
+| UX-01 | Phase 6: Task Visibility | Pending |
+| UX-02 | Phase 5: Execution Flow | Pending |
+| UX-03 | Phase 5: Execution Flow | Pending |
+| UX-04 | Phase 3: Entry Points | Pending |
+| QUAL-01 | Phase 1: Foundation | Pending |
+| QUAL-02 | Phase 5: Execution Flow | Pending |
+| QUAL-03 | Phase 5: Execution Flow | Pending |
 
 **Coverage:**
 - v1 requirements: 15 total
-- Mapped to phases: 0
-- Unmapped: 15
+- Mapped to phases: 15
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-01-24*
-*Last updated: 2026-01-24 after initial definition*
+*Last updated: 2026-01-24 — Traceability complete after roadmap creation*
