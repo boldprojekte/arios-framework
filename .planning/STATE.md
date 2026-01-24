@@ -92,6 +92,9 @@ Recent decisions affecting current work:
 - Simple pattern detection: indentation, quotes, semicolons (05-05)
 - Confidence levels based on file count and consistency (05-05)
 - Sensible defaults for new projects with no existing code (05-05)
+- node:child_process spawn over execa for minimal dependencies (05-02)
+- Checkpoint passed = appRuns AND testsPass per CONTEXT.md (05-02)
+- Errors collected in array, never thrown for graceful handling (05-02)
 
 ### Pending Todos
 
