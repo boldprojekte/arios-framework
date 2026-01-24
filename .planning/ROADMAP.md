@@ -29,11 +29,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   1. Opening Claude Code in a project with ARIOS installed loads system context automatically
   2. New projects created through ARIOS have SOTA folder structure and configuration
   3. CLAUDE.md points to ARIOS system files and is recognized by Claude Code
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 01-01: CLAUDE.md integration
-- [ ] 01-02: Project scaffolding templates
+- [ ] 01-01-PLAN.md — CLI package structure and ARIOS templates
+- [ ] 01-02-PLAN.md — Init and update command implementation
 
 ### Phase 2: Subagent System
 **Goal**: Orchestrator can spawn specialized subagents that persist findings for consumption
@@ -122,7 +122,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/2 | Not started | - |
+| 1. Foundation | 0/2 | Planned | - |
 | 2. Subagent System | 0/3 | Not started | - |
 | 3. Entry Points | 0/3 | Not started | - |
 | 4. State Management | 0/2 | Not started | - |
