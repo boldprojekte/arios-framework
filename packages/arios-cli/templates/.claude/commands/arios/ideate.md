@@ -11,13 +11,13 @@ Start creative exploration for new features, project direction, or problem resea
 ## Variables
 
 **Dynamic:** $TOPIC (optional ideation topic)
-**Static:** .arios/STATE.md, .arios/config.json
+**Static:** .planning/STATE.md, .planning/config.json
 
 ## Context
 
-- `!ls .arios/ 2>/dev/null || echo "NO_ARIOS"`
-- @.arios/STATE.md - Current project position
-- @.arios/config.json - Project settings
+- `!ls .planning/ 2>/dev/null || echo "NO_PLANNING"`
+- @.planning/STATE.md - Current project position
+- @.planning/config.json - Project settings
 
 ## Instructions
 
@@ -29,7 +29,7 @@ Start creative exploration for new features, project direction, or problem resea
 
 ## Workflow
 
-1. Check ARIOS initialized (ls .arios/ succeeds)
+1. Check ARIOS initialized (ls .planning/ succeeds)
    - If not: "ARIOS not initialized. Run `arios init` first."
 2. Read STATE.md for current position
 3. Display status: "Phase X/Y, Plan M/N"
