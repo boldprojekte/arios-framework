@@ -103,3 +103,46 @@ export type CheckpointResult = {
   /** Any error messages collected during verification */
   errors: string[];
 };
+
+/**
+ * Record of a single recovery attempt.
+ *
+ * Each attempt involves spawning a debug subagent to diagnose
+ * the failure and write a debug plan for the executor to run.
+ */
+export type RecoveryAttempt = {
+  /** Attempt number (1, 2, 3) */
+  attempt: number;
+  /** Summary of what the debug subagent found */
+  diagnosis: string;
+  /** Path to the debug plan written by the subagent */
+  debugPlanPath: string;
+  /** Result of this recovery attempt */
+  result: 'fixed' | 'failed';
+};
+
+/**
+ * Result of a recovery flow.
+ *
+ * Per CONTEXT.md: "2-3 attempts before hard stop, then stop with diagnostic output"
+ */
+export type RecoveryResult = {
+  /** Whether recovery succeeded (checkpoint now passes) */
+  fixed: boolean;
+  /** Record of all recovery attempts made */
+  attempts: RecoveryAttempt[];
+  /** Diagnostic output if retries exhausted (fixed === false) */
+  finalDiagnostic?: string;
+};
+
+/**
+ * Configuration for recovery flow.
+ *
+ * Controls retry limits and re-verification settings.
+ */
+export type RecoveryConfig = {
+  /** Maximum recovery attempts before hard stop (default: 3) */
+  maxAttempts: number;
+  /** Configuration for checkpoint re-verification after fixes */
+  checkpointConfig: CheckpointConfig;
+};
