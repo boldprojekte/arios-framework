@@ -56,6 +56,11 @@ A personal AI programming system for Claude Code that acts as a creative's codin
 - State persistence via markdown files
 - Hooks system available (not yet explored by user)
 
+**Capabilities to Explore:**
+- Fork context for skills/slash commands (isolated context, doesn't pollute main conversation)
+- Skills vs slash commands decision (skills can add custom tools like Python scripts)
+- Determine which ARIOS components benefit from skills vs simpler slash commands
+
 **Prompt Philosophy:**
 - Every line must earn its place — not too verbose, not too sparse
 - Leave room for LLM to think — Opus is smart, don't over-specify
