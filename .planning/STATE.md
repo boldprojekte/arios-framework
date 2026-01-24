@@ -95,6 +95,9 @@ Recent decisions affecting current work:
 - node:child_process spawn over execa for minimal dependencies (05-02)
 - Checkpoint passed = appRuns AND testsPass per CONTEXT.md (05-02)
 - Errors collected in array, never thrown for graceful handling (05-02)
+- Stub functions for subagent/executor wiring - deferred to Phase 6 (05-04)
+- Default maxAttempts: 3 per CONTEXT.md "2-3 attempts" (05-04)
+- Re-verify checkpoint after each debug plan execution (05-04)
 
 ### Pending Todos
 
