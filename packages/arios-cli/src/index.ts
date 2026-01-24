@@ -7,6 +7,10 @@ import { update } from './commands/update.js';
 export * from './types/handoff.js';
 export * from './utils/handoff.js';
 
+// State utilities for project state persistence
+export * from './types/state.js';
+export * from './utils/state.js';
+
 program
   .name('arios')
   .description('AI-assisted development workflow for Claude Code')
