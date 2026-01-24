@@ -14,13 +14,13 @@ Stay lean - delegate all heavy work to subagents. Never implement features direc
 ## Variables
 
 **Dynamic:** $COMMAND (research | plan | execute | auto)
-**Static:** .arios/STATE.md, .arios/config.json, .arios/roadmaps/
+**Static:** .planning/STATE.md, .planning/config.json, .planning/roadmaps/
 
 ## Context
 
 Read before any action:
-- @.arios/STATE.md - Current project position and progress
-- @.arios/config.json - Project settings and stack info
+- @.planning/STATE.md - Current project position and progress
+- @.planning/config.json - Project settings and stack info
 - Active roadmap and phase files as needed
 
 ## Instructions
@@ -61,7 +61,7 @@ Use Task tool to spawn .claude/agents/researcher.md
 Provide:
 - Research topic/question
 - Phase name and context
-- Output path: .arios/roadmaps/{roadmap}/{phase}/findings.md
+- Output path: .planning/roadmaps/{roadmap}/{phase}/findings.md
 ```
 
 **Planner:**
@@ -71,7 +71,7 @@ Use Task tool to spawn .claude/agents/planner.md
 Provide:
 - Findings file path (from researcher)
 - Phase name and CONTEXT.md path
-- Output path: .arios/roadmaps/{roadmap}/{phase}/plan.md
+- Output path: .planning/roadmaps/{roadmap}/{phase}/plan.md
 ```
 
 **Executor:**
@@ -82,7 +82,7 @@ Provide:
 - Plan file path
 - Wave number to execute
 - Task IDs for this wave
-- Problems directory: .arios/roadmaps/{roadmap}/{phase}/problems/
+- Problems directory: .planning/roadmaps/{roadmap}/{phase}/problems/
 ```
 
 ## Report
