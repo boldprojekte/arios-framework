@@ -60,12 +60,11 @@ Plans:
   2. System detects whether project is greenfield or brownfield and adapts behavior
   3. Context-aware routing suggests logical next command based on project state
   4. Supporting commands exist for workflow control (status, help, etc.)
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 03-01: Slash command definitions and registration
-- [ ] 03-02: Greenfield vs brownfield detection
-- [ ] 03-03: Context-aware routing logic
+- [ ] 03-01-PLAN.md — Smart entry point (/arios) and status command
+- [ ] 03-02-PLAN.md — Core workflow commands (/ideate, /plan, /execute) and help
 
 ### Phase 4: State Management
 **Goal**: Project context persists across sessions enabling seamless continuation
@@ -124,7 +123,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete | 2026-01-24 |
 | 2. Subagent System | 3/3 | Complete | 2026-01-24 |
-| 3. Entry Points | 0/3 | Not started | - |
+| 3. Entry Points | 0/2 | Not started | - |
 | 4. State Management | 0/2 | Not started | - |
 | 5. Execution Flow | 0/4 | Not started | - |
 | 6. Task Visibility | 0/3 | Not started | - |
