@@ -32,7 +32,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — CLI package structure and ARIOS templates
+- [x] 01-01-PLAN.md — CLI package structure and ARIOS templates
 - [ ] 01-02-PLAN.md — Init and update command implementation
 
 ### Phase 2: Subagent System
@@ -122,7 +122,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/2 | Planned | - |
+| 1. Foundation | 1/2 | In progress | - |
 | 2. Subagent System | 0/3 | Not started | - |
 | 3. Entry Points | 0/3 | Not started | - |
 | 4. State Management | 0/2 | Not started | - |
