@@ -92,13 +92,14 @@ Plans:
   3. User can choose ground-up or UI-first approach at project start
   4. Generated code follows best practices and matches existing codebase patterns
   5. Checkpoint failures prevent building on broken foundation
-**Plans**: 4 plans
+**Plans**: 5 plans
 
 Plans:
 - [ ] 05-01-PLAN.md — Complexity detection and wave scheduling
 - [ ] 05-02-PLAN.md — Testable checkpoint verification
 - [ ] 05-03-PLAN.md — Approach selection and configuration
 - [ ] 05-04-PLAN.md — Recovery flow with retry logic
+- [ ] 05-05-PLAN.md — Code pattern extraction and quality enforcement
 
 ### Phase 6: Task Visibility
 **Goal**: User has real-time visibility into task execution through dashboard
@@ -127,7 +128,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 | 2. Subagent System | 3/3 | Complete | 2026-01-24 |
 | 3. Entry Points | 2/2 | Complete | 2026-01-24 |
 | 4. State Management | 4/4 | Complete | 2026-01-24 |
-| 5. Execution Flow | 0/4 | Not started | - |
+| 5. Execution Flow | 0/5 | Not started | - |
 | 6. Task Visibility | 0/3 | Not started | - |
 
 ---
