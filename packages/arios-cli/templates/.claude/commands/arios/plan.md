@@ -11,13 +11,13 @@ Create or continue an execution plan from ideation findings.
 ## Variables
 
 **Dynamic:** $PHASE (optional phase to plan)
-**Static:** .arios/STATE.md, .arios/config.json, .arios/roadmaps/
+**Static:** .planning/STATE.md, .planning/config.json, .planning/roadmaps/
 
 ## Context
 
-- `!ls .arios/ 2>/dev/null || echo "NO_ARIOS"`
-- @.arios/STATE.md - Current project position
-- @.arios/config.json - Project settings
+- `!ls .planning/ 2>/dev/null || echo "NO_PLANNING"`
+- @.planning/STATE.md - Current project position
+- @.planning/config.json - Project settings
 
 ## Instructions
 
@@ -29,12 +29,12 @@ Create or continue an execution plan from ideation findings.
 
 ## Workflow
 
-1. Check ARIOS initialized (ls .arios/ succeeds)
+1. Check ARIOS initialized (ls .planning/ succeeds)
    - If not: "ARIOS not initialized. Run `arios init` first."
 2. Read STATE.md for current position and active roadmap/phase
 3. Display status: "Phase X/Y, Plan M/N"
 4. Check for findings file in current phase directory
-   - Path: .arios/roadmaps/{roadmap}/{phase}/findings.md
+   - Path: .planning/roadmaps/{roadmap}/{phase}/findings.md
 5. If no findings found:
    - Warn: "No findings found for current phase."
    - Ask: "Run /arios:ideate first, or continue anyway? (ideate/continue)"
