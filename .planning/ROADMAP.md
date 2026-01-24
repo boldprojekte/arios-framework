@@ -74,11 +74,11 @@ Plans:
   1. Closing and reopening Claude Code preserves project state
   2. User can resume exactly where they left off without re-explaining context
   3. State includes phase position, decisions made, and accumulated context
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 04-01: State file structure and persistence
-- [ ] 04-02: Session continuity protocol
+- [ ] 04-01-PLAN.md — State types and persistence utilities
+- [ ] 04-02-PLAN.md — Session continuity integration
 
 ### Phase 5: Execution Flow
 **Goal**: Execution adapts to complexity with testable checkpoints and user-chosen approach
