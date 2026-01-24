@@ -16,9 +16,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Subagent Architecture
 
-- [ ] **AGENT-01**: Orchestrator pattern where main agent coordinates and spawns subagent work
-- [ ] **AGENT-02**: Subagent prompt files for specialized roles (researcher, explorer, planner, executor)
-- [ ] **AGENT-03**: Structured handoffs where subagents write findings to files for orchestrator consumption
+- [x] **AGENT-01**: Orchestrator pattern where main agent coordinates and spawns subagent work
+- [x] **AGENT-02**: Subagent prompt files for specialized roles (researcher, explorer, planner, executor)
+- [x] **AGENT-03**: Structured handoffs where subagents write findings to files for orchestrator consumption
 - [ ] **AGENT-04**: Task system integration for tracking work and enabling parallel execution
 
 ### User Experience
@@ -65,9 +65,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CORE-02 | Phase 1: Foundation | Complete |
 | CORE-03 | Phase 4: State Management | Pending |
 | CORE-04 | Phase 3: Entry Points | Pending |
-| AGENT-01 | Phase 2: Subagent System | Pending |
-| AGENT-02 | Phase 2: Subagent System | Pending |
-| AGENT-03 | Phase 2: Subagent System | Pending |
+| AGENT-01 | Phase 2: Subagent System | Complete |
+| AGENT-02 | Phase 2: Subagent System | Complete |
+| AGENT-03 | Phase 2: Subagent System | Complete |
 | AGENT-04 | Phase 6: Task Visibility | Pending |
 | UX-01 | Phase 6: Task Visibility | Pending |
 | UX-02 | Phase 5: Execution Flow | Pending |
