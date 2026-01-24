@@ -3,6 +3,10 @@ import { program } from 'commander';
 import { init } from './commands/init.js';
 import { update } from './commands/update.js';
 
+// Handoff utilities for subagent communication
+export * from './types/handoff.js';
+export * from './utils/handoff.js';
+
 program
   .name('arios')
   .description('AI-assisted development workflow for Claude Code')
