@@ -44,12 +44,12 @@ Plans:
   2. Researcher, explorer, planner, and executor subagent prompts exist and are loadable
   3. Subagents write structured findings to files that orchestrator reads on completion
   4. Handoff format is consistent and parseable across all subagent types
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 02-01: Orchestrator pattern implementation
-- [ ] 02-02: Subagent prompt files
-- [ ] 02-03: Handoff protocol and file structure
+- [ ] 02-01-PLAN.md — Handoff utilities and TypeScript types
+- [ ] 02-02-PLAN.md — Subagent prompt files (researcher, planner, executor)
+- [ ] 02-03-PLAN.md — Orchestrator command and init integration
 
 ### Phase 3: Entry Points
 **Goal**: Users invoke ARIOS through slash commands that detect project context and route appropriately
@@ -123,7 +123,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete | 2026-01-24 |
-| 2. Subagent System | 0/3 | Not started | - |
+| 2. Subagent System | 0/3 | Planned | - |
 | 3. Entry Points | 0/3 | Not started | - |
 | 4. State Management | 0/2 | Not started | - |
 | 5. Execution Flow | 0/4 | Not started | - |
