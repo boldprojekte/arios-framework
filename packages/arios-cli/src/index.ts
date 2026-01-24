@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { program } from 'commander';
+import { init } from './commands/init.js';
 
 program
   .name('arios')
@@ -9,10 +10,7 @@ program
 program
   .command('init')
   .description('Initialize ARIOS in the current project')
-  .action(() => {
-    console.log('ARIOS init - Not implemented yet');
-    console.log('This will create .arios/ folder and slash commands.');
-  });
+  .action(init);
 
 program
   .command('update')
