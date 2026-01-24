@@ -10,7 +10,7 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Core System
 
 - [ ] **CORE-01**: Slash commands as entry points (/ideate, /plan, /execute and supporting commands)
-- [ ] **CORE-02**: CLAUDE.md integration for automatic system context loading on session start
+- [x] **CORE-02**: CLAUDE.md integration for automatic system context loading on session start
 - [ ] **CORE-03**: State management system that persists project context across sessions
 - [ ] **CORE-04**: Context-aware routing that detects project state and suggests next steps
 
@@ -30,7 +30,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Output Quality
 
-- [ ] **QUAL-01**: SOTA project setup with professional structure as foundation for all projects
+- [x] **QUAL-01**: SOTA project setup with professional structure as foundation for all projects
 - [ ] **QUAL-02**: Complexity scaling where simple tasks run in one wave, complex in phased waves
 - [ ] **QUAL-03**: Production-ready code following best practices and existing codebase patterns
 
@@ -62,7 +62,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | CORE-01 | Phase 3: Entry Points | Pending |
-| CORE-02 | Phase 1: Foundation | Pending |
+| CORE-02 | Phase 1: Foundation | Complete |
 | CORE-03 | Phase 4: State Management | Pending |
 | CORE-04 | Phase 3: Entry Points | Pending |
 | AGENT-01 | Phase 2: Subagent System | Pending |
@@ -73,7 +73,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UX-02 | Phase 5: Execution Flow | Pending |
 | UX-03 | Phase 5: Execution Flow | Pending |
 | UX-04 | Phase 3: Entry Points | Pending |
-| QUAL-01 | Phase 1: Foundation | Pending |
+| QUAL-01 | Phase 1: Foundation | Complete |
 | QUAL-02 | Phase 5: Execution Flow | Pending |
 | QUAL-03 | Phase 5: Execution Flow | Pending |
 
