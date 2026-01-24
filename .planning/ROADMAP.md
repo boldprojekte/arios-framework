@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation** - CLAUDE.md integration and professional project structure
 - [x] **Phase 2: Subagent System** - Orchestrator pattern with specialized subagent files and structured handoffs
-- [ ] **Phase 3: Entry Points** - Slash commands, context detection, and project type routing
+- [x] **Phase 3: Entry Points** - Slash commands, context detection, and project type routing
 - [ ] **Phase 4: State Management** - Session persistence and project memory
 - [ ] **Phase 5: Execution Flow** - Checkpoints, complexity scaling, and approach selection
 - [ ] **Phase 6: Task Visibility** - Task system integration and HTML dashboard
@@ -64,7 +64,7 @@ Plans:
 
 Plans:
 - [x] 03-01-PLAN.md — Smart entry point (/arios) and status command
-- [ ] 03-02-PLAN.md — Core workflow commands (/ideate, /plan, /execute) and help
+- [x] 03-02-PLAN.md — Core workflow commands (/ideate, /plan, /execute) and help
 
 ### Phase 4: State Management
 **Goal**: Project context persists across sessions enabling seamless continuation
@@ -123,7 +123,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete | 2026-01-24 |
 | 2. Subagent System | 3/3 | Complete | 2026-01-24 |
-| 3. Entry Points | 1/2 | In progress | - |
+| 3. Entry Points | 2/2 | Complete | 2026-01-24 |
 | 4. State Management | 0/2 | Not started | - |
 | 5. Execution Flow | 0/4 | Not started | - |
 | 6. Task Visibility | 0/3 | Not started | - |

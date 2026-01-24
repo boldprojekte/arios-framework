@@ -9,10 +9,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Core System
 
-- [ ] **CORE-01**: Slash commands as entry points (/ideate, /plan, /execute and supporting commands)
+- [x] **CORE-01**: Slash commands as entry points (/ideate, /plan, /execute and supporting commands)
 - [x] **CORE-02**: CLAUDE.md integration for automatic system context loading on session start
 - [ ] **CORE-03**: State management system that persists project context across sessions
-- [ ] **CORE-04**: Context-aware routing that detects project state and suggests next steps
+- [x] **CORE-04**: Context-aware routing that detects project state and suggests next steps
 
 ### Subagent Architecture
 
@@ -26,7 +26,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **UX-01**: HTML dashboard for real-time visibility into tasks and ability to interact
 - [ ] **UX-02**: Testable checkpoints that pause execution at points where user can verify the app works
 - [ ] **UX-03**: User-choosable approach allowing ground-up or UI-first development per project
-- [ ] **UX-04**: Greenfield vs brownfield detection with workflows adapted to each context
+- [x] **UX-04**: Greenfield vs brownfield detection with workflows adapted to each context
 
 ### Output Quality
 
@@ -61,10 +61,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CORE-01 | Phase 3: Entry Points | Pending |
+| CORE-01 | Phase 3: Entry Points | Complete |
 | CORE-02 | Phase 1: Foundation | Complete |
 | CORE-03 | Phase 4: State Management | Pending |
-| CORE-04 | Phase 3: Entry Points | Pending |
+| CORE-04 | Phase 3: Entry Points | Complete |
 | AGENT-01 | Phase 2: Subagent System | Complete |
 | AGENT-02 | Phase 2: Subagent System | Complete |
 | AGENT-03 | Phase 2: Subagent System | Complete |
@@ -72,7 +72,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UX-01 | Phase 6: Task Visibility | Pending |
 | UX-02 | Phase 5: Execution Flow | Pending |
 | UX-03 | Phase 5: Execution Flow | Pending |
-| UX-04 | Phase 3: Entry Points | Pending |
+| UX-04 | Phase 3: Entry Points | Complete |
 | QUAL-01 | Phase 1: Foundation | Complete |
 | QUAL-02 | Phase 5: Execution Flow | Pending |
 | QUAL-03 | Phase 5: Execution Flow | Pending |
