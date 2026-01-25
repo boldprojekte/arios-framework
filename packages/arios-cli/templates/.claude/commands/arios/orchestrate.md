@@ -16,6 +16,105 @@ Stay lean - delegate all heavy work to subagents. Never implement features direc
 **Dynamic:** $COMMAND (research | plan | execute | auto)
 **Static:** .planning/STATE.md, .planning/config.json, .planning/roadmaps/
 
+## State Integrity Check (Pre-Execution)
+
+**When to run:** At /execute initiation, before any wave-executor spawning. Run AFTER reading STATE.md but BEFORE dashboard startup.
+
+**Purpose:** Catch corruption or drift in STATE.md before execution begins. Auto-fixable issues are corrected silently. Unfixable issues prompt user before continuing.
+
+### Integrity Checks
+
+| Check | Detection | Auto-Fix | User Prompt |
+|-------|-----------|----------|-------------|
+| Checksum mismatch | Compute hash of state fields, compare to stored checksum | Yes - recalculate and update | No |
+| Missing SUMMARY.md for "complete" plan | Check file exists at expected path for plans marked complete | No | "Plan X marked complete but SUMMARY.md missing. Continue?" |
+| Missing PLAN.md for current position | Check PLAN.md exists at path STATE.md points to | No | "Plan X doesn't exist. Reset to last known plan?" |
+| Future timestamp | Compare lastActivity to current date | Yes - set to current date | No |
+| Phase out of range | Compare phase number to totalPhases | No | "Phase X exceeds total (Y). Reset to phase Y?" |
+
+### Check Implementation
+
+**1. Checksum mismatch detection:**
+```bash
+# Read STATE.md frontmatter
+# Extract: version, phase, planIndex, totalPhases, totalPlans, status, phaseName
+# Compute MD5 hash of these fields (excluding lastActivity and checksum)
+# Compare to stored checksum field
+```
+
+**2. Missing SUMMARY.md detection:**
+```bash
+# For each plan in STATE.md that should be "complete":
+# Check if .planning/phases/{phase-dir}/{phase}-{plan}-SUMMARY.md exists
+```
+
+**3. Missing PLAN.md detection:**
+```bash
+# Get current position from STATE.md (phase, planIndex)
+# Check if .planning/phases/{phase-dir}/{phase}-{planIndex}-PLAN.md exists
+```
+
+**4. Future timestamp detection:**
+```bash
+# Compare lastActivity date to current date
+# If lastActivity > today: it's a future timestamp
+```
+
+**5. Phase out of range detection:**
+```bash
+# Compare phase to totalPhases
+# If phase > totalPhases: out of range
+```
+
+### Auto-Fix Pattern
+
+```
+If issue is auto-fixable:
+  Apply fix silently
+  Display: "Fixed STATE.md drift: {brief description}"
+  Continue execution without pausing
+```
+
+**Auto-fix examples:**
+- Checksum mismatch: "Fixed STATE.md drift: checksum recalculated"
+- Future timestamp: "Fixed STATE.md drift: timestamp corrected to today"
+
+### User Prompt Pattern
+
+```
+If issue is NOT auto-fixable:
+  Display: "State issue detected: {description}"
+
+  Options:
+    (c) Continue - proceed despite issue
+    (r) Reset - fix by resetting to last valid state
+    (a) Abort - stop execution, investigate manually
+
+  Wait for user choice before proceeding
+```
+
+**User prompt examples:**
+- Missing SUMMARY: "State issue detected: Plan 08-02 marked complete but SUMMARY.md missing. Options: Continue (c), Reset (r), Abort (a)"
+- Missing PLAN: "State issue detected: Current plan 08-03-PLAN.md doesn't exist. Options: Continue (c), Reset (r), Abort (a)"
+- Phase out of range: "State issue detected: Phase 15 exceeds total phases (12). Options: Continue (c), Reset (r), Abort (a)"
+
+### Execution Flow Integration
+
+```
+1. Read STATE.md (existing step)
+2. Run State Integrity Check:
+   a. Perform all 5 checks
+   b. Collect auto-fixable issues → apply fixes, display brief note
+   c. Collect non-auto-fixable issues → prompt user, wait for response
+   d. If user aborts: stop execution
+   e. If user continues or resets: proceed
+3. If all checks pass: proceed silently (no message)
+4. Start Dashboard Coordination (next section)
+5. Continue with normal execution flow
+```
+
+**Note:** Integrity check is transparent when everything is healthy. User only sees output when fixes are applied or decisions are needed.
+
 ## Dashboard Coordination
 
 **Before starting execution, ensure dashboard server is running:**
