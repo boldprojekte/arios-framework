@@ -79,25 +79,20 @@ What would you like to do? (1/2):
 Wait for user input before proceeding.
 
 **If no conflict - Feature-Mode resume (mode: "feature"):**
-Display feature-specific welcome message:
+Display action-first minimal message:
 ```
-## Welcome Back to your feature: {phaseName}
+## Welcome Back
 
-Progress: {planIndex}/{totalPlans} plans
-Status: {status}
+Feature: {phaseName} - {last_completed_task}
 
-**Last activity:** {lastActivity}
-
----
-
-**Options:**
-
-1. **Continue** - {action based on status}
-2. **Status** - See feature overview
-3. **Finish** - Complete and archive this feature
-
-What would you like to do? (1/2/3):
+[Continue] [Status] [Finish]
 ```
+
+Where:
+- {phaseName} = feature name from STATE.md
+- {last_completed_task} = brief description of last completed task/plan (e.g., "Task 3 of 5" or "API endpoints")
+
+The three action buttons are inline choices (user types 1, 2, or 3).
 
 **Handle Feature-Mode user choice:**
 - 1 (Continue): Route to appropriate command based on status (see Status Interpretation)
@@ -105,29 +100,21 @@ What would you like to do? (1/2/3):
 - 3 (Finish): Archive and complete feature (see Feature-Mode Finish below)
 
 **If no conflict - Project-Mode resume (mode: "project" or ROADMAP.md exists):**
-Display project welcome message:
+Display action-first minimal message:
 ```
 ## Welcome Back
 
-You were working on:
+Phase {phase} ({phaseName}) - {last_completed_task}
 
-| Progress | Phase | Status |
-|----------|-------|--------|
-| {phase}/{totalPhases} | {phaseName} | {status} |
-
-**Last activity:** {lastActivity}
-**Next action:** {determined from status - see Status Interpretation below}
-
----
-
-**Options:**
-
-1. **Continue** - {action based on status}
-2. **Status** - See full project overview
-3. **Other** - Start something different
-
-What would you like to do? (1/2/3):
+[Continue] [Status] [Other]
 ```
+
+Where:
+- {phase} = current phase number
+- {phaseName} = current phase name from STATE.md
+- {last_completed_task} = brief description of last completed task/plan (e.g., "Plan 3 of 5" or "Auth system")
+
+The three action buttons are inline choices (user types 1, 2, or 3).
 
 **Handle Project-Mode user choice:**
 - 1 (Continue): Route to appropriate command based on status (see Status Interpretation)
@@ -394,49 +381,27 @@ When user selects "Continue" (option 1), route automatically:
 
 ## Report
 
-### Feature-Mode Resume Report
-```
-## Welcome Back to your feature: {phaseName}
-
-Progress: {planIndex}/{totalPlans} plans
-Status: {status}
-
-**Last activity:** {lastActivity}
-
----
-
-**Options:**
-
-1. **Continue** - {action based on status}
-2. **Status** - See feature overview
-3. **Finish** - Complete and archive this feature
-
-What would you like to do? (1/2/3):
-```
-
-### Project-Mode Resume Report (Welcome Back)
+### Feature-Mode Resume Report (Action-First)
 ```
 ## Welcome Back
 
-You were working on:
+Feature: {phaseName} - {last_completed_task}
 
-| Progress | Phase | Status |
-|----------|-------|--------|
-| {phase}/{totalPhases} | {phaseName} | {status} |
-
-**Last activity:** {lastActivity}
-**Next action:** {action from Status Interpretation}
-
----
-
-**Options:**
-
-1. **Continue** - {action description}
-2. **Status** - See full project overview
-3. **Other** - Start something different
-
-What would you like to do? (1/2/3):
+[Continue] [Status] [Finish]
 ```
+
+Where {last_completed_task} is derived from STATE.md (e.g., "Plan 2 of 4" or the last plan name).
+
+### Project-Mode Resume Report (Action-First)
+```
+## Welcome Back
+
+Phase {phase} ({phaseName}) - {last_completed_task}
+
+[Continue] [Status] [Other]
+```
+
+Where {last_completed_task} is derived from STATE.md (e.g., "Plan 3 of 5" or the last plan name).
 
 ### Fresh Start Report (Welcome to ARIOS)
 ```
