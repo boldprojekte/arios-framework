@@ -419,13 +419,32 @@ Full details: `{output file path}`
 3. Get recent commits for context (from this wave)
 4. Determine failure type (task_failure or verification_failure)
 
+**Progress indicator:** Before spawning, display:
+```
+Fixing issue (attempt {N}/3)...
+```
+
+**Attempt history tracking:**
+Maintain attempt_history array during recovery loop:
+```
+attempt_history = []
+
+After each recovery attempt completes:
+  Record to attempt_history:
+  - diagnosis: {from RECOVERY COMPLETE/FAILED return}
+  - fix_tried: {from recovery agent return}
+  - result: {success/failure reason}
+
+Pass attempt_history as previous_attempts to next spawn
+```
+
 **Display announcement:**
 ```
 ## Delegating to Recovery Agent
 
 **Purpose:** Diagnose and fix {failure type}
 **Scope:** {affected files}
-**Attempt:** {N}/3
+**Progress:** Fixing issue (attempt {N}/3)...
 
 Spawning recovery agent...
 ```
@@ -442,6 +461,8 @@ attempt: {attempt}
 error: {error details}
 files_affected: [list]
 recent_commits: [list]
+previous_attempts:
+{formatted attempt_history - empty array [] for attempt 1}
 </failure_context>
 ```
 
@@ -450,15 +471,17 @@ Parse return message:
 - Look for "## RECOVERY COMPLETE" or "## RECOVERY FAILED"
 - Extract Fixed status (true/false)
 - Extract diagnosis and fix description
+- **Record to attempt_history for next spawn**
 
 If RECOVERY COMPLETE with Fixed: true:
   - Re-verify checkpoint/verification
   - If passes: continue execution
-  - If fails: increment attempt, retry recovery
+  - If fails: record result to attempt_history, increment attempt, retry recovery
 
 If RECOVERY FAILED:
+  - Record diagnosis/fix_tried/result to attempt_history
   - Increment attempt counter
-  - If attempts < 3: retry with fresh recovery agent
+  - If attempts < 3: retry with fresh recovery agent (pass updated attempt_history)
   - If attempts >= 3: prompt user (see exhaustion handling)
 
 ## Spawn Patterns
