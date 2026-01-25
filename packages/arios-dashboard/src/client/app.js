@@ -294,11 +294,43 @@ function showTaskDetail(taskId) {
 
   if (elements.panelBody) {
     elements.panelBody.innerHTML = renderTaskDetailHTML(task);
+
+    // Attach event listener to Add Note button
+    const addNoteBtn = document.getElementById('add-note-btn');
+    addNoteBtn?.addEventListener('click', handleAddNote);
   }
 
   // Open panel and compress main content
   elements.detailPanel?.classList.add('open');
   elements.mainContent?.classList.add('panel-open');
+}
+
+async function handleAddNote(e) {
+  const taskId = e.target.dataset.taskId;
+  const planPath = e.target.dataset.planPath;
+  const input = document.getElementById('note-input');
+  const content = input?.value?.trim();
+
+  if (!content) return;
+
+  try {
+    const response = await fetch('/api/notes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ taskId, content, planPath })
+    });
+
+    if (response.ok) {
+      input.value = '';
+      // Re-render to show new note (will come via SSE update when file changes)
+      console.log('[ARIOS] Note added successfully');
+    } else {
+      const error = await response.json();
+      console.error('[ARIOS] Failed to add note:', error);
+    }
+  } catch (error) {
+    console.error('[ARIOS] Failed to add note:', error);
+  }
 }
 
 function closePanel() {
@@ -317,6 +349,16 @@ function closePanel() {
 function renderTaskDetailHTML(task) {
   const statusClass = task.status.replace(' ', '-');
   const deps = task.dependsOn?.length > 0 ? task.dependsOn.join(', ') : 'None';
+
+  // Notes section
+  const notesSection = task.notes?.length > 0
+    ? task.notes.map(note => `
+        <div class="note-item">
+          <span class="note-time">${new Date(note.timestamp).toLocaleString()}</span>
+          <p class="note-content">${note.content}</p>
+        </div>
+      `).join('')
+    : '<p class="empty-state">No notes yet</p>';
 
   return `
     <div class="detail-section">
@@ -359,6 +401,23 @@ function renderTaskDetailHTML(task) {
       <div class="detail-value">${task.completedAt}</div>
     </div>
     ` : ''}
+    <div class="detail-section notes-section">
+      <div class="detail-label">Notes</div>
+      <div class="notes-list">
+        ${notesSection}
+      </div>
+      <div class="add-note-form">
+        <textarea
+          id="note-input"
+          class="note-textarea"
+          placeholder="Add a note for Claude..."
+          rows="2"
+        ></textarea>
+        <button id="add-note-btn" class="add-note-btn" data-task-id="${task.id}" data-plan-path="${task.planPath || ''}">
+          Add Note
+        </button>
+      </div>
+    </div>
   `;
 }
 
