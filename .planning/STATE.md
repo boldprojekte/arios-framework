@@ -190,6 +190,10 @@ Recent decisions affecting current work:
 - Error Translation Table maps 11 common technical errors to plain language (10-04)
 - Translation pattern: impact first, then affects, then options, technical hidden (10-04)
 - Debug.log only for escalated errors (not auto-fixes or eventual successes) (10-04)
+- Three ALWAYS-ESCALATE categories: ambiguous requirements, extreme destructive, external service (10-03)
+- RECOVERY ESCALATE skips retry loop entirely (no attempt counter increment) (10-03)
+- User always sees category-specific "Why I'm asking" explanation (10-03)
+- Escalations logged to debug.log after user responds (10-03)
 
 ### Pending Todos
 
