@@ -2,7 +2,7 @@
 version: "1.1.0"
 phase: 7
 planIndex: 4
-totalPhases: 11
+totalPhases: 12
 totalPlans: 4
 status: "phase-complete"
 lastActivity: "2026-01-25"
@@ -21,12 +21,12 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 
 ## Current Position
 
-Phase: 7 of 11 — E2E Flow & Role Clarity
+Phase: 7 of 12 — E2E Flow & Role Clarity
 Plan: 4 of 4 in current phase (PHASE COMPLETE)
 Status: Phase complete
 Last activity: 2026-01-25 — Completed 07-04-PLAN.md (User Documentation)
 
-Progress: [####################] v1.0 complete | [████░░░░░░░░░░░░░░░░] v1.1 20%
+Progress: [####################] v1.0 complete | [███░░░░░░░░░░░░░░░░░] v1.1 17%
 
 ## v1.1 Milestone Overview
 
@@ -36,7 +36,8 @@ Progress: [####################] v1.0 complete | [████░░░░░░
 | 8 | Parallel Execution | EXEC-01 to EXEC-03 | Pending |
 | 9 | Verification System | VERIF-01 to VERIF-04 | Pending |
 | 10 | Debug & Recovery | DEBUG-01 to DEBUG-04 | Pending |
-| 11 | State & Dashboard Polish | STATE-01 to STATE-03, DASH-01, DASH-02 | Pending |
+| 11 | Smart Entry & Mode Detection | MODE-01 to MODE-03 | Pending |
+| 12 | State & Dashboard Polish | STATE-01 to STATE-03, DASH-01, DASH-02 | Pending |
 
 ## Performance Metrics
 
@@ -153,6 +154,9 @@ Recent decisions affecting current work:
 - Simplified README from technical reference to user-focused guide (07-04)
 - Added Prerequisites column to workflow commands table in help.md (07-04)
 - Consistent command descriptions between help.md and README.md (07-04)
+- Feature-Mode vs Project-Mode: ARIOS adapts to work scale via conversational routing (08-CONTEXT)
+- Execution layer (Phases 8-10) is mode-agnostic, routing layer needs mode detection (08-CONTEXT)
+- Conversational routing instead of explicit commands for mode selection (08-CONTEXT)
 
 ### Pending Todos
 
@@ -169,4 +173,4 @@ Stopped at: Completed 07-04-PLAN.md (User Documentation)
 Resume file: None
 
 ---
-*Phase 7 complete and verified. Ready for /gsd:discuss-phase 8.*
+*Phase 7 complete. Phase 11 (Smart Entry) added to roadmap. Ready for /gsd:plan-phase 8.*
