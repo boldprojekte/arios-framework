@@ -8,6 +8,11 @@
  * - View navigation
  */
 
+// Import view renderers
+import { renderKanban } from './kanban.js';
+import { renderList } from './list.js';
+import { renderRoadmap } from './roadmap.js';
+
 // ============================================
 // State Management
 // ============================================
@@ -226,6 +231,9 @@ function setView(view) {
   if (elements.listView) {
     elements.listView.classList.toggle('hidden', view !== 'list');
   }
+
+  // Re-render tasks for new view
+  renderTasks();
 }
 
 function showTaskDetail(taskId) {
@@ -308,7 +316,7 @@ function render(changedTaskIds = new Set()) {
   updateConnectionStatus();
   updatePhaseIndicator();
   renderTasks(changedTaskIds);
-  renderRoadmap();
+  renderRoadmapView();
 }
 
 function updateConnectionStatus() {
@@ -342,116 +350,18 @@ function updatePhaseIndicator() {
 }
 
 function renderTasks(changedTaskIds = new Set()) {
-  // Stub: logs to console, actual rendering will be done by kanban.js/list.js in 06-04
   console.log('[app.js] renderTasks called with', state.tasks.length, 'tasks');
 
-  // Basic rendering for now - will be replaced by kanban.js/list.js imports
   if (state.currentView === 'kanban') {
-    renderKanbanBoard(changedTaskIds);
+    renderKanban(state.tasks, showTaskDetail, changedTaskIds);
   } else {
-    renderListView(changedTaskIds);
+    renderList(state.tasks, showTaskDetail, changedTaskIds);
   }
 }
 
-function renderKanbanBoard(changedTaskIds = new Set()) {
-  // Group tasks by status
-  const pending = state.tasks.filter(t => t.status === 'pending');
-  const inProgress = state.tasks.filter(t => t.status === 'in-progress');
-  const complete = state.tasks.filter(t => t.status === 'complete');
-
-  // Update counts
-  if (elements.pendingCount) elements.pendingCount.textContent = pending.length;
-  if (elements.inProgressCount) elements.inProgressCount.textContent = inProgress.length;
-  if (elements.completeCount) elements.completeCount.textContent = complete.length;
-
-  // Render columns
-  renderColumn(elements.pendingTasks, pending, changedTaskIds);
-  renderColumn(elements.inProgressTasks, inProgress, changedTaskIds);
-  renderColumn(elements.completeTasks, complete, changedTaskIds);
-}
-
-function renderColumn(container, tasks, changedTaskIds) {
-  if (!container) return;
-
-  container.innerHTML = tasks.map(task => {
-    const isChanged = changedTaskIds.has(task.id);
-    const depsText = task.dependsOn?.length > 0 ? `${task.dependsOn.length} deps` : '';
-
-    return `
-      <div class="task-card${isChanged ? ' updated' : ''}" data-task-id="${task.id}">
-        <div class="task-card-title">${task.name || 'Unnamed Task'}</div>
-        <div class="task-card-meta">
-          <span class="task-card-id">${task.id}</span>
-          ${task.wave ? `<span class="task-card-wave">W${task.wave}</span>` : ''}
-          ${depsText ? `<span class="task-card-deps">${depsText}</span>` : ''}
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  // Add click handlers to task cards
-  container.querySelectorAll('.task-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const taskId = card.dataset.taskId;
-      showTaskDetail(taskId);
-    });
-  });
-}
-
-function renderListView(changedTaskIds = new Set()) {
-  if (!elements.listContent) return;
-
-  elements.listContent.innerHTML = state.tasks.map(task => {
-    const isChanged = changedTaskIds.has(task.id);
-    const statusClass = task.status.replace(' ', '-');
-
-    return `
-      <div class="list-row${isChanged ? ' updated' : ''}" data-task-id="${task.id}">
-        <div class="task-name">
-          <span class="task-id">${task.id}</span>
-          <span class="task-title">${task.name || 'Unnamed Task'}</span>
-        </div>
-        <div class="phase-name">${task.phase}</div>
-        <span class="status-badge ${statusClass}">${task.status}</span>
-        <span class="wave-badge">${task.wave ? `W${task.wave}` : '-'}</span>
-      </div>
-    `;
-  }).join('');
-
-  // Add click handlers to list rows
-  elements.listContent.querySelectorAll('.list-row').forEach(row => {
-    row.addEventListener('click', () => {
-      const taskId = row.dataset.taskId;
-      showTaskDetail(taskId);
-    });
-  });
-}
-
-function renderRoadmap() {
-  // Stub: logs to console, actual rendering will be done by roadmap.js in 06-04
-  console.log('[app.js] renderRoadmap called');
-
-  if (!elements.roadmapContent) return;
-
-  if (!state.roadmap) {
-    elements.roadmapContent.innerHTML = '<p class="empty-state">No roadmap available</p>';
-    return;
-  }
-
-  // For now, display raw markdown (roadmap.js will use marked for proper rendering)
-  // Simple markdown-to-HTML conversion for basic display
-  const html = state.roadmap
-    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
-    .replace(/^- (.+)$/gm, '<li>$1</li>')
-    .replace(/\n\n/g, '</p><p>')
-    .replace(/^(.+)$/gm, (match) => {
-      if (match.startsWith('<')) return match;
-      return `<p>${match}</p>`;
-    });
-
-  elements.roadmapContent.innerHTML = html;
+async function renderRoadmapView() {
+  console.log('[app.js] renderRoadmapView called');
+  await renderRoadmap(state.phases, state.roadmap);
 }
 
 // ============================================
