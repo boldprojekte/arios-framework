@@ -1,12 +1,12 @@
 ---
 version: "1.0.0"
 phase: 5
-planIndex: 8
+planIndex: 9
 totalPhases: 6
 totalPlans: 10
 status: "in-progress"
 lastActivity: "2026-01-25"
-checksum: "b4d6e8f0"
+checksum: "c5e7f9a1"
 phaseName: "Execution Flow"
 ---
 
@@ -22,18 +22,18 @@ See: .planning/PROJECT.md (updated 2026-01-24)
 ## Current Position
 
 Phase: 5 of 6 (Execution Flow)
-Plan: 8 of 10 in current phase (gap closure plans 05-06 through 05-10)
+Plan: 9 of 10 in current phase (gap closure plans 05-06 through 05-10)
 Status: In progress
-Last activity: 2026-01-25 - Completed 05-08-PLAN.md
+Last activity: 2026-01-25 - Completed 05-09-PLAN.md
 
-Progress: [█████████░] 94%
+Progress: [█████████░] 95%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 16
+- Total plans completed: 17
 - Average duration: 2 min
-- Total execution time: 31 min
+- Total execution time: 34 min
 
 **By Phase:**
 
@@ -104,6 +104,10 @@ Recent decisions affecting current work:
 - Wave completion required before starting next wave (05-07)
 - Claude tools (Glob/Read/Write) for pattern extraction, not TypeScript imports (05-08)
 - File-based data transfer via .planning/patterns.json (05-08)
+- Bash tool directly (no TypeScript imports) for checkpoint execution (05-09)
+- run_in_background: true for startCommand in checkpoint (05-09)
+- pkill for background process cleanup after checkpoint (05-09)
+- Three user options on checkpoint failure: re-verify, skip, abort (05-09)
 
 ### Pending Todos
 
@@ -116,8 +120,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 05-08-PLAN.md (Gap closure in progress)
+Stopped at: Completed 05-09-PLAN.md (Gap closure in progress)
 Resume file: None
 
 ---
-*Next: 05-09-PLAN.md (Phase 5 gap closure continues)*
+*Next: 05-10-PLAN.md (Phase 5 gap closure final plan)*
