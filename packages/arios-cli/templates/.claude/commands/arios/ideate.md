@@ -17,7 +17,7 @@ Start creative exploration for new features, project direction, or problem resea
 
 - `!ls .planning/ 2>/dev/null || echo "NO_PLANNING"`
 - @.planning/STATE.md - Current project position
-- @.planning/config.json - Project settings and approach
+- @.planning/config.json - Project settings, approach, AND mode field
 
 ## Instructions
 
