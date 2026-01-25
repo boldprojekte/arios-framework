@@ -148,7 +148,13 @@ Plans:
   3. Orchestrator never implements directly - only coordinates and spawns specialized agents
   4. Same workflow produces correct behavior for both greenfield and brownfield projects
   5. User can look up when to use slash command vs subagent vs skill (documentation exists)
-**Plans**: TBD (created during planning)
+**Plans**: 4 plans
+
+Plans:
+- [ ] 07-01-PLAN.md — Stage transition hardening with prerequisite checks
+- [ ] 07-02-PLAN.md — Orchestrator role visibility with spawn announcements
+- [ ] 07-03-PLAN.md — /arios resume flow enhancement
+- [ ] 07-04-PLAN.md — User documentation (help.md and README)
 
 ### Phase 8: Parallel Execution
 **Goal**: Tasks execute in parallel within waves with fresh contexts
@@ -214,7 +220,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 7. E2E Flow & Role Clarity | 0/TBD | Pending | — |
+| 7. E2E Flow & Role Clarity | 0/4 | Planning Complete | — |
 | 8. Parallel Execution | 0/TBD | Pending | — |
 | 9. Verification System | 0/TBD | Pending | — |
 | 10. Debug & Recovery | 0/TBD | Pending | — |
