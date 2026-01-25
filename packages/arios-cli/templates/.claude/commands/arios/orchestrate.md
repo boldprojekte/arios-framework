@@ -159,16 +159,16 @@ Read before any action:
 
 ## Mode Detection
 
-**Extract mode from STATE.md frontmatter:**
+**Extract mode from config.json:**
 
-When reading STATE.md, parse the frontmatter for mode field:
-- `mode: "feature"` - Feature-Mode (single-phase workflow)
-- `mode: "project"` - Project-Mode (multi-phase workflow)
+When reading config.json, look for the mode field:
+- `"mode": "feature"` - Feature-Mode (single-phase workflow)
+- `"mode": "project"` - Project-Mode (multi-phase workflow)
 - No mode field - Legacy state, treat as Project-Mode
 
 **Store mode for routing decisions:**
 ```
-mode = STATE.mode || "project"  // default to project for legacy states
+mode = config.mode || "project"  // default to project for legacy states
 ```
 
 **Mode affects:**
