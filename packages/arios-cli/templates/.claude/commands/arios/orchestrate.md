@@ -157,6 +157,38 @@ Read before any action:
 - @.planning/config.json - Project settings, stack info, AND mode field
 - Active roadmap and phase files as needed
 
+## Mode-Aware Path Resolution
+
+Read mode from config.json:
+```bash
+!cat .planning/config.json 2>/dev/null | grep -o '"mode"[[:space:]]*:[[:space:]]*"[^"]*"' | cut -d'"' -f4 || echo "project"
+```
+
+**Path resolution by mode:**
+
+**Project-Mode (default):**
+- STATE.md: `.planning/STATE.md`
+- Plans: `.planning/phases/{phase}-{name}/{phase}-{plan}-PLAN.md`
+- Summaries: `.planning/phases/{phase}-{name}/{phase}-{plan}-SUMMARY.md`
+- Roadmap: `.planning/ROADMAP.md`
+
+**Feature-Mode:**
+- Read feature name from config.json: `!cat .planning/config.json | grep -o '"feature_name"[[:space:]]*:[[:space:]]*"[^"]*"' | cut -d'"' -f4`
+- STATE.md: `.planning/features/feature-{name}/STATE.md`
+- Plans: `.planning/features/feature-{name}/{plan}-PLAN.md`
+- Summaries: `.planning/features/feature-{name}/{plan}-SUMMARY.md`
+- No roadmap (feature is single-phase by definition)
+
+**State schema:** Both modes use the same STATE.md schema. Feature-Mode is "lighter"
+only in folder structure (no phases/, no ROADMAP.md), not in tracking capability.
+
+**Multiple active features:**
+- Each feature has its own folder
+- config.json stores `active_feature` for current context
+- User can switch with `/arios:switch-feature {name}`
+
+Store resolved paths in working variables for use throughout orchestration.
+
 ## Mode Detection
 
 **Extract mode from config.json:**
@@ -186,12 +218,24 @@ When mode == "feature", the workflow is simplified:
 ### Execution Flow (Feature-Mode)
 
 1. **Skip roadmap checks** - Feature-Mode has no ROADMAP.md
-2. **Phase is always the feature phase** - `.planning/phases/feature-{name}/`
+2. **Feature folder is the workspace** - `.planning/features/feature-{name}/`
 3. **Execute plans normally** - Same wave/task execution as Project-Mode
 4. **On feature complete:**
    - All plans in feature phase executed
    - STATUS becomes "complete"
    - Trigger archive workflow (see below)
+
+### Feature Archive (Feature-Mode only)
+
+When Feature-Mode work is marked complete:
+1. Move entire feature folder to archive:
+   ```bash
+   mv .planning/features/feature-{name} .planning/archive/feature-{name}
+   ```
+2. Clear mode and feature_name from config.json
+3. Show completion message: "Feature '{name}' archived to .planning/archive/"
+
+Archive preserves all state and summaries for reference.
 
 ### Feature Archive Workflow
 
@@ -205,19 +249,19 @@ When Feature-Mode work completes (all plans done, verification passed):
    **Plans executed:** {totalPlans}
    **Duration:** {calculated from first to last activity}
 
-   The feature has been archived.
+   The feature has been archived to `.planning/archive/feature-{name}/`
 
    Ready for next task. Run `/arios` to start something new.
    ```
 
 2. **Archive feature files:**
-   ```
-   Move .planning/phases/feature-{name}/ to .planning/archive/feature-{name}/
+   ```bash
+   mv .planning/features/feature-{name}/ .planning/archive/feature-{name}/
    ```
 
 3. **Clear mode:**
-   - Update config.json: remove "mode" field or set to null
-   - Archive or reset STATE.md
+   - Update config.json: remove "mode" and "feature_name" fields or set to null
+   - Feature STATE.md is now in archive (not active)
 
 4. **Ready for fresh detection:**
    - Next `/arios` call will run mode detection (no mode set)
