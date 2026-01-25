@@ -1,12 +1,12 @@
 ---
 version: "1.0.0"
 phase: 6
-planIndex: 5
+planIndex: 6
 totalPhases: 6
 totalPlans: 11
 status: "in-progress"
 lastActivity: "2026-01-25"
-checksum: "b4f9c2d5"
+checksum: "c5e7d1a8"
 phaseName: "Task Visibility"
 ---
 
@@ -22,18 +22,18 @@ See: .planning/PROJECT.md (updated 2026-01-24)
 ## Current Position
 
 Phase: 6 of 6 (Task Visibility)
-Plan: 5 of 5 in current phase
+Plan: 6 of 7 in current phase
 Status: In progress
-Last activity: 2026-01-25 - Completed 06-05-PLAN.md
+Last activity: 2026-01-25 - Completed 06-06-PLAN.md
 
 Progress: [████████████████████] 98%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 23
+- Total plans completed: 24
 - Average duration: 2 min
-- Total execution time: 49 min
+- Total execution time: 51 min
 
 **By Phase:**
 
@@ -44,10 +44,10 @@ Progress: [████████████████████] 98%
 | 3. Entry Points | 2/2 | 3 min | 1.5 min |
 | 4. State Management | 4/4 | 8 min | 2 min |
 | 5. Execution Flow | 6/6 | 11 min | 1.8 min |
-| 6. Task Visibility | 5/5 | 14 min | 2.8 min |
+| 6. Task Visibility | 6/7 | 16 min | 2.7 min |
 
 **Recent Trend:**
-- Last 5 plans: 06-02 (4 min), 06-03 (4 min), 06-04 (3 min), 06-05 (2 min)
+- Last 5 plans: 06-03 (4 min), 06-04 (3 min), 06-05 (2 min), 06-06 (2 min)
 - Trend: Consistent at ~2-4 min/plan
 
 *Updated after each plan completion*
@@ -128,6 +128,9 @@ Recent decisions affecting current work:
 - Leader-line loaded via CDN script tag (browser-only library) (06-05)
 - Lines drawn after requestAnimationFrame to ensure layout complete (06-05)
 - Debounced resize (100ms) and scroll (50ms) handlers for line repositioning (06-05)
+- Spawn dashboard server via npx tsx for development compatibility (06-06)
+- Cross-platform browser open using spawn with platform-specific commands (06-06)
+- CLI watches for 'Dashboard server running' message to trigger browser open (06-06)
 
 ### Pending Todos
 
@@ -140,8 +143,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 06-05-PLAN.md
+Stopped at: Completed 06-06-PLAN.md
 Resume file: None
 
 ---
-*Phase 6 (Task Visibility) in progress. Plan 5/5 complete.*
+*Phase 6 (Task Visibility) in progress. Plan 6/7 complete.*
