@@ -1,0 +1,32 @@
+{
+  "name": "arios-dashboard",
+  "version": "0.1.0",
+  "description": "Real-time dashboard for ARIOS task visibility",
+  "type": "module",
+  "main": "./dist/server/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/server/index.ts"
+  },
+  "keywords": [
+    "arios",
+    "dashboard",
+    "task-visibility",
+    "sse"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "chokidar": "^5.0.0",
+    "gray-matter": "^4.0.3",
+    "marked": "^16.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}
