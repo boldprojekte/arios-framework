@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Subagent System** - Orchestrator pattern with specialized subagent files and structured handoffs
 - [x] **Phase 3: Entry Points** - Slash commands, context detection, and project type routing
 - [x] **Phase 4: State Management** - Session persistence and project memory
-- [ ] **Phase 5: Execution Flow** - Checkpoints, complexity scaling, and approach selection
+- [x] **Phase 5: Execution Flow** - Checkpoints, complexity scaling, and approach selection
 - [ ] **Phase 6: Task Visibility** - Task system integration and HTML dashboard
 
 ## Phase Details
@@ -100,11 +100,11 @@ Plans:
 - [x] 05-03-PLAN.md — Approach selection and configuration
 - [x] 05-04-PLAN.md — Recovery flow with retry logic
 - [x] 05-05-PLAN.md — Code pattern extraction and quality enforcement
-- [ ] 05-06-PLAN.md — Wire approach selection into /ideate (gap closure)
-- [ ] 05-07-PLAN.md — Wire complexity and waves into /execute (gap closure)
-- [ ] 05-08-PLAN.md — Wire quality patterns into executor template (gap closure)
-- [ ] 05-09-PLAN.md — Wire checkpoint into execution flow (gap closure)
-- [ ] 05-10-PLAN.md — Wire recovery into checkpoint failures (gap closure)
+- [x] 05-06-PLAN.md — Wire approach selection into /ideate (gap closure)
+- [x] 05-07-PLAN.md — Wire complexity and waves into /execute (gap closure)
+- [x] 05-08-PLAN.md — Wire quality patterns into executor template (gap closure)
+- [x] 05-09-PLAN.md — Wire checkpoint into execution flow (gap closure)
+- [x] 05-10-PLAN.md — Wire recovery into checkpoint failures (gap closure)
 
 ### Phase 6: Task Visibility
 **Goal**: User has real-time visibility into task execution through dashboard
@@ -133,7 +133,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 | 2. Subagent System | 3/3 | Complete | 2026-01-24 |
 | 3. Entry Points | 2/2 | Complete | 2026-01-24 |
 | 4. State Management | 4/4 | Complete | 2026-01-24 |
-| 5. Execution Flow | 5/10 | Gap closure | - |
+| 5. Execution Flow | 10/10 | Complete | 2026-01-25 |
 | 6. Task Visibility | 0/3 | Not started | - |
 
 ---

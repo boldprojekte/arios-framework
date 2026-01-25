@@ -24,15 +24,15 @@ Requirements for initial release. Each maps to roadmap phases.
 ### User Experience
 
 - [ ] **UX-01**: HTML dashboard for real-time visibility into tasks and ability to interact
-- [ ] **UX-02**: Testable checkpoints that pause execution at points where user can verify the app works
-- [ ] **UX-03**: User-choosable approach allowing ground-up or UI-first development per project
+- [x] **UX-02**: Testable checkpoints that pause execution at points where user can verify the app works
+- [x] **UX-03**: User-choosable approach allowing ground-up or UI-first development per project
 - [x] **UX-04**: Greenfield vs brownfield detection with workflows adapted to each context
 
 ### Output Quality
 
 - [x] **QUAL-01**: SOTA project setup with professional structure as foundation for all projects
-- [ ] **QUAL-02**: Complexity scaling where simple tasks run in one wave, complex in phased waves
-- [ ] **QUAL-03**: Production-ready code following best practices and existing codebase patterns
+- [x] **QUAL-02**: Complexity scaling where simple tasks run in one wave, complex in phased waves
+- [x] **QUAL-03**: Production-ready code following best practices and existing codebase patterns
 
 ## v2 Requirements
 
@@ -70,12 +70,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AGENT-03 | Phase 2: Subagent System | Complete |
 | AGENT-04 | Phase 6: Task Visibility | Pending |
 | UX-01 | Phase 6: Task Visibility | Pending |
-| UX-02 | Phase 5: Execution Flow | Pending |
-| UX-03 | Phase 5: Execution Flow | Pending |
+| UX-02 | Phase 5: Execution Flow | Complete |
+| UX-03 | Phase 5: Execution Flow | Complete |
 | UX-04 | Phase 3: Entry Points | Complete |
 | QUAL-01 | Phase 1: Foundation | Complete |
-| QUAL-02 | Phase 5: Execution Flow | Pending |
-| QUAL-03 | Phase 5: Execution Flow | Pending |
+| QUAL-02 | Phase 5: Execution Flow | Complete |
+| QUAL-03 | Phase 5: Execution Flow | Complete |
 
 **Coverage:**
 - v1 requirements: 15 total
