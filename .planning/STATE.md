@@ -1,12 +1,12 @@
 ---
 version: "1.0.0"
 phase: 6
-planIndex: 3
+planIndex: 4
 totalPhases: 6
 totalPlans: 11
 status: "in-progress"
 lastActivity: "2026-01-25"
-checksum: "f7d2c8a1"
+checksum: "a3e8b1c4"
 phaseName: "Task Visibility"
 ---
 
@@ -22,18 +22,18 @@ See: .planning/PROJECT.md (updated 2026-01-24)
 ## Current Position
 
 Phase: 6 of 6 (Task Visibility)
-Plan: 3 of 5 in current phase
+Plan: 4 of 5 in current phase
 Status: In progress
-Last activity: 2026-01-25 - Completed 06-03-PLAN.md
+Last activity: 2026-01-25 - Completed 06-04-PLAN.md
 
-Progress: [████████████████████] 95%
+Progress: [████████████████████] 96%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 21
+- Total plans completed: 22
 - Average duration: 2 min
-- Total execution time: 44 min
+- Total execution time: 47 min
 
 **By Phase:**
 
@@ -44,10 +44,10 @@ Progress: [████████████████████] 95%
 | 3. Entry Points | 2/2 | 3 min | 1.5 min |
 | 4. State Management | 4/4 | 8 min | 2 min |
 | 5. Execution Flow | 6/6 | 11 min | 1.8 min |
-| 6. Task Visibility | 3/5 | 9 min | 3 min |
+| 6. Task Visibility | 4/5 | 12 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: 05-10 (1 min), 06-01 (1 min), 06-02 (4 min), 06-03 (4 min)
+- Last 5 plans: 06-01 (1 min), 06-02 (4 min), 06-03 (4 min), 06-04 (3 min)
 - Trend: Consistent at ~2-4 min/plan
 
 *Updated after each plan completion*
@@ -118,6 +118,9 @@ Recent decisions affecting current work:
 - Vanilla JS over framework for minimal dependencies (06-03)
 - CSS custom properties for theming flexibility (06-03)
 - Export render hooks for view module integration (06-03)
+- View module pattern: single render function with (data, callback, options) signature (06-04)
+- Click handler delegation: pass callback to renderer, not bind in app.js (06-04)
+- Re-render tasks on view switch for immediate display update (06-04)
 
 ### Pending Todos
 
@@ -130,8 +133,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 06-03-PLAN.md
+Stopped at: Completed 06-04-PLAN.md
 Resume file: None
 
 ---
-*Phase 6 (Task Visibility) in progress. Plan 3/5 complete.*
+*Phase 6 (Task Visibility) in progress. Plan 4/5 complete.*
