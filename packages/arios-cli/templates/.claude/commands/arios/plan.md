@@ -38,13 +38,22 @@ Create or continue an execution plan from ideation findings.
 
 When mode == "feature":
 
-1. **Phase structure:** Single phase in `feature-{name}/` folder
+**Feature-Mode:**
+- Read feature name from config.json
+- Plans written to: `.planning/features/feature-{name}/{plan}-PLAN.md`
+- No phase numbering (features are single-phase)
+- Plan numbers: 01, 02, 03...
+- Same plan schema as Project-Mode (full tracking)
+
+**Steps:**
+
+1. **Phase structure:** Single phase in `.planning/features/feature-{name}/` folder
 2. **Prerequisite check:** Look for CONTEXT.md in feature folder
-   - Use Glob: `.planning/phases/feature-*/*-CONTEXT.md`
+   - Use Glob: `.planning/features/feature-*/CONTEXT.md`
 3. **No roadmap dependency:** Don't check for ROADMAP.md
 4. **Plan output:** Create plans numbered within feature:
-   - `feature-{name}/feature-01-PLAN.md`
-   - `feature-{name}/feature-02-PLAN.md`
+   - `.planning/features/feature-{name}/01-PLAN.md`
+   - `.planning/features/feature-{name}/02-PLAN.md`
 5. **Route to:** `/arios:orchestrate plan` with feature context
 
 ### Project-Mode Planning
@@ -65,7 +74,8 @@ When mode == "project":
 1. **Prerequisite check (MANDATORY - before anything else):**
    - **Read mode from config.json** (default: "project")
    - **If mode == "feature":**
-     - Use Glob to check for `.planning/phases/feature-*/*-CONTEXT.md`
+     - Read feature_name from config.json
+     - Use Glob to check for `.planning/features/feature-*/CONTEXT.md`
      - If CONTEXT.md found: proceed
      - If NOT found: display Feature-Mode refusal (see below)
    - **If mode == "project":**
@@ -90,7 +100,7 @@ If no CONTEXT.md found for feature:
 
 No ideation context found for this feature.
 
-Expected: `.planning/phases/feature-{name}/{name}-CONTEXT.md`
+Expected: `.planning/features/feature-{name}/CONTEXT.md`
 
 ---
 
@@ -130,6 +140,22 @@ Context: {path to CONTEXT.md}
 
 After planning completes, show stage completion prompt:
 
+**Feature-Mode:**
+```
+---
+
+Stage complete: Planning finished for feature {name}
+
+Plans: `.planning/features/feature-{name}/`
+
+Next: `/execute`
+
+_Tip: Run `/clear` first for fresh context_
+
+---
+```
+
+**Project-Mode:**
 ```
 ---
 
