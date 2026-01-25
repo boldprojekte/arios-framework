@@ -242,7 +242,12 @@ Plans:
   2. User sees appropriate verification depth: auto checks always run, wave checks at boundaries, human review at phase end
   3. When multiple parallel tasks modify related code, verifier catches integration conflicts
   4. If verification fails, execution stops until issue is resolved (no building on broken foundation)
-**Plans**: TBD (created during planning)
+**Plans**: 3 plans
+
+Plans:
+- [ ] 09-01-PLAN.md — Verifier agent with stub detection and integration checks
+- [ ] 09-02-PLAN.md — Orchestrator wave verification integration
+- [ ] 09-03-PLAN.md — Phase-end human review flow
 
 **Architecture note:** Verification is mode-agnostic. Same verification flow for Feature-Mode and Project-Mode.
 
@@ -321,13 +326,13 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 |-------|----------------|--------|-----------|
 | 7. E2E Flow & Role Clarity | 4/4 | Complete | 2026-01-25 |
 | 8. Parallel Execution | 3/3 | Complete | 2026-01-25 |
-| 9. Verification System | 0/TBD | Pending | — |
+| 9. Verification System | 0/3 | Pending | — |
 | 10. Debug & Recovery | 0/TBD | Pending | — |
 | 11. Smart Entry & Mode Detection | 0/TBD | Pending | — |
 | 12. State & Dashboard Polish | 0/TBD | Pending | — |
 
 ---
 *Created: 2026-01-24*
-*Updated: 2026-01-25 (Phase 11 added: Smart Entry & Mode Detection, Phase 12 renumbered)*
+*Updated: 2026-01-25 (Phase 9 planned: 3 plans in 3 waves)*
 *Depth: standard (5-8 phases per milestone)*
 *Coverage: v1.0 15/15, v1.1 24/24 requirements mapped (3 new MODE-xx requirements)*
