@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: Entry Points** - Slash commands, context detection, and project type routing
 - [x] **Phase 4: State Management** - Session persistence and project memory
 - [x] **Phase 5: Execution Flow** - Checkpoints, complexity scaling, and approach selection
-- [ ] **Phase 6: Task Visibility** - Task system integration and HTML dashboard
+- [x] **Phase 6: Task Visibility** - Task system integration and HTML dashboard
 
 ## Phase Details
 
@@ -118,13 +118,13 @@ Plans:
 **Plans**: 7 plans
 
 Plans:
-- [ ] 06-01-PLAN.md — Dashboard package setup, types, and HTTP server
-- [ ] 06-02-PLAN.md — File watcher and parser with SSE pipeline
-- [ ] 06-03-PLAN.md — Dashboard HTML, CSS, and core JavaScript
-- [ ] 06-04-PLAN.md — Task views (Kanban, List, Roadmap)
-- [ ] 06-05-PLAN.md — Dependency lines with Leader-line
-- [ ] 06-06-PLAN.md — CLI dashboard command integration
-- [ ] 06-07-PLAN.md — Human verification checkpoint
+- [x] 06-01-PLAN.md — Dashboard package setup, types, and HTTP server
+- [x] 06-02-PLAN.md — File watcher and parser with SSE pipeline
+- [x] 06-03-PLAN.md — Dashboard HTML, CSS, and core JavaScript
+- [x] 06-04-PLAN.md — Task views (Kanban, List, Roadmap)
+- [x] 06-05-PLAN.md — Dependency lines with Leader-line
+- [x] 06-06-PLAN.md — CLI dashboard command integration
+- [x] 06-07-PLAN.md — Human verification checkpoint
 
 ## Progress
 
@@ -138,7 +138,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 | 3. Entry Points | 2/2 | Complete | 2026-01-24 |
 | 4. State Management | 4/4 | Complete | 2026-01-24 |
 | 5. Execution Flow | 10/10 | Complete | 2026-01-25 |
-| 6. Task Visibility | 0/7 | Not started | - |
+| 6. Task Visibility | 7/7 | Complete | 2026-01-25 |
 
 ---
 *Created: 2026-01-24*
