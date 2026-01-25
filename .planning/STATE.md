@@ -1,12 +1,12 @@
 ---
 version: "1.1.0"
 phase: 11
-planIndex: 1
+planIndex: 2
 totalPhases: 12
 totalPlans: 3
 status: "in-progress"
 lastActivity: "2026-01-25"
-checksum: "m4d7k2p1"
+checksum: "n5e8l3q2"
 phaseName: "Smart Entry & Mode Detection"
 ---
 
@@ -22,9 +22,9 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 ## Current Position
 
 Phase: 11 of 12 — Smart Entry & Mode Detection
-Plan: 1 of 3 in current phase
+Plan: 2 of 3 in current phase
 Status: In progress
-Last activity: 2026-01-25 — Completed 11-01-PLAN.md (Mode Detection Conversation)
+Last activity: 2026-01-25 — Completed 11-02-PLAN.md (Explicit Mode Commands)
 
 Progress: [####################] v1.0 complete | [█████████████████░░░] v1.1 85%
 
@@ -36,7 +36,7 @@ Progress: [####################] v1.0 complete | [██████████
 | 8 | Parallel Execution | EXEC-01 to EXEC-03 | Complete |
 | 9 | Verification System | VERIF-01 to VERIF-04 | Complete |
 | 10 | Debug & Recovery | DEBUG-01 to DEBUG-04 | Complete |
-| 11 | Smart Entry & Mode Detection | MODE-01 to MODE-03 | In Progress (1/3) |
+| 11 | Smart Entry & Mode Detection | MODE-01 to MODE-03 | In Progress (2/3) |
 | 12 | State & Dashboard Polish | STATE-01 to STATE-03, DASH-01, DASH-02 | Pending |
 
 ## Performance Metrics
@@ -198,6 +198,9 @@ Recent decisions affecting current work:
 - v1.1 simplification: ROADMAP.md presence implies Project-Mode (11-01)
 - Feature-Mode resume shows Finish option for archive (11-01)
 - Default to Feature-Mode after 2-3 unclear exchanges (11-01)
+- Explicit commands skip mode detection but still check active state (11-02)
+- Feature command handles ROADMAP.md conflict with user options (11-02)
+- Project command blocks on both active feature and active project (11-02)
 
 ### Pending Todos
 
@@ -210,8 +213,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 11-01-PLAN.md (Mode Detection Conversation)
+Stopped at: Completed 11-02-PLAN.md (Explicit Mode Commands)
 Resume file: None
 
 ---
-*Phase 11 in progress. 1/3 plans done. Continue with 11-02-PLAN.md.*
+*Phase 11 in progress. 2/3 plans done. Continue with 11-03-PLAN.md.*
