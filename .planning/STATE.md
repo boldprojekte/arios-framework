@@ -1,13 +1,13 @@
 ---
 version: "1.1.0"
-phase: 11
-planIndex: 7
+phase: 12
+planIndex: 2
 totalPhases: 12
-totalPlans: 7
-status: "phase_complete"
+totalPlans: 6
+status: "in_progress"
 lastActivity: "2026-01-25"
-checksum: "n8l3q0g5"
-phaseName: "Smart Entry & Mode Detection"
+checksum: "k4m7p2r8"
+phaseName: "State & Dashboard Polish"
 ---
 
 # Project State
@@ -21,14 +21,12 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 
 ## Current Position
 
-Phase: 11 of 12 — Smart Entry & Mode Detection
-Plan: 7 of 7 in current phase (COMPLETE)
-Status: Phase complete
-Last activity: 2026-01-25 — Completed 11-07-PLAN.md (Document /arios:change-mode in arios.md)
+Phase: 12 of 12 — State & Dashboard Polish
+Plan: 2 of 6 in current phase
+Status: In progress
+Last activity: 2026-01-25 — Completed 12-02-PLAN.md (Action-first resume & auto-continue)
 
-Note: Plans 04-07 were gap closure plans addressing verification gaps. All complete.
-
-Progress: [####################] v1.0 complete | [███████████████████░] v1.1 95%
+Progress: [####################] v1.0 complete | [████████████████████] v1.1 97%
 
 ## v1.1 Milestone Overview
 
@@ -39,7 +37,7 @@ Progress: [####################] v1.0 complete | [██████████
 | 9 | Verification System | VERIF-01 to VERIF-04 | Complete |
 | 10 | Debug & Recovery | DEBUG-01 to DEBUG-04 | Complete |
 | 11 | Smart Entry & Mode Detection | MODE-01 to MODE-03 | Complete |
-| 12 | State & Dashboard Polish | STATE-01 to STATE-03, DASH-01, DASH-02 | Pending |
+| 12 | State & Dashboard Polish | STATE-01 to STATE-03, DASH-01, DASH-02 | In Progress |
 
 ## Performance Metrics
 
@@ -215,6 +213,10 @@ Recent decisions affecting current work:
 - Active work archived before mode switch for safety (11-06)
 - Command placed between /arios:status and /arios:help for logical grouping (11-07)
 - Mode override hint placed after mode detection check instructions (11-07)
+- Action buttons inline as [Continue] [Status] [Other] format (12-02)
+- One-liner status shows phase name + last completed task only (12-02)
+- Auto-continue checks both file existence AND git commits (12-02)
+- No restart/skip prompt - agent figures out state automatically (12-02)
 
 ### Pending Todos
 
@@ -227,8 +229,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 11-07-PLAN.md (Document /arios:change-mode in arios.md)
+Stopped at: Completed 12-02-PLAN.md (Action-first resume & auto-continue)
 Resume file: None
 
 ---
-*Phase 11 (Smart Entry & Mode Detection) COMPLETE. All 7 plans done. Ready for Phase 12.*
+*Phase 12 (State & Dashboard Polish) IN PROGRESS. 2 of 6 plans done.*
