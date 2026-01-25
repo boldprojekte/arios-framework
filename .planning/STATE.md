@@ -1,12 +1,12 @@
 ---
 version: "1.1.0"
 phase: 12
-planIndex: 3
+planIndex: 4
 totalPhases: 12
 totalPlans: 6
 status: "in_progress"
 lastActivity: "2026-01-25"
-checksum: "p3q8r5s2"
+checksum: "q4r9s6t3"
 phaseName: "State & Dashboard Polish"
 ---
 
@@ -22,11 +22,11 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 ## Current Position
 
 Phase: 12 of 12 — State & Dashboard Polish
-Plan: 3 of 6 in current phase
+Plan: 4 of 6 in current phase
 Status: In progress
-Last activity: 2026-01-25 — Completed 12-03-PLAN.md (Slide-out detail panel)
+Last activity: 2026-01-25 — Completed 12-04-PLAN.md (Feature-Mode folder structure)
 
-Progress: [####################] v1.0 complete | [████████████████████] v1.1 98%
+Progress: [####################] v1.0 complete | [████████████████████] v1.1 99%
 
 ## v1.1 Milestone Overview
 
@@ -223,6 +223,10 @@ Recent decisions affecting current work:
 - PhaseStatus extended with 'phase_complete' to match actual STATE.md usage (12-01)
 - Checksum mismatch is auto-fixable, missing files require user decision (12-01)
 - Drift detection positioned after auto-continue, before dashboard startup (12-01)
+- Feature-Mode uses .planning/features/feature-{name}/ folder (not .planning/phases/) (12-04)
+- Both modes use same STATE.md schema - lighter means folder isolation, not schema differences (12-04)
+- Archive moves feature folder to .planning/archive/feature-{name}/ (12-04)
+- config.json stores feature_name for path resolution (12-04)
 
 ### Pending Todos
 
@@ -235,8 +239,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 12-01-PLAN.md (Drift detection infrastructure)
+Stopped at: Completed 12-04-PLAN.md (Feature-Mode folder structure)
 Resume file: None
 
 ---
-*Phase 12 (State & Dashboard Polish) IN PROGRESS. 3 of 6 plans done (12-01, 12-02, 12-03 complete).*
+*Phase 12 (State & Dashboard Polish) IN PROGRESS. 4 of 6 plans done (12-01 to 12-04 complete).*
