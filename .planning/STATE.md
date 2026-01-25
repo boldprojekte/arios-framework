@@ -1,13 +1,13 @@
 ---
 version: "1.1.0"
-phase: 7
-planIndex: 4
+phase: 8
+planIndex: 1
 totalPhases: 12
-totalPlans: 4
-status: "phase-complete"
+totalPlans: 3
+status: "in-progress"
 lastActivity: "2026-01-25"
-checksum: "b8d9e0f1"
-phaseName: "E2E Flow & Role Clarity"
+checksum: "c3e0f2a1"
+phaseName: "Parallel Execution"
 ---
 
 # Project State
@@ -21,19 +21,19 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 
 ## Current Position
 
-Phase: 7 of 12 — E2E Flow & Role Clarity
-Plan: 4 of 4 in current phase (PHASE COMPLETE)
-Status: Phase complete
-Last activity: 2026-01-25 — Completed 07-04-PLAN.md (User Documentation)
+Phase: 8 of 12 — Parallel Execution
+Plan: 1 of 3 in current phase
+Status: In progress
+Last activity: 2026-01-25 — Completed 08-01-PLAN.md (Wave-Executor Agent & Inlined Content)
 
-Progress: [####################] v1.0 complete | [███░░░░░░░░░░░░░░░░░] v1.1 17%
+Progress: [####################] v1.0 complete | [████░░░░░░░░░░░░░░░░] v1.1 22%
 
 ## v1.1 Milestone Overview
 
 | Phase | Name | Requirements | Status |
 |-------|------|--------------|--------|
 | 7 | E2E Flow & Role Clarity | E2E-01 to E2E-05 | Complete |
-| 8 | Parallel Execution | EXEC-01 to EXEC-03 | Pending |
+| 8 | Parallel Execution | EXEC-01 to EXEC-03 | In Progress (1/3) |
 | 9 | Verification System | VERIF-01 to VERIF-04 | Pending |
 | 10 | Debug & Recovery | DEBUG-01 to DEBUG-04 | Pending |
 | 11 | Smart Entry & Mode Detection | MODE-01 to MODE-03 | Pending |
@@ -157,6 +157,10 @@ Recent decisions affecting current work:
 - Feature-Mode vs Project-Mode: ARIOS adapts to work scale via conversational routing (08-CONTEXT)
 - Execution layer (Phases 8-10) is mode-agnostic, routing layer needs mode detection (08-CONTEXT)
 - Conversational routing instead of explicit commands for mode selection (08-CONTEXT)
+- Wave-executor handles ONE plan (parallelism), executor handles waves (sequential) (08-01)
+- Inline content in Task prompts because @-references don't resolve across Task boundaries (08-01)
+- Read before spawn pattern: use Read tool to load content, then inline in prompt (08-01)
+- Multiple Task calls in same message spawn in parallel (08-01)
 
 ### Pending Todos
 
@@ -169,8 +173,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 07-04-PLAN.md (User Documentation)
+Stopped at: Completed 08-01-PLAN.md (Wave-Executor Agent & Inlined Content)
 Resume file: None
 
 ---
-*Phase 7 complete. Phase 11 (Smart Entry) added to roadmap. Ready for /gsd:plan-phase 8.*
+*Phase 8 in progress. 08-01 complete. Continue with 08-02 (Recovery Agent & Failure Handling).*
