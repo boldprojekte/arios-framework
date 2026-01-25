@@ -239,6 +239,36 @@ After Auto-Continue detection, before Dashboard:
 
 **Note:** Dashboard is NOT auto-opened. User clicks link if they want visual monitoring. Some users prefer CLI-only.
 
+## Reading User Notes
+
+Before executing any task, check PLAN.md frontmatter for user notes.
+
+**When loading a PLAN.md for execution:**
+
+```typescript
+// Using gray-matter to parse frontmatter
+const { data: frontmatter, content: markdown } = matter(planContent);
+
+if (frontmatter.notes?.length > 0) {
+  // Notes exist - read and acknowledge them
+  for (const note of frontmatter.notes) {
+    console.log(`[Note from user @ ${note.timestamp}]: ${note.content}`);
+  }
+}
+```
+
+**If notes exist:**
+1. Read all notes before starting task execution
+2. Acknowledge the notes briefly: "Note from user: {summary}"
+3. Consider note content when making implementation decisions
+4. Notes may contain:
+   - Clarifications about requirements
+   - Warnings about edge cases
+   - Preferences for implementation approach
+   - Context that wasn't in the original plan
+
+**Key principle:** Notes are user-to-Claude communication via the dashboard. Always read them before executing the plan's tasks.
+
 ## Context
 
 Read before any action:
