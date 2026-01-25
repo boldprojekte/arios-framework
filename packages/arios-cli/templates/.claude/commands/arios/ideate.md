@@ -76,7 +76,10 @@ When mode == "project":
 1. Check ARIOS initialized (ls .planning/ succeeds)
    - If not: "ARIOS not initialized. Run `arios init` first."
 2. Read STATE.md for current position
-3. Check if approach is set:
+3. **Check mode in config.json:**
+   - Read `.planning/config.json` and extract mode field
+   - Default to "project" if no mode field
+4. Check if approach is set:
    - Use Read tool to check .planning/config.json
    - If file exists, look for "approach" and "approachSetAt" fields
    - If approachSetAt has a value (not empty string): approach already set, skip selection
@@ -101,13 +104,15 @@ When mode == "project":
         }
         ```
      5. Acknowledge: "Approach set to: {choice}"
-4. Display status: "Phase X/Y, Plan M/N | Approach: {approach}"
-5. If $TOPIC provided:
+5. Display status: "Phase X/Y, Plan M/N | Approach: {approach}"
+6. If $TOPIC provided:
    - Confirm: "Ideating on: {topic}. Proceed? (yes/no)"
-6. If no $TOPIC:
+7. If no $TOPIC:
    - Ask: "What would you like to explore or research?"
-7. Route to /arios:orchestrate research with the topic
-8. After completion, show stage completion prompt (see Report section)
+8. **Branch based on mode:**
+   - **If mode == "feature":** Follow Feature-Mode Ideation (see Mode-Aware Routing section above)
+   - **If mode == "project":** Follow Project-Mode Ideation (see Mode-Aware Routing section above)
+9. After completion, show stage completion prompt (see Report section)
 
 ## Report
 
