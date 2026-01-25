@@ -40,11 +40,25 @@ Execute tasks from the current plan, wave by wave.
    - Ask: "Run /arios:plan first, or continue anyway? (plan/continue)"
    - If plan: suggest running /arios:plan
    - If continue: proceed with warning noted
-6. If $WAVE specified, use it; otherwise orchestrator determines next wave
-7. Route to /arios:orchestrate execute
-8. After completion:
-   - If more waves remain: "Next wave: /arios:execute"
-   - If phase complete: "Phase complete. Next: /arios:ideate for next phase"
+6. Analyze phase complexity:
+   - Read all PLAN.md files in current phase directory
+   - Parse frontmatter to extract: wave number, depends_on array, plan ID
+   - Apply complexity detection thresholds:
+     * Simple: planCount <= 2 AND maxWave === 1
+     * Complex: planCount >= 6 OR maxWave >= 3 OR avgDeps >= 2
+     * Moderate: everything else
+   - Display: "Detected: {level} ({planCount} plans, {maxWave} waves)"
+7. Build and display wave schedule:
+   - Group plans by wave number from frontmatter
+   - For each wave, list plan IDs with execution mode:
+     * Multiple plans in wave: "(parallel)"
+     * Single plan in wave: "(sequential)"
+   - Display schedule as formatted list
+8. If $WAVE specified, use it; otherwise orchestrator determines next wave
+9. Route to /arios:orchestrate execute
+10. After completion:
+    - If more waves remain: "Next wave: /arios:execute"
+    - If phase complete: "Phase complete. Next: /arios:ideate for next phase"
 
 ## Report
 
@@ -53,7 +67,13 @@ ARIOS Execution
 
 Status: Phase {X}/{Y}, Plan {M}/{N}
 Plan: {path or "not found"}
-Wave: {current}/{total}
+Complexity: {simple|moderate|complex}
+Waves: {count}
+
+Schedule:
+Wave 1: 05-06, 05-07, 05-08 (parallel)
+Wave 2: 05-09 (sequential)
+Wave 3: 05-10 (sequential)
 
 [Routing to orchestrator for execution...]
 
