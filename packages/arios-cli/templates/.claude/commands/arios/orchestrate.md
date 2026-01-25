@@ -507,7 +507,7 @@ SUMMARY: {path to SUMMARY.md}
 
 **For each wave in schedule:**
 
-1. **Pre-load all content for this wave:**
+1. **Pre-load content** (see inlined content pattern above)
    ```
    For each plan in wave:
      - Use Read tool to load {plan_path} content
@@ -515,9 +515,13 @@ SUMMARY: {path to SUMMARY.md}
    Use Read tool to load .planning/STATE.md content once (shared across wave)
    ```
 
-2. **Display announcements** for each wave-executor being spawned
+2. **Announce wave start (MINIMAL - single line):**
+   ```
+   Starting wave {N} ({plan_count} plans)
+   ```
+   No detailed breakdown. User has dashboard for details.
 
-3. **Spawn wave-executors:**
+3. **Spawn wave-executors** (parallel or sequential)
    ```
    If wave.canParallelize (multiple plans):
      - Spawn wave-executor for EACH plan using concurrent Task calls
@@ -528,22 +532,26 @@ SUMMARY: {path to SUMMARY.md}
      - Wait for completion
    ```
 
-4. **Collect results:**
+4. **Collect results** (let all finish)
    - Let all wave-executors finish (don't stop on first failure)
    - Per CONTEXT.md: "Tasks in same wave are independent by definition"
    - Collect all return messages
 
-5. **Summarize wave results** (don't show raw subagent output)
-
-6. **Report wave completion:**
+5. **Announce wave completion (MINIMAL - summary only):**
    ```
-   "Wave {n}: Complete ({passed}/{total} plans)"
-   If failures: list failed plans with brief error
+   Wave {N} complete: {passed}/{total} plans passed
+   ```
+   If failures:
+   ```
+   Wave {N} complete: {passed}/{total} plans passed
+   Failed: {plan_id_1}, {plan_id_2}
    ```
 
-7. **Silent verification** (Phase 9 - placeholder for now)
+6. **Silent verification** (Phase 9 - no announcement unless issues found)
    - Verification runs but only reports if issues found
    - Auto-fix via recovery agent before blocking
+
+7. **Proceed to next wave** (no pause, no confirmation)
 
 **Parallel spawning example:**
 ```
@@ -566,58 +574,34 @@ For a wave with plans [08-01, 08-02, 08-03]:
 
 ## Report
 
-After each action, output:
-
+**During execution (per wave):**
 ```
-## ARIOS Status
-
-**Current:** {phase name} - {status}
-**Action:** Spawned {agent} for {purpose}
-
-### Wave Progress
-Wave 1: [checkmark] Complete (2/2 plans)
-Wave 2: [checkmark] Complete (1/1 plans)
-Wave 3: [arrow] In progress (0/1 plans)
-
-### Checkpoint Status
-Wave 1: PASSED (app: ok, tests: ok)
-Wave 2: PASSED (app: ok, tests: ok)
-Wave 3: FAILED (app: ok, tests: failed)
-        Error: 3 tests failed (see output above)
-        Action needed: Fix failing tests before continuing
-
-### Recovery Status
-Wave 1: No recovery needed (checkpoint passed)
-Wave 2: Recovery successful (attempt 2/3)
-        Fix: "fix(05): handle null response in API call"
-Wave 3: Recovery exhausted (3/3 failed), user skipped
-
-### Results
-{Summary from handoff file}
-
-### Next
-{Suggested next action or /clear recommendation}
+Starting wave {N} ({count} plans)
+[execution happens]
+Wave {N} complete: {passed}/{total} plans passed
 ```
 
-**On recovery exhausted, prompt user:**
+**On completion:**
 ```
-Recovery exhausted (3/3 attempts failed) after Wave {n}
+## Phase Execution Complete
 
-App starts: {yes|no}
-Tests pass: {yes|no}
+Waves: {completed}/{total}
+Plans: {passed}/{total}
+Duration: {time}
 
-Last error output:
-{error details from Bash tool}
+Dashboard: http://localhost:3456 (for detailed review)
 
-Recovery attempts:
-1. {diagnosis} -> failed
-2. {diagnosis} -> failed
-3. {diagnosis} -> failed
-
-Options:
-- Type 'retry' (r) to reset and try recovery again
-- Type 'skip' (s) to continue anyway (not recommended)
-- Type 'abort' (a) to stop execution
-
-Your choice:
+Next: {suggested action}
 ```
+
+**On failure (after recovery exhausted):**
+```
+## Phase Execution Blocked
+
+Wave {N} failed after 3 recovery attempts.
+Error: {brief description}
+
+Options: Debug (d), Skip (s), Abort (a)
+```
+
+**Detailed progress is in the dashboard.** Chat stays clean for user to see orchestrator actions clearly.
