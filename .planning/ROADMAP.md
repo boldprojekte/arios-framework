@@ -260,7 +260,13 @@ Plans:
   2. When errors occur, system attempts self-correction (up to 3 times) before asking user
   3. User always knows WHY the AI is asking for help (clear escalation triggers)
   4. Error messages describe impact in plain language, not technical jargon
-**Plans**: TBD (created during planning)
+**Plans**: 4 plans
+
+Plans:
+- [ ] 10-01-PLAN.md — State integrity checks before execution
+- [ ] 10-02-PLAN.md — Fresh spawn pattern with attempt tracking
+- [ ] 10-03-PLAN.md — Clear escalation triggers and messaging
+- [ ] 10-04-PLAN.md — Plain-language errors and debug.log persistence
 
 **Architecture note:** Debug & recovery is mode-agnostic. Single recovery agent handles failures in both modes.
 
@@ -327,12 +333,12 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 7. E2E Flow & Role Clarity | 4/4 | Complete | 2026-01-25 |
 | 8. Parallel Execution | 3/3 | Complete | 2026-01-25 |
 | 9. Verification System | 3/3 | Complete | 2026-01-25 |
-| 10. Debug & Recovery | 0/TBD | Pending | — |
+| 10. Debug & Recovery | 0/4 | Pending | — |
 | 11. Smart Entry & Mode Detection | 0/TBD | Pending | — |
 | 12. State & Dashboard Polish | 0/TBD | Pending | — |
 
 ---
 *Created: 2026-01-24*
-*Updated: 2026-01-25 (Phase 9 complete: 3/3 plans executed)*
+*Updated: 2026-01-25 (Phase 10 planning complete: 4 plans in 2 waves)*
 *Depth: standard (5-8 phases per milestone)*
 *Coverage: v1.0 15/15, v1.1 24/24 requirements mapped (3 new MODE-xx requirements)*
