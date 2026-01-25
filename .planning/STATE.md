@@ -121,6 +121,10 @@ Recent decisions affecting current work:
 - View module pattern: single render function with (data, callback, options) signature (06-04)
 - Click handler delegation: pass callback to renderer, not bind in app.js (06-04)
 - Re-render tasks on view switch for immediate display update (06-04)
+- Parse type detected from filename suffix not content inspection (06-02)
+- Task status: SUMMARY.md exists=complete, STATE.md match=in-progress, else pending (06-02)
+- 100ms debounce for rapid file changes during execution (06-02)
+- Cache current state for immediate delivery to new SSE connections (06-02)
 
 ### Pending Todos
 
@@ -133,8 +137,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 06-04-PLAN.md
+Stopped at: Completed 06-02-PLAN.md
 Resume file: None
 
 ---
-*Phase 6 (Task Visibility) in progress. Plan 4/5 complete.*
+*Phase 6 (Task Visibility) in progress. Plan 4/7 complete.*
