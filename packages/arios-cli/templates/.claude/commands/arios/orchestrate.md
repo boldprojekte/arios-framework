@@ -150,7 +150,58 @@ After State Integrity Check passes and before wave execution begins:
 3. Determine resume point (first incomplete task)
 4. If resume point > 1: Display "Resuming from Task {N}..."
 5. Pass resume point to wave-executor
-6. Proceed to Dashboard Coordination
+6. Proceed to Pre-Execute Drift Detection
+7. Proceed to Dashboard Coordination
+```
+
+## Pre-Execute Drift Detection
+
+Before starting execution, verify state claims match file system reality.
+
+**Run drift detection:**
+1. Read STATE.md frontmatter
+2. Compare stored checksum vs calculated checksum
+3. If state claims plan complete, verify SUMMARY.md exists
+4. If state references current PLAN.md, verify it exists
+
+**DriftResult types:**
+- `none`: No drift detected, continue silently
+- `file_changes`: Checksum mismatch only, auto-fixable
+- `state_mismatch`: Missing files, requires user decision
+
+**If drift detected:**
+
+**Auto-fixable (checksum mismatch only):**
+- Show one-liner: "State checksum updated (files unchanged)"
+- Recalculate and save new checksum silently
+- Continue execution
+
+**Not auto-fixable (state_mismatch):**
+- Show what drifted: list each item in details array
+- Prompt user:
+  ```
+  State drift detected:
+  - [detail 1]
+  - [detail 2]
+
+  Options:
+  1. Fix it (reset state to match files)
+  2. Reset state (revert to previous valid state)
+  3. Abort (stop for manual investigation)
+  ```
+- Wait for user selection before proceeding
+
+**If no drift:**
+- Continue silently (no message)
+
+**Integration with execution flow:**
+```
+After Auto-Continue detection, before Dashboard:
+1. Run drift detection on current state
+2. If drifted && autoFixable: fix silently, show one-liner, continue
+3. If drifted && !autoFixable: prompt user with 3 options
+4. If user aborts: stop execution
+5. If no drift OR user continues: proceed to Dashboard Coordination
 ```
 
 ## Dashboard Coordination
