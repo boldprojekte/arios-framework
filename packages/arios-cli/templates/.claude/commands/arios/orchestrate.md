@@ -32,6 +32,41 @@ Read before any action:
 - Suggest `/clear` at natural breakpoints (after each phase minimum)
 - Handle mismatch detection by prompting user, not guessing
 
+## Role Visibility
+
+**Always announce before spawning:**
+
+Before each Task tool call, display:
+
+```
+## Delegating to {Agent Name}
+
+**Purpose:** {one-line description of what agent will do}
+**Scope:** {what files/topics agent will investigate}
+**Output:** `{output file path}`
+
+Spawning {agent} agent...
+```
+
+**After agent returns, summarize:**
+
+```
+## {Stage} Complete
+
+**Status:** {Success/Partial/Failed}
+**Findings:** {brief 1-line count: "3 patterns identified, 2 gaps found"}
+**Confidence:** {HIGH/MEDIUM/LOW}
+
+Key insights:
+- {insight 1}
+- {insight 2}
+- {insight 3}
+
+Full details: `{output file path}`
+```
+
+**Never show raw subagent output.** User sees orchestrator summary. Details available via Ctrl+O if curious.
+
 ## Workflow
 
 1. Read STATE.md to determine current position
@@ -234,7 +269,20 @@ Read before any action:
 
 ## Spawn Patterns
 
-**Researcher:**
+### Spawning Researcher
+
+**Display announcement:**
+```
+## Delegating to Researcher
+
+**Purpose:** Investigate {topic}
+**Scope:** {investigation areas - APIs, libraries, patterns}
+**Output:** `.planning/roadmaps/{roadmap}/{phase}/findings.md`
+
+Spawning researcher agent...
+```
+
+**Then use Task tool:**
 ```
 Use Task tool to spawn .claude/agents/researcher.md
 
@@ -244,7 +292,37 @@ Provide:
 - Output path: .planning/roadmaps/{roadmap}/{phase}/findings.md
 ```
 
-**Planner:**
+**After researcher returns, summarize:**
+Parse the return message and display:
+```
+## Research Complete
+
+**Status:** Success
+**Findings:** {count} patterns identified, {count} concerns found
+**Confidence:** {HIGH/MEDIUM/LOW}
+
+Key insights:
+- {finding 1 from return message}
+- {finding 2 from return message}
+- {finding 3 from return message}
+
+Full details: `.planning/roadmaps/{roadmap}/{phase}/findings.md`
+```
+
+### Spawning Planner
+
+**Display announcement:**
+```
+## Delegating to Planner
+
+**Purpose:** Create execution plan from research findings
+**Scope:** Phase {N} tasks breakdown
+**Output:** `.planning/roadmaps/{roadmap}/{phase}/plan.md`
+
+Spawning planner agent...
+```
+
+**Then use Task tool:**
 ```
 Use Task tool to spawn .claude/agents/planner.md
 
@@ -254,7 +332,36 @@ Provide:
 - Output path: .planning/roadmaps/{roadmap}/{phase}/plan.md
 ```
 
-**Executor:**
+**After planner returns, summarize:**
+Parse the return message and display:
+```
+## Planning Complete
+
+**Status:** Success
+**Plans:** {count} plans in {count} waves
+**Confidence:** HIGH
+
+Structure:
+- Wave 1: {plan IDs} ({parallel|sequential})
+- Wave 2: {plan IDs}
+
+Full details: `.planning/roadmaps/{roadmap}/{phase}/plan.md`
+```
+
+### Spawning Executor
+
+**Display announcement:**
+```
+## Delegating to Executor
+
+**Purpose:** Execute Wave {N} tasks
+**Scope:** {plan IDs in wave}
+**Output:** Task completion, code changes
+
+Spawning executor agent...
+```
+
+**Then use Task tool:**
 ```
 Use Task tool to spawn .claude/agents/executor.md
 
@@ -270,18 +377,36 @@ Task description MUST include:
 "Read .planning/patterns.json for code style context before executing tasks"
 ```
 
-**Executor (wave execution):**
+**After executor returns, summarize:**
+Parse the return message and display:
+```
+## Execution Complete
+
+**Status:** {Complete/Partial/Failed}
+**Tasks:** {completed}/{total}
+**Wave:** {N}
+
+Changes:
+- {file 1}: {brief description}
+- {file 2}: {brief description}
+
+{If issues: "Issues: {count} - see problems/"}
+```
+
+### Wave Execution Pattern
+
 ```
 For each wave in schedule:
-  If wave.canParallelize (multiple plans):
-    Spawn executor for each plan in parallel using concurrent Task calls
-    Wait for all executors in wave to complete
-  Else:
-    Spawn executor for single plan
-    Wait for completion
-
-  Report wave completion before next wave:
-  "Wave {n}: Complete ({count}/{count} plans)"
+  1. Display announcement for each executor being spawned
+  2. If wave.canParallelize (multiple plans):
+     Spawn executor for each plan in parallel using concurrent Task calls
+     Wait for all executors in wave to complete
+  3. Else:
+     Spawn executor for single plan
+     Wait for completion
+  4. Summarize wave results (don't show raw subagent output)
+  5. Report wave completion before next wave:
+     "Wave {n}: Complete ({count}/{count} plans)"
 ```
 
 ## Report
