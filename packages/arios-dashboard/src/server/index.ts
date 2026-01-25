@@ -122,13 +122,14 @@ function handleStateChange(state: DashboardState): void {
 /**
  * Start the dashboard server
  * @param planningDir - Path to .planning directory
+ * @param portOverride - Optional port override (from CLI argument)
  * @returns Promise resolving to stop function
  */
-export async function startServer(planningDir: string): Promise<{
+export async function startServer(planningDir: string, portOverride?: number): Promise<{
   port: number;
   stop: () => Promise<void>;
 }> {
-  const port = parseInt(process.env.PORT || '3456', 10);
+  const port = portOverride ?? parseInt(process.env.PORT || '3456', 10);
   const resolvedDir = resolve(planningDir);
 
   // Create file watcher with state change callback
@@ -204,8 +205,9 @@ function setupGracefulShutdown(): void {
 // Run if executed directly
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const planningDir = process.argv[2] || '.planning';
+  const portArg = process.argv[3] ? parseInt(process.argv[3], 10) : undefined;
   setupGracefulShutdown();
-  startServer(planningDir).catch((err) => {
+  startServer(planningDir, portArg).catch((err) => {
     console.error('Failed to start server:', err);
     process.exit(1);
   });
