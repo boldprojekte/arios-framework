@@ -5,6 +5,11 @@
  * Each task displays as a card with name, ID, wave, and dependencies.
  */
 
+import { drawDependencyLines } from './lines.js';
+
+// Store tasks reference for line drawing
+let currentTasks = [];
+
 /**
  * Render the Kanban board with tasks grouped by status
  * @param {Array} tasks - Array of task objects
@@ -38,6 +43,12 @@ export function renderKanban(tasks, onTaskClick, changedTaskIds = new Set()) {
   renderColumn(pendingContainer, grouped.pending, onTaskClick, changedTaskIds);
   renderColumn(inProgressContainer, grouped['in-progress'], onTaskClick, changedTaskIds);
   renderColumn(completeContainer, grouped.complete, onTaskClick, changedTaskIds);
+
+  // Store tasks for line drawing and draw after layout complete
+  currentTasks = tasks;
+  requestAnimationFrame(() => {
+    drawDependencyLines(currentTasks);
+  });
 }
 
 /**

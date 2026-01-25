@@ -12,6 +12,7 @@
 import { renderKanban } from './kanban.js';
 import { renderList } from './list.js';
 import { renderRoadmap } from './roadmap.js';
+import { clearLines, updateLinePositions } from './lines.js';
 
 // ============================================
 // State Management
@@ -148,6 +149,24 @@ function handleMessage(message) {
 }
 
 // ============================================
+// Utilities
+// ============================================
+
+/**
+ * Debounce function execution
+ * @param {Function} fn - Function to debounce
+ * @param {number} delay - Delay in milliseconds
+ * @returns {Function} Debounced function
+ */
+function debounce(fn, delay) {
+  let timeoutId;
+  return (...args) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => fn(...args), delay);
+  };
+}
+
+// ============================================
 // UI Event Handlers
 // ============================================
 
@@ -181,6 +200,20 @@ function setupEventListeners() {
       closeModal();
     }
   });
+
+  // Resize handler for dependency line repositioning
+  window.addEventListener('resize', debounce(() => {
+    if (state.currentView === 'kanban' && state.currentTab === 'tasks') {
+      updateLinePositions();
+    }
+  }, 100));
+
+  // Scroll handler for Kanban container
+  elements.kanbanBoard?.addEventListener('scroll', debounce(() => {
+    if (state.currentView === 'kanban' && state.currentTab === 'tasks') {
+      updateLinePositions();
+    }
+  }, 50));
 }
 
 function toggleSidebar() {
@@ -190,6 +223,9 @@ function toggleSidebar() {
 function setTab(tab) {
   if (tab === state.currentTab) return;
   state.currentTab = tab;
+
+  // Clear dependency lines when switching tabs
+  clearLines();
 
   // Update nav items
   elements.navItems?.forEach(item => {
@@ -213,11 +249,19 @@ function setTab(tab) {
   if (elements.viewToggle) {
     elements.viewToggle.style.display = tab === 'tasks' ? 'flex' : 'none';
   }
+
+  // Re-render tasks if switching to tasks tab (to redraw lines)
+  if (tab === 'tasks' && state.currentView === 'kanban') {
+    renderTasks();
+  }
 }
 
 function setView(view) {
   if (view === state.currentView) return;
   state.currentView = view;
+
+  // Clear dependency lines before switching views
+  clearLines();
 
   // Update toggle buttons
   elements.toggleButtons?.forEach(btn => {
@@ -232,7 +276,7 @@ function setView(view) {
     elements.listView.classList.toggle('hidden', view !== 'list');
   }
 
-  // Re-render tasks for new view
+  // Re-render tasks for new view (kanban will redraw lines)
   renderTasks();
 }
 
