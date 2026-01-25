@@ -1,12 +1,12 @@
 ---
 version: "1.1.0"
 phase: 8
-planIndex: 2
+planIndex: 3
 totalPhases: 12
 totalPlans: 3
-status: "in-progress"
+status: "phase-complete"
 lastActivity: "2026-01-25"
-checksum: "d4f1a3b2"
+checksum: "e5g2b4c3"
 phaseName: "Parallel Execution"
 ---
 
@@ -22,18 +22,18 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 ## Current Position
 
 Phase: 8 of 12 — Parallel Execution
-Plan: 2 of 3 in current phase
-Status: In progress
-Last activity: 2026-01-25 — Completed 08-02-PLAN.md (Unified Recovery Agent)
+Plan: 3 of 3 in current phase
+Status: Phase complete
+Last activity: 2026-01-25 — Completed 08-03-PLAN.md (Dashboard Coordination)
 
-Progress: [####################] v1.0 complete | [█████░░░░░░░░░░░░░░░] v1.1 28%
+Progress: [####################] v1.0 complete | [██████░░░░░░░░░░░░░░] v1.1 33%
 
 ## v1.1 Milestone Overview
 
 | Phase | Name | Requirements | Status |
 |-------|------|--------------|--------|
 | 7 | E2E Flow & Role Clarity | E2E-01 to E2E-05 | Complete |
-| 8 | Parallel Execution | EXEC-01 to EXEC-03 | In Progress (2/3) |
+| 8 | Parallel Execution | EXEC-01 to EXEC-03 | Complete |
 | 9 | Verification System | VERIF-01 to VERIF-04 | Pending |
 | 10 | Debug & Recovery | DEBUG-01 to DEBUG-04 | Pending |
 | 11 | Smart Entry & Mode Detection | MODE-01 to MODE-03 | Pending |
@@ -165,6 +165,10 @@ Recent decisions affecting current work:
 - Recovery agent spawned with inlined failure_context (not @-references) (08-02)
 - Skip option conditional on downstream dependency check (08-02)
 - 3-attempt limit per failure before user prompt (08-02)
+- Dashboard server probed and started before execution if not running (08-03)
+- Dashboard link posted once, no auto-open - user clicks if they want (08-03)
+- Minimal wave announcements: single line start, summary on complete (08-03)
+- Detailed progress in dashboard, chat stays clean (08-03)
 
 ### Pending Todos
 
@@ -177,8 +181,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 08-02-PLAN.md (Unified Recovery Agent)
+Stopped at: Completed 08-03-PLAN.md (Dashboard Coordination)
 Resume file: None
 
 ---
-*Phase 8 in progress. 08-02 complete. Continue with 08-03 (Dashboard Coordination).*
+*Phase 8 complete. All 3 plans executed. Ready for Phase 9 (Verification System).*
