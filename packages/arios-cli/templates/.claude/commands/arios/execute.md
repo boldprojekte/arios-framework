@@ -39,30 +39,42 @@ Execute tasks from the current plan, wave by wave.
 
 ## Instructions
 
+- **FIRST:** Check prerequisite - PLAN.md must exist for the phase
+- If prerequisite fails: display refusal message and STOP (do NOT proceed)
 - Show brief status line before starting
-- Check for plan file from planning phase
-- Warn if no plan exists, but allow continuation with confirmation
 - Route to orchestrator for execution; never execute tasks directly
 - After each wave, run checkpoint verification if configured
 - Checkpoint passes when: app runs successfully AND tests pass
 - Missing checkpoint config = skip verification (greenfield/early stages)
 - On checkpoint failure: pause and show diagnostic, ask user to fix or continue
-- After wave completion, show next wave info or phase completion
+- After wave completion, show wave completion prompt
+- After phase completion, show stage completion prompt
 
 ## Workflow
 
-1. Check ARIOS initialized (ls .planning/ succeeds)
+1. **Prerequisite check (MANDATORY - before anything else):**
+   - Use Glob to check for `.planning/phases/{phase}/*-PLAN.md`
+   - If PLAN.md found: proceed to step 2
+   - If NOT found: display refusal message and STOP:
+     ```
+     ## Cannot Execute
+
+     No execution plan found for this phase.
+
+     Expected: `.planning/phases/{phase}/{phase}-*-PLAN.md`
+
+     ---
+
+     Run first: `/plan {phase}`
+
+     Execution requires a plan to work from.
+     ```
+   - Do NOT offer "continue anyway" option. STOP here.
+2. Check ARIOS initialized (ls .planning/ succeeds)
    - If not: "ARIOS not initialized. Run `arios init` first."
-2. Read STATE.md for current position and active roadmap/phase
-3. Display status: "Phase X/Y, Plan M/N"
-4. Check for plan file in current phase directory
-   - Path: .planning/roadmaps/{roadmap}/{phase}/plan.md
-5. If no plan found:
-   - Warn: "No plan found for current phase."
-   - Ask: "Run /arios:plan first, or continue anyway? (plan/continue)"
-   - If plan: suggest running /arios:plan
-   - If continue: proceed with warning noted
-6. Analyze phase complexity:
+3. Read STATE.md for current position and active roadmap/phase
+4. Display status: "Phase X/Y, Plan M/N"
+5. Analyze phase complexity:
    - Read all PLAN.md files in current phase directory
    - Parse frontmatter to extract: wave number, depends_on array, plan ID
    - Apply complexity detection thresholds:
@@ -70,22 +82,22 @@ Execute tasks from the current plan, wave by wave.
      * Complex: planCount >= 6 OR maxWave >= 3 OR avgDeps >= 2
      * Moderate: everything else
    - Display: "Detected: {level} ({planCount} plans, {maxWave} waves)"
-7. Build and display wave schedule:
+6. Build and display wave schedule:
    - Group plans by wave number from frontmatter
    - For each wave, list plan IDs with execution mode:
      * Multiple plans in wave: "(parallel)"
      * Single plan in wave: "(sequential)"
    - Display schedule as formatted list
-8. If $WAVE specified, use it; otherwise orchestrator determines next wave
-9. Route to /arios:orchestrate execute
-10. Checkpoint verification (after orchestrator returns):
+7. If $WAVE specified, use it; otherwise orchestrator determines next wave
+8. Route to /arios:orchestrate execute
+9. Checkpoint verification (after orchestrator returns):
     - If checkpoint config exists in .planning/config.json:
       * Run startCommand, wait for startReadyPattern or startTimeout
       * If app starts: run testCommand, check exit code
       * Display result: "Checkpoint: PASSED" or "Checkpoint: FAILED"
       * On failure: show diagnostic and prompt user for action
     - If no checkpoint config: skip checkpoint (greenfield/early stages)
-11. After completion:
+10. After completion:
     - If more waves remain: "Next wave: /arios:execute"
     - If phase complete: "Phase complete. Next: /arios:ideate for next phase"
 
@@ -95,7 +107,7 @@ Execute tasks from the current plan, wave by wave.
 ARIOS Execution
 
 Status: Phase {X}/{Y}, Plan {M}/{N}
-Plan: {path or "not found"}
+Plan: {path to PLAN.md}
 Complexity: {simple|moderate|complex}
 Waves: {count}
 
@@ -109,6 +121,30 @@ Wave 3: 05-10 (sequential)
 Checkpoint: {PASSED|FAILED|SKIPPED}
 - App starts: {yes|no|n/a}
 - Tests pass: {yes|no|n/a}
+```
 
-{Completion message or next wave info}
+After wave completion (more waves remain), show:
+
+```
+---
+
+Wave {N} complete. {remaining} wave(s) remaining.
+
+Continue: `/execute {phase}`
+
+---
+```
+
+After phase completion (all waves done), show stage completion prompt:
+
+```
+---
+
+Stage complete: Phase {X} execution finished
+
+Next: `/ideate` (if more features to build) or `/arios:status` (to review)
+
+_Tip: Run `/clear` first for fresh context_
+
+---
 ```
