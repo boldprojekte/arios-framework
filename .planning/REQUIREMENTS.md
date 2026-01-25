@@ -37,11 +37,11 @@ Requirements for v1.1 milestone: Polish & Complete.
 
 ### E2E Flow & Orchestration
 
-- [ ] **E2E-01**: Full /ideate → /plan → /execute workflow functions end-to-end
-- [ ] **E2E-02**: Clear role separation — ideate (WHAT), explore (codebase), research (external), plan (structure), execute (build)
-- [ ] **E2E-03**: Thin orchestrator pattern — coordinator never implements, only spawns and integrates
-- [ ] **E2E-04**: Workflow adapts correctly to greenfield vs brownfield projects
-- [ ] **E2E-05**: Clear documentation of when to use slash command vs subagent vs skill
+- [x] **E2E-01**: Full /ideate → /plan → /execute workflow functions end-to-end
+- [x] **E2E-02**: Clear role separation — ideate (WHAT), explore (codebase), research (external), plan (structure), execute (build)
+- [x] **E2E-03**: Thin orchestrator pattern — coordinator never implements, only spawns and integrates
+- [x] **E2E-04**: Workflow adapts correctly to greenfield vs brownfield projects
+- [x] **E2E-05**: Clear documentation of when to use slash command vs subagent vs skill
 
 ### Parallel Execution
 
@@ -127,11 +127,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| E2E-01 | Phase 7 | Pending |
-| E2E-02 | Phase 7 | Pending |
-| E2E-03 | Phase 7 | Pending |
-| E2E-04 | Phase 7 | Pending |
-| E2E-05 | Phase 7 | Pending |
+| E2E-01 | Phase 7 | Complete |
+| E2E-02 | Phase 7 | Complete |
+| E2E-03 | Phase 7 | Complete |
+| E2E-04 | Phase 7 | Complete |
+| E2E-05 | Phase 7 | Complete |
 | EXEC-01 | Phase 8 | Pending |
 | EXEC-02 | Phase 8 | Pending |
 | EXEC-03 | Phase 8 | Pending |

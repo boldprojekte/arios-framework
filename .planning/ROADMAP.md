@@ -23,7 +23,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 ### Milestone v1.1: Polish & Complete
 
-- [ ] **Phase 7: E2E Flow & Role Clarity** - Complete workflow from ideation through execution with clear orchestration
+- [x] **Phase 7: E2E Flow & Role Clarity** - Complete workflow from ideation through execution with clear orchestration
 - [ ] **Phase 8: Parallel Execution** - Wave-based parallel task execution with fresh contexts
 - [ ] **Phase 9: Verification System** - Verifier subagent with 3-tier verification model
 - [ ] **Phase 10: Debug & Recovery** - State integrity checks, self-correction, and escalation
@@ -151,10 +151,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 07-01-PLAN.md — Stage transition hardening with prerequisite checks
-- [ ] 07-02-PLAN.md — Orchestrator role visibility with spawn announcements
-- [ ] 07-03-PLAN.md — /arios resume flow enhancement
-- [ ] 07-04-PLAN.md — User documentation (help.md and README)
+- [x] 07-01-PLAN.md — Stage transition hardening with prerequisite checks
+- [x] 07-02-PLAN.md — Orchestrator role visibility with spawn announcements
+- [x] 07-03-PLAN.md — /arios resume flow enhancement
+- [x] 07-04-PLAN.md — User documentation (help.md and README)
 
 ### Phase 8: Parallel Execution
 **Goal**: Tasks execute in parallel within waves with fresh contexts
@@ -220,7 +220,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 7. E2E Flow & Role Clarity | 0/4 | Planning Complete | — |
+| 7. E2E Flow & Role Clarity | 4/4 | Complete | 2026-01-25 |
 | 8. Parallel Execution | 0/TBD | Pending | — |
 | 9. Verification System | 0/TBD | Pending | — |
 | 10. Debug & Recovery | 0/TBD | Pending | — |
