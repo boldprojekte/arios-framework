@@ -236,6 +236,8 @@ This conversation runs after initialization or when STATE.md exists but has no m
 - If `mode` field exists and is "feature" or "project": Skip detection, proceed to appropriate workflow
 - If no mode field or mode is null: Run mode detection conversation
 
+**Wrong mode detected?** Run `/arios:change-mode` to switch modes at any time.
+
 #### Opening Question
 
 Start with an open-ended question to let user express their mental model:
