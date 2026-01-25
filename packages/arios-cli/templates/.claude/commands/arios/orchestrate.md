@@ -46,7 +46,17 @@ Read before any action:
    - Spawn planner with findings path, phase context, output path
 5. If execution needed:
    - **Extract codebase patterns before spawning executor**
-   - Spawn executor with plan path, wave number, task IDs, problems path, **patterns path**
+   - **Build wave schedule from phase plan frontmatter:**
+     a. Read all PLAN.md files in current phase directory
+     b. Parse frontmatter to extract wave number and plan ID
+     c. Group plans by wave number
+   - **Execute wave by wave:**
+     a. For each wave in order:
+        - If wave has multiple plans: spawn executor for each plan in parallel (concurrent Tasks)
+        - If wave has single plan: spawn executor sequentially
+        - Wait for all executors in wave to complete before starting next wave
+     b. After each wave: report wave status
+   - Spawn executor(s) with plan path, wave number, task IDs, problems path, **patterns path**
 6. After subagent returns:
    - Read handoff file (findings/plan/wave-result)
    - Update STATE.md with progress
@@ -122,9 +132,24 @@ Provide:
 - Task IDs for this wave
 - Problems directory: .planning/roadmaps/{roadmap}/{phase}/problems/
 - Patterns file path: .planning/patterns.json
+- Plans-in-wave count for progress tracking
 
 Task description MUST include:
 "Read .planning/patterns.json for code style context before executing tasks"
+```
+
+**Executor (wave execution):**
+```
+For each wave in schedule:
+  If wave.canParallelize (multiple plans):
+    Spawn executor for each plan in parallel using concurrent Task calls
+    Wait for all executors in wave to complete
+  Else:
+    Spawn executor for single plan
+    Wait for completion
+
+  Report wave completion before next wave:
+  "Wave {n}: Complete ({count}/{count} plans)"
 ```
 
 ## Report
@@ -136,6 +161,11 @@ After each action, output:
 
 **Current:** {phase name} - {status}
 **Action:** Spawned {agent} for {purpose}
+
+### Wave Progress
+Wave 1: [checkmark] Complete (2/2 plans)
+Wave 2: [checkmark] Complete (1/1 plans)
+Wave 3: [arrow] In progress (0/1 plans)
 
 ### Results
 {Summary from handoff file}
