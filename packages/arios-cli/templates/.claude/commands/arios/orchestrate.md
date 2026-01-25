@@ -732,3 +732,122 @@ Options: Debug (d), Skip (s), Abort (a)
 ```
 
 **Detailed progress is in the dashboard.** Chat stays clean for user to see orchestrator actions clearly.
+
+## Phase Completion - Human Review
+
+**Purpose:** After all waves complete, user reviews and tests what was built. This is the 3rd tier of verification (phase level).
+
+**When:** After the last wave passes verification.
+
+**Why human review matters:**
+- Automated checks catch syntax, type errors, and integration gaps
+- Only humans can verify: Does this FEEL right? Is the UX good? Does it solve the problem?
+- Prevents building more features on a shaky foundation
+
+### 1. Generate Phase Summary
+
+Collect from all plan SUMMARYs:
+- Total plans completed
+- Total commits made
+- Files created/modified (aggregated list)
+- Any warnings logged during verification
+
+### 2. Generate Test Instructions
+
+**Adapt detail level to feature complexity:**
+
+For simple features (1-2 plans, UI changes):
+```
+### Test Instructions
+1. Start the app: `npm run dev`
+2. Navigate to {specific page}
+3. Verify: {expected behavior}
+```
+
+For complex features (3+ plans, multiple subsystems):
+```
+### Test Instructions
+
+**Setup:**
+1. Start the app: `npm run dev`
+2. Open browser to http://localhost:3000
+
+**Test Scenario 1: {scenario name}**
+1. {Step 1}
+2. {Step 2}
+Expected: {what should happen}
+
+**Test Scenario 2: {scenario name}**
+1. {Step 1}
+2. {Step 2}
+Expected: {what should happen}
+
+**Edge Cases to Check:**
+- {edge case 1}
+- {edge case 2}
+```
+
+**Generating specific instructions:**
+- Read plan objectives to understand what was built
+- Identify user-facing entry points (pages, buttons, commands)
+- Map to testable scenarios
+- Include expected behavior for each step
+
+### 3. Present to User
+
+```markdown
+## Phase {N} Complete - Review Required
+
+**Built:** {summary of what was created}
+**Plans:** {count} plans executed
+**Tests:** All passing
+
+### What's New
+{Brief description of features added}
+
+### Test Instructions
+{Generated test instructions from step 2}
+
+---
+
+Please test and let me know:
+- Type "approved" if everything works
+- Or describe any issues you find
+```
+
+### 4. Handle User Response
+
+**If user types "approved" (or similar affirmative):**
+- Mark phase as complete in STATE.md
+- Display: "Phase {N} approved. Ready for next phase."
+- Suggest: `/arios` to continue or `/clear` for context reset
+
+**If user reports issues:**
+```
+Parse user's issue description:
+- What's not working?
+- What was expected vs actual?
+
+Spawn recovery-agent with:
+<failure_context>
+type: verification_failure
+wave: final
+plan_id: user_reported
+attempt: 1
+error: {user's issue description}
+files_affected: [relevant files based on issue]
+recent_commits: [commits from this phase]
+</failure_context>
+
+After recovery completes:
+- Re-run affected verification checks
+- Present updated test instructions
+- Ask user to re-verify
+
+Maximum 3 recovery attempts per reported issue.
+If still failing: ask user for more detail or offer to continue anyway.
+```
+
+**If user asks questions (not reporting issue):**
+- Answer the question based on plan context
+- Re-present the approval prompt
