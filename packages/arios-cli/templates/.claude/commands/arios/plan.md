@@ -21,27 +21,38 @@ Create or continue an execution plan from ideation findings.
 
 ## Instructions
 
+- **FIRST:** Check prerequisite - CONTEXT.md must exist for the phase
+- If prerequisite fails: display refusal message and STOP (do NOT proceed)
 - Show brief status line before starting
-- Check for findings file from ideation/research phase
-- Warn if no findings exist, but allow continuation with confirmation
 - Route to orchestrator for planning; never do planning directly
-- After completion, suggest /arios:execute as next step
+- After completion, show stage completion prompt with next step
 
 ## Workflow
 
-1. Check ARIOS initialized (ls .planning/ succeeds)
+1. **Prerequisite check (MANDATORY - before anything else):**
+   - Use Glob to check for `.planning/phases/{phase}/*-CONTEXT.md`
+   - If CONTEXT.md found: proceed to step 2
+   - If NOT found: display refusal message and STOP:
+     ```
+     ## Cannot Plan
+
+     No ideation context found for this phase.
+
+     Expected: `.planning/phases/{phase}/{phase}-CONTEXT.md`
+
+     ---
+
+     Run first: `/ideate`
+
+     Planning requires ideation findings as input.
+     ```
+   - Do NOT offer "continue anyway" option. STOP here.
+2. Check ARIOS initialized (ls .planning/ succeeds)
    - If not: "ARIOS not initialized. Run `arios init` first."
-2. Read STATE.md for current position and active roadmap/phase
-3. Display status: "Phase X/Y, Plan M/N"
-4. Check for findings file in current phase directory
-   - Path: .planning/roadmaps/{roadmap}/{phase}/findings.md
-5. If no findings found:
-   - Warn: "No findings found for current phase."
-   - Ask: "Run /arios:ideate first, or continue anyway? (ideate/continue)"
-   - If ideate: suggest running /arios:ideate
-   - If continue: proceed with warning noted
-6. Route to /arios:orchestrate plan
-7. After completion, show: "Next: /arios:execute"
+3. Read STATE.md for current position and active roadmap/phase
+4. Display status: "Phase X/Y, Plan M/N"
+5. Route to /arios:orchestrate plan
+6. After completion, show stage completion prompt (see Report section)
 
 ## Report
 
@@ -49,9 +60,21 @@ Create or continue an execution plan from ideation findings.
 ARIOS Planning
 
 Status: Phase {X}/{Y}, Plan {M}/{N}
-Findings: {path or "not found"}
+Context: {path to CONTEXT.md}
 
 [Routing to orchestrator for planning...]
+```
 
-Next: /arios:execute
+After planning completes, show stage completion prompt:
+
+```
+---
+
+Stage complete: Planning finished for Phase {X}
+
+Next: `/execute {phase}`
+
+_Tip: Run `/clear` first for fresh context_
+
+---
 ```
