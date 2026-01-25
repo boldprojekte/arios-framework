@@ -1,12 +1,12 @@
 ---
 version: "1.0.0"
 phase: 5
-planIndex: 6
+planIndex: 7
 totalPhases: 6
 totalPlans: 10
 status: "in-progress"
 lastActivity: "2026-01-25"
-checksum: "9d2b4f6a"
+checksum: "a3c5d7e9"
 phaseName: "Execution Flow"
 ---
 
@@ -22,9 +22,9 @@ See: .planning/PROJECT.md (updated 2026-01-24)
 ## Current Position
 
 Phase: 5 of 6 (Execution Flow)
-Plan: 6 of 10 in current phase (gap closure plans 05-06 through 05-10)
+Plan: 7 of 10 in current phase (gap closure plans 05-06 through 05-10)
 Status: In progress
-Last activity: 2026-01-25 - Completed 05-06-PLAN.md
+Last activity: 2026-01-25 - Completed 05-07-PLAN.md
 
 Progress: [█████████░] 94%
 
@@ -99,6 +99,9 @@ Recent decisions affecting current work:
 - Default maxAttempts: 3 per CONTEXT.md "2-3 attempts" (05-04)
 - Re-verify checkpoint after each debug plan execution (05-04)
 - Check approachSetAt field (not approach) to detect if selection needed (05-06)
+- Complexity thresholds match complexity.ts in execute command (05-07)
+- Parallel execution within waves using concurrent Task calls (05-07)
+- Wave completion required before starting next wave (05-07)
 
 ### Pending Todos
 
@@ -111,8 +114,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 05-06-PLAN.md (Gap closure in progress)
+Stopped at: Completed 05-07-PLAN.md (Gap closure in progress)
 Resume file: None
 
 ---
-*Next: 05-07-PLAN.md (Phase 5 gap closure continues)*
+*Next: 05-08-PLAN.md (Phase 5 gap closure continues)*
