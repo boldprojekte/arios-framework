@@ -13,6 +13,24 @@ Execute tasks from the current plan, wave by wave.
 **Dynamic:** $WAVE (optional specific wave number)
 **Static:** .planning/STATE.md, .planning/config.json, .planning/roadmaps/
 
+**Checkpoint config (in .planning/config.json):**
+```json
+{
+  "checkpoint": {
+    "startCommand": "npm run dev",
+    "startReadyPattern": "ready on|listening on",
+    "testCommand": "npm test",
+    "startTimeout": 30000,
+    "testTimeout": 120000
+  }
+}
+```
+- `startCommand`: Command to start the app (e.g., "npm run dev")
+- `startReadyPattern`: Regex to detect app is ready (e.g., "ready on|listening on")
+- `testCommand`: Command to run tests (e.g., "npm test")
+- `startTimeout`: Timeout for app start (default: 30000ms)
+- `testTimeout`: Timeout for tests (default: 120000ms)
+
 ## Context
 
 - `!ls .planning/ 2>/dev/null || echo "NO_PLANNING"`
@@ -25,6 +43,10 @@ Execute tasks from the current plan, wave by wave.
 - Check for plan file from planning phase
 - Warn if no plan exists, but allow continuation with confirmation
 - Route to orchestrator for execution; never execute tasks directly
+- After each wave, run checkpoint verification if configured
+- Checkpoint passes when: app runs successfully AND tests pass
+- Missing checkpoint config = skip verification (greenfield/early stages)
+- On checkpoint failure: pause and show diagnostic, ask user to fix or continue
 - After wave completion, show next wave info or phase completion
 
 ## Workflow
@@ -56,7 +78,14 @@ Execute tasks from the current plan, wave by wave.
    - Display schedule as formatted list
 8. If $WAVE specified, use it; otherwise orchestrator determines next wave
 9. Route to /arios:orchestrate execute
-10. After completion:
+10. Checkpoint verification (after orchestrator returns):
+    - If checkpoint config exists in .planning/config.json:
+      * Run startCommand, wait for startReadyPattern or startTimeout
+      * If app starts: run testCommand, check exit code
+      * Display result: "Checkpoint: PASSED" or "Checkpoint: FAILED"
+      * On failure: show diagnostic and prompt user for action
+    - If no checkpoint config: skip checkpoint (greenfield/early stages)
+11. After completion:
     - If more waves remain: "Next wave: /arios:execute"
     - If phase complete: "Phase complete. Next: /arios:ideate for next phase"
 
@@ -76,6 +105,10 @@ Wave 2: 05-09 (sequential)
 Wave 3: 05-10 (sequential)
 
 [Routing to orchestrator for execution...]
+
+Checkpoint: {PASSED|FAILED|SKIPPED}
+- App starts: {yes|no|n/a}
+- Tests pass: {yes|no|n/a}
 
 {Completion message or next wave info}
 ```
