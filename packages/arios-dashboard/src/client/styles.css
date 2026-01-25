@@ -622,43 +622,47 @@ body {
 }
 
 /* ============================================
-   Modal
+   Detail Panel (slide-out from right)
    ============================================ */
-.modal {
-  display: none;
+.detail-panel {
   position: fixed;
-  inset: 0;
-  z-index: 100;
-}
-
-.modal.open {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal-overlay {
-  position: absolute;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  animation: fadeIn var(--transition-fast);
-}
-
-.modal-content {
-  position: relative;
-  width: 90%;
-  max-width: 600px;
-  max-height: 80vh;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 400px;
+  min-width: 300px;
+  max-width: 800px;
   background-color: var(--bg-secondary);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
+  border-left: 1px solid var(--border);
+  transform: translate3d(100%, 0, 0);
+  transition: transform var(--transition-normal);
+  z-index: 50;
   display: flex;
   flex-direction: column;
-  animation: slideUp var(--transition-normal);
 }
 
-.modal-header {
+.detail-panel.open {
+  transform: translate3d(0, 0, 0);
+}
+
+/* Resizer handle on left edge */
+.panel-resizer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  cursor: ew-resize;
+  background: transparent;
+}
+
+.panel-resizer:hover,
+.panel-resizer.active {
+  background: var(--accent);
+}
+
+/* Panel header */
+.panel-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -666,13 +670,13 @@ body {
   border-bottom: 1px solid var(--border-subtle);
 }
 
-.modal-title {
+.panel-title {
   font-size: 16px;
   font-weight: 600;
   color: var(--text-primary);
 }
 
-.modal-close {
+.panel-close {
   width: 32px;
   height: 32px;
   display: flex;
@@ -687,22 +691,24 @@ body {
   transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
-.modal-close:hover {
+.panel-close:hover {
   background-color: var(--bg-hover);
   color: var(--text-primary);
 }
 
-.modal-body {
+/* Panel body */
+.panel-body {
   flex: 1;
   padding: var(--spacing-lg);
   overflow-y: auto;
 }
 
-.modal-body .detail-section {
+/* Detail sections (used in panel body) */
+.detail-section {
   margin-bottom: var(--spacing-lg);
 }
 
-.modal-body .detail-label {
+.detail-label {
   font-size: 11px;
   font-weight: 600;
   color: var(--text-muted);
@@ -711,17 +717,26 @@ body {
   margin-bottom: var(--spacing-xs);
 }
 
-.modal-body .detail-value {
+.detail-value {
   color: var(--text-primary);
   font-size: 14px;
 }
 
-.modal-body .detail-value code {
+.detail-value code {
   font-family: var(--font-mono);
   background-color: var(--bg-tertiary);
   padding: 2px 6px;
   border-radius: var(--radius-sm);
   font-size: 12px;
+}
+
+/* Main content compression when panel open */
+.main-content {
+  transition: margin-right var(--transition-normal);
+}
+
+.main-content.panel-open {
+  margin-right: 400px;
 }
 
 /* ============================================
