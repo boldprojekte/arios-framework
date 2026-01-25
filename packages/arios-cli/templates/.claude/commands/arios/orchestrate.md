@@ -55,7 +55,8 @@ Read before any action:
         - If wave has multiple plans: spawn executor for each plan in parallel (concurrent Tasks)
         - If wave has single plan: spawn executor sequentially
         - Wait for all executors in wave to complete before starting next wave
-     b. After each wave: report wave status
+     b. **Run checkpoint verification (using Bash tool - see Checkpoint Verification section)**
+     c. After each wave: report wave + checkpoint status
    - Spawn executor(s) with plan path, wave number, task IDs, problems path, **patterns path**
 6. After subagent returns:
    - Read handoff file (findings/plan/wave-result)
@@ -99,6 +100,73 @@ Read before any action:
      * quotes: "single"
      * semicolons: true
      * naming: kebab-case files, camelCase functions, PascalCase components
+
+## Checkpoint Verification (After Each Wave)
+
+**Purpose:** Verify the app still works after making changes. Pauses execution for user if verification fails.
+
+**Execution mechanism:** Orchestrator uses Bash tool directly (no TypeScript imports). Claude runs commands and checks results.
+
+**Steps:**
+
+1. **Read checkpoint config from .planning/config.json using Read tool:**
+   ```json
+   {
+     "checkpoint": {
+       "startCommand": "npm run dev",
+       "startReadyPattern": "ready on|listening on",
+       "testCommand": "npm test",
+       "startTimeout": 30000,
+       "testTimeout": 120000
+     }
+   }
+   ```
+
+2. **If checkpoint config exists:**
+
+   a. **Start the app using Bash tool with background flag:**
+      ```
+      Use Bash tool:
+      command: "{startCommand}"
+      run_in_background: true
+      timeout: {startTimeout}
+      ```
+
+   b. **Wait for ready pattern using Bash tool:**
+      ```
+      Use Bash tool (with short timeout, repeat if needed):
+      command: "curl -s http://localhost:3000 || echo 'not ready'"
+      ```
+      OR watch process output for startReadyPattern match
+
+   c. **If app ready, run tests using Bash tool:**
+      ```
+      Use Bash tool:
+      command: "{testCommand}"
+      timeout: {testTimeout}
+      ```
+
+   d. **Check exit code:**
+      - Exit code 0 = tests pass
+      - Non-zero exit code = tests fail
+
+   e. **Determine result:**
+      passed = appStarted AND testsPass
+
+   f. **Clean up - kill background process:**
+      ```
+      Use Bash tool:
+      command: "pkill -f '{startCommand}' || true"
+      ```
+
+3. **If checkpoint fails:**
+   - Display diagnostic: what failed (start or tests) and error output
+   - Prompt user: "Fix the issue and press Enter to re-verify, or type 'skip' to continue, or 'abort' to stop"
+   - If re-verify (Enter): repeat steps 2a-2f
+   - If skip: log warning and continue to next wave
+   - If abort: stop execution entirely
+
+4. **If no checkpoint config:** Checkpoint skipped (greenfield/early stages - nothing to verify)
 
 ## Spawn Patterns
 
@@ -167,9 +235,34 @@ Wave 1: [checkmark] Complete (2/2 plans)
 Wave 2: [checkmark] Complete (1/1 plans)
 Wave 3: [arrow] In progress (0/1 plans)
 
+### Checkpoint Status
+Wave 1: PASSED (app: ok, tests: ok)
+Wave 2: PASSED (app: ok, tests: ok)
+Wave 3: FAILED (app: ok, tests: failed)
+        Error: 3 tests failed (see output above)
+        Action needed: Fix failing tests before continuing
+
 ### Results
 {Summary from handoff file}
 
 ### Next
 {Suggested next action or /clear recommendation}
+```
+
+**On checkpoint failure, prompt user:**
+```
+Checkpoint FAILED after Wave {n}
+
+App starts: {yes|no}
+Tests pass: {yes|no}
+
+Error output:
+{error details from Bash tool}
+
+Options:
+- Press Enter to re-verify after fixing
+- Type 'skip' to continue anyway (not recommended)
+- Type 'abort' to stop execution
+
+Your choice:
 ```
