@@ -89,17 +89,37 @@ Execute tasks from the current plan, wave by wave.
      * Single plan in wave: "(sequential)"
    - Display schedule as formatted list
 7. If $WAVE specified, use it; otherwise orchestrator determines next wave
-8. Route to /arios:orchestrate execute
-9. Checkpoint verification (after orchestrator returns):
+8. **Display execution start (see Execution Start section below)**
+9. Route to /arios:orchestrate execute
+10. Checkpoint verification (after orchestrator returns):
     - If checkpoint config exists in .planning/config.json:
       * Run startCommand, wait for startReadyPattern or startTimeout
       * If app starts: run testCommand, check exit code
       * Display result: "Checkpoint: PASSED" or "Checkpoint: FAILED"
       * On failure: show diagnostic and prompt user for action
     - If no checkpoint config: skip checkpoint (greenfield/early stages)
-10. After completion:
+11. After completion:
     - If more waves remain: "Next wave: /arios:execute"
     - If phase complete: "Phase complete. Next: /arios:ideate for next phase"
+
+## Execution Start
+
+**After complexity analysis, before spawning orchestrator:**
+
+Display execution summary with dashboard link:
+```
+## Starting Execution
+
+Phase: {phase_name}
+Complexity: {level}
+Plans: {count} in {wave_count} waves
+
+Dashboard: http://localhost:3456
+
+Delegating to orchestrator...
+```
+
+This ensures users see the dashboard link early, even if they /execute directly without going through /arios.
 
 ## Report
 
