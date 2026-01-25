@@ -348,65 +348,125 @@ Structure:
 Full details: `.planning/roadmaps/{roadmap}/{phase}/plan.md`
 ```
 
-### Spawning Executor
+### Spawning Wave-Executor (Parallel Waves)
+
+**Pre-spawn content loading (CRITICAL - @-references don't work across Task boundaries):**
+
+Before spawning ANY wave-executor, you MUST:
+1. Use Read tool to load the plan file content
+2. Use Read tool to load .planning/STATE.md content
+3. These get inlined in the Task prompt below
+
+**Why inline?** The `@file` syntax only resolves in the main conversation. Task tool prompts receive literal text - `@path/to/file` would NOT be replaced with file contents. Always read first, then inline.
 
 **Display announcement:**
 ```
-## Delegating to Executor
+## Delegating to Wave-Executor
 
-**Purpose:** Execute Wave {N} tasks
-**Scope:** {plan IDs in wave}
-**Output:** Task completion, code changes
+**Purpose:** Execute plan {phase}-{plan}
+**Scope:** {task count} tasks in plan
+**Output:** Task commits, SUMMARY.md
 
-Spawning executor agent...
+Pre-loading plan content...
+Spawning wave-executor agent...
 ```
 
-**Then use Task tool:**
+**Then use Task tool with INLINED content:**
 ```
-Use Task tool to spawn .claude/agents/executor.md
+Use Task tool to spawn .claude/agents/wave-executor.md
 
-Provide:
-- Plan file path
-- Wave number to execute
-- Task IDs for this wave
+Prompt includes:
+
+<plan_content>
+{INLINED PLAN FILE CONTENT - from Read tool above}
+</plan_content>
+
+<state_content>
+{INLINED STATE.MD CONTENT - from Read tool above}
+</state_content>
+
+Additional context:
+- Wave number: {N}
+- Patterns file: .planning/patterns.json (executor reads this itself)
 - Problems directory: .planning/roadmaps/{roadmap}/{phase}/problems/
-- Patterns file path: .planning/patterns.json
-- Plans-in-wave count for progress tracking
-
-Task description MUST include:
-"Read .planning/patterns.json for code style context before executing tasks"
 ```
 
-**After executor returns, summarize:**
+**After wave-executor returns, summarize:**
 Parse the return message and display:
 ```
-## Execution Complete
+## Plan Execution Complete
 
 **Status:** {Complete/Partial/Failed}
+**Plan:** {phase}-{plan}
 **Tasks:** {completed}/{total}
-**Wave:** {N}
 
 Changes:
 - {file 1}: {brief description}
 - {file 2}: {brief description}
 
-{If issues: "Issues: {count} - see problems/"}
+SUMMARY: {path to SUMMARY.md}
+{If failures: "Issues: see SUMMARY.md for details"}
 ```
 
 ### Wave Execution Pattern
 
+**For each wave in schedule:**
+
+1. **Pre-load all content for this wave:**
+   ```
+   For each plan in wave:
+     - Use Read tool to load {plan_path} content
+     - Store content for inlining in prompt
+   Use Read tool to load .planning/STATE.md content once (shared across wave)
+   ```
+
+2. **Display announcements** for each wave-executor being spawned
+
+3. **Spawn wave-executors:**
+   ```
+   If wave.canParallelize (multiple plans):
+     - Spawn wave-executor for EACH plan using concurrent Task calls
+     - Multiple Task calls in same message = parallel execution
+     - Wait for all wave-executors in wave to complete
+   Else:
+     - Spawn wave-executor for single plan
+     - Wait for completion
+   ```
+
+4. **Collect results:**
+   - Let all wave-executors finish (don't stop on first failure)
+   - Per CONTEXT.md: "Tasks in same wave are independent by definition"
+   - Collect all return messages
+
+5. **Summarize wave results** (don't show raw subagent output)
+
+6. **Report wave completion:**
+   ```
+   "Wave {n}: Complete ({passed}/{total} plans)"
+   If failures: list failed plans with brief error
+   ```
+
+7. **Silent verification** (Phase 9 - placeholder for now)
+   - Verification runs but only reports if issues found
+   - Auto-fix via recovery agent before blocking
+
+**Parallel spawning example:**
 ```
-For each wave in schedule:
-  1. Display announcement for each executor being spawned
-  2. If wave.canParallelize (multiple plans):
-     Spawn executor for each plan in parallel using concurrent Task calls
-     Wait for all executors in wave to complete
-  3. Else:
-     Spawn executor for single plan
-     Wait for completion
-  4. Summarize wave results (don't show raw subagent output)
-  5. Report wave completion before next wave:
-     "Wave {n}: Complete ({count}/{count} plans)"
+For a wave with plans [08-01, 08-02, 08-03]:
+
+1. Pre-load:
+   plan_01_content = Read(.planning/phases/08/08-01-PLAN.md)
+   plan_02_content = Read(.planning/phases/08/08-02-PLAN.md)
+   plan_03_content = Read(.planning/phases/08/08-03-PLAN.md)
+   state_content = Read(.planning/STATE.md)
+
+2. Spawn all three in single message (parallel):
+   Task(wave-executor, prompt with plan_01_content inlined)
+   Task(wave-executor, prompt with plan_02_content inlined)
+   Task(wave-executor, prompt with plan_03_content inlined)
+
+3. All three execute simultaneously with fresh contexts
+4. Collect results when all complete
 ```
 
 ## Report
