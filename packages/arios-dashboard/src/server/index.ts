@@ -5,9 +5,10 @@
  */
 
 import { createServer, IncomingMessage, ServerResponse, Server } from 'node:http';
-import { readFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import { join, extname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import matter from 'gray-matter';
 import type { FSWatcher } from 'chokidar';
 import { createWatcher } from './watcher.js';
 import { buildDashboardState } from './parser.js';
@@ -136,9 +137,49 @@ export async function startServer(planningDir: string, portOverride?: number): P
   fileWatcher = createWatcher(resolvedDir, handleStateChange);
 
   // Create HTTP server
-  httpServer = createServer((req, res) => {
-    if (req.url === '/events') {
+  httpServer = createServer(async (req, res) => {
+    const url = new URL(req.url || '/', `http://${req.headers.host}`);
+    const pathname = url.pathname;
+
+    if (pathname === '/events') {
       handleSSE(req, res, resolvedDir);
+    } else if (req.method === 'POST' && pathname === '/api/notes') {
+      // Handle note addition
+      let body = '';
+      req.on('data', (chunk: Buffer) => { body += chunk.toString(); });
+      req.on('end', async () => {
+        try {
+          const { content, planPath } = JSON.parse(body);
+
+          if (!planPath || !content) {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Missing planPath or content' }));
+            return;
+          }
+
+          // Read existing plan file
+          const planContent = await readFile(planPath, 'utf-8');
+          const { data: frontmatter, content: markdown } = matter(planContent);
+
+          // Add note to frontmatter
+          const notes = frontmatter.notes || [];
+          notes.push({
+            timestamp: new Date().toISOString(),
+            content: content
+          });
+
+          // Save back with updated notes
+          const updated = matter.stringify(markdown, { ...frontmatter, notes });
+          await writeFile(planPath, updated, 'utf-8');
+
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: true, noteCount: notes.length }));
+        } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: errorMessage }));
+        }
+      });
     } else {
       serveStatic(req, res);
     }
