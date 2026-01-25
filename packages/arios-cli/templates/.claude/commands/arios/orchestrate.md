@@ -972,6 +972,47 @@ Options: Retry (r), Skip (s), Abort (a)
 - Phrase "what it affects" based on specific failure
 - Add context-specific details when helpful
 
+## Debug Log Persistence
+
+**Purpose:** Record errors that reach escalation for later debugging. Auto-corrected issues are NOT logged (they were handled successfully).
+
+**When to log:**
+- Recovery exhausted (3/3 attempts failed)
+- RECOVERY ESCALATE returned (immediate user escalation)
+- User reports issue during phase review that can't be auto-fixed
+
+**Log format:**
+```
+[ISO-TIMESTAMP] [{TYPE}] [{PHASE-PLAN}] {Plain-language summary}
+Technical: {original error - one line}
+Resolution: {what user chose - retry/skip/abort}
+---
+```
+
+**Appending to debug.log:**
+
+After escalating to user and receiving their choice:
+```
+Use Bash tool:
+command: "echo '[{timestamp}] [{type}] [{plan_id}] {summary}
+Technical: {error_oneline}
+Resolution: {user_choice}
+---' >> .planning/debug.log"
+```
+
+**Example log entry:**
+```
+[2026-01-25T15:30:00Z] [task_failure] [10-02] Database connection failed after 3 attempts
+Technical: ECONNREFUSED 127.0.0.1:5432
+Resolution: abort
+---
+```
+
+**What NOT to log:**
+- Successful auto-fixes (handled silently)
+- Recovery that succeeded on attempt 2 or 3 (eventually fixed)
+- Warnings that didn't block execution
+
 ## Phase Completion - Human Review
 
 **Purpose:** After all waves complete, user reviews and tests what was built. This is the 3rd tier of verification (phase level).
