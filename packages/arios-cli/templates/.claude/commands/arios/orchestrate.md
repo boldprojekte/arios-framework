@@ -179,6 +179,76 @@ mode = STATE.mode || "project"  // default to project for legacy states
 | Phase transitions | N/A (single phase) | Multi-phase flow |
 | Completion behavior | Archive to .planning/archive/ | Mark phase complete, suggest next |
 
+## Feature-Mode Routing
+
+When mode == "feature", the workflow is simplified:
+
+### Execution Flow (Feature-Mode)
+
+1. **Skip roadmap checks** - Feature-Mode has no ROADMAP.md
+2. **Phase is always the feature phase** - `.planning/phases/feature-{name}/`
+3. **Execute plans normally** - Same wave/task execution as Project-Mode
+4. **On feature complete:**
+   - All plans in feature phase executed
+   - STATUS becomes "complete"
+   - Trigger archive workflow (see below)
+
+### Feature Archive Workflow
+
+When Feature-Mode work completes (all plans done, verification passed):
+
+1. **Display completion:**
+   ```
+   ## Feature Complete
+
+   **Feature:** {phaseName}
+   **Plans executed:** {totalPlans}
+   **Duration:** {calculated from first to last activity}
+
+   The feature has been archived.
+
+   Ready for next task. Run `/arios` to start something new.
+   ```
+
+2. **Archive feature files:**
+   ```
+   Move .planning/phases/feature-{name}/ to .planning/archive/feature-{name}/
+   ```
+
+3. **Clear mode:**
+   - Update config.json: remove "mode" field or set to null
+   - Archive or reset STATE.md
+
+4. **Ready for fresh detection:**
+   - Next `/arios` call will run mode detection (no mode set)
+
+### Scope Creep Detection
+
+During Feature-Mode planning, if planner detects:
+- 4+ plans in the feature, OR
+- 2+ waves of dependencies
+
+Display:
+```
+## Feature Growing
+
+This feature is getting complex:
+- {plan_count} plans needed
+- {wave_count} waves of dependencies
+
+Would you like to switch to Project-Mode for better tracking?
+
+Options:
+1. **Switch** - Convert to Project-Mode (creates ROADMAP.md)
+2. **Continue** - Keep as Feature-Mode (may be harder to track)
+
+What would you like to do? (1/2):
+```
+
+Handle user choice:
+- Switch: Create minimal ROADMAP.md with single phase, update mode to "project"
+- Continue: Proceed with Feature-Mode (user's choice)
+
 ## Instructions
 
 - Orchestrator ONLY coordinates - spawns subagents for all heavy work
