@@ -60,18 +60,20 @@ For each task in the plan:
 </task_creation>
 
 <output>
-Return message:
+Return message (compact - 5-10 lines max):
 
-## PLAN COMPLETE
+```
+## PLANNING COMPLETE
 
-**Plan:** {path}
-**Tasks Created:** {count}
-**Waves:** {wave count}
+**Phase:** {phase name}
+**Plans:** {count} plans in {count} waves
 
-### Task IDs
-- Wave 1: {task_id_1}, {task_id_2}
-- Wave 2: {task_id_3}
+Structure:
+- Wave 1: {plan IDs} ({parallel|sequential})
+- Wave 2: {plan IDs}
 
-### Ready for Execution
-Plan complete. Executor can proceed wave by wave.
+File: `{output path}`
+```
+
+Note: Return message is for orchestrator to parse, not user to read directly. Keep compact. Full details in output file.
 </output>

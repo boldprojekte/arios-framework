@@ -48,20 +48,22 @@ confidence: [high/medium/low]
 ---
 ```
 
-Return message:
+Return message (compact - 5-10 lines max):
 
+```
 ## RESEARCH COMPLETE
 
 **Topic:** {topic}
-**Confidence:** [HIGH/MEDIUM/LOW]
+**Confidence:** {HIGH/MEDIUM/LOW}
+**Findings:** {count} patterns, {count} concerns
 
-### Key Findings
-- [Finding 1]
-- [Finding 2]
+Key:
+- {finding 1 - one line}
+- {finding 2 - one line}
+- {finding 3 - one line}
 
-### File Created
-`{path}`
+File: `{output path}`
+```
 
-### Ready for Planning
-Research complete. Planner can proceed.
+Note: Return message is for orchestrator to parse, not user to read directly. Keep compact. Full details in output file.
 </output>

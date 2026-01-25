@@ -87,21 +87,21 @@ severity: [blocking/warning]
 </problem_reporting>
 
 <output>
-Return message:
+Return message (compact - 5-10 lines max):
 
-## WAVE COMPLETE
+```
+## EXECUTION COMPLETE
 
-**Wave:** {number}
+**Wave:** {N}
+**Status:** {Complete/Partial/Failed}
 **Tasks:** {completed}/{total}
 
-### Status
-- {task_id_1}: done
-- {task_id_2}: done
-- {task_id_3}: blocked (see problem-{timestamp}.md)
+Changes:
+- {file 1}: {brief description}
+- {file 2}: {brief description}
 
-### Problems
-[None | List of problem files created]
+{If failures: "Issues: {count} - see problems/"}
+```
 
-### Ready for Next
-[Next wave ready | Blocked - orchestrator decision needed]
+Note: Return message is for orchestrator to parse, not user to read directly. Keep compact. Full details in problems/ directory if issues occurred.
 </output>
