@@ -224,7 +224,12 @@ Plans:
   2. Each wave-executor has fresh context — no degradation from prior waves
   3. Wave N+1 does not start until wave N passes verification
   4. Orchestrating executor coordinates wave-executors and monitors progress
-**Plans**: TBD (created during planning)
+**Plans**: 3 plans
+
+Plans:
+- [ ] 08-01-PLAN.md — Wave-executor agent and parallel orchestration
+- [ ] 08-02-PLAN.md — Unified recovery agent for failures
+- [ ] 08-03-PLAN.md — Dashboard coordination and minimal announcements
 
 **Architecture note:** Parallel execution is mode-agnostic. Both Feature-Mode and Project-Mode use the same wave/task execution infrastructure.
 
@@ -315,7 +320,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 7. E2E Flow & Role Clarity | 4/4 | Complete | 2026-01-25 |
-| 8. Parallel Execution | 0/TBD | Pending | — |
+| 8. Parallel Execution | 0/3 | Pending | — |
 | 9. Verification System | 0/TBD | Pending | — |
 | 10. Debug & Recovery | 0/TBD | Pending | — |
 | 11. Smart Entry & Mode Detection | 0/TBD | Pending | — |
