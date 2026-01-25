@@ -40,27 +40,50 @@ Start creative exploration for new features, project direction, or problem resea
 
 | Mode | Ideation Output | Next Step |
 |------|-----------------|-----------|
-| Feature-Mode | Single CONTEXT.md in `feature-{name}/` | `/plan` for feature |
+| Feature-Mode | CONTEXT.md + STATE.md in `.planning/features/feature-{name}/` | `/plan` for feature |
 | Project-Mode | ROADMAP.md with multi-phase structure | `/plan {phase}` for phases |
 
 ### Feature-Mode Ideation
 
 When mode == "feature":
 
+**Feature-Mode Path:**
+- Create folder: `.planning/features/feature-{name}/`
+- Create STATE.md at: `.planning/features/feature-{name}/STATE.md`
+- Feature name derived from ideation topic (slugified: lowercase, hyphens)
+- STATE.md uses same schema as Project-Mode (full tracking capability)
+
+**Steps:**
+
 1. **Do NOT create ROADMAP.md** - Feature-Mode has no multi-phase roadmap
-2. **Create feature phase folder:** `.planning/phases/feature-{name}/`
+2. **Create feature folder:** `.planning/features/feature-{name}/`
    - Name derived from user's feature description (kebab-case, max 30 chars)
+   - Store feature_name in config.json for path resolution
 3. **Create CONTEXT.md** in feature folder with:
    - Feature goal and scope
    - Success criteria
    - Technical considerations
-4. **Update STATE.md** with feature as single phase:
+4. **Create STATE.md** at `.planning/features/feature-{name}/STATE.md`:
    ```yaml
+   ---
+   version: "1.1.0"
    phase: 1
+   planIndex: 0
    totalPhases: 1
+   totalPlans: 0
+   status: "ideation-complete"
+   lastActivity: "{current date}"
    phaseName: "feature-{name}"
+   ---
    ```
-5. **Route to:** `/plan` (single feature phase)
+5. **Update config.json** with feature_name:
+   ```json
+   {
+     "mode": "feature",
+     "feature_name": "{name}"
+   }
+   ```
+6. **Route to:** `/plan` (single feature phase)
 
 ### Project-Mode Ideation
 
@@ -128,6 +151,23 @@ Topic: {ideation topic}
 
 After ideation completes, show stage completion prompt:
 
+**Feature-Mode:**
+```
+---
+
+Stage complete: Ideation finished for {topic}
+
+Findings: `.planning/features/feature-{name}/CONTEXT.md`
+State: `.planning/features/feature-{name}/STATE.md`
+
+Next: `/plan`
+
+_Tip: Run `/clear` first for fresh context_
+
+---
+```
+
+**Project-Mode:**
 ```
 ---
 
