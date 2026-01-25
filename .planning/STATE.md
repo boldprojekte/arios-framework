@@ -220,6 +220,9 @@ Recent decisions affecting current work:
 - Panel uses transform3d for GPU-accelerated slide animation (12-03)
 - Resizer width clamped between 300px and 800px (12-03)
 - Width resets to default on close (not persisted) (12-03)
+- PhaseStatus extended with 'phase_complete' to match actual STATE.md usage (12-01)
+- Checksum mismatch is auto-fixable, missing files require user decision (12-01)
+- Drift detection positioned after auto-continue, before dashboard startup (12-01)
 
 ### Pending Todos
 
@@ -232,8 +235,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 12-03-PLAN.md (Slide-out detail panel)
+Stopped at: Completed 12-01-PLAN.md (Drift detection infrastructure)
 Resume file: None
 
 ---
-*Phase 12 (State & Dashboard Polish) IN PROGRESS. 3 of 6 plans done.*
+*Phase 12 (State & Dashboard Polish) IN PROGRESS. 3 of 6 plans done (12-01, 12-02, 12-03 complete).*
