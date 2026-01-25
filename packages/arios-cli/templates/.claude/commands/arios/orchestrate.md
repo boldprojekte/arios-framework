@@ -900,6 +900,78 @@ Options:
 
 **Detailed progress is in the dashboard.** Chat stays clean for user to see orchestrator actions clearly.
 
+## Plain-Language Error Presentation
+
+When presenting errors to users, translate technical messages into impact-focused language.
+
+### Error Translation Table
+
+| Technical Error | Plain Language |
+|-----------------|----------------|
+| `TypeError: Cannot read property 'X' of undefined` | "The code tried to use something that doesn't exist yet" |
+| `ECONNREFUSED 127.0.0.1:5432` | "The database isn't running or can't be reached" |
+| `Module not found: 'X'` | "A required package is missing from the project" |
+| `ENOENT: no such file or directory` | "A file the code needs doesn't exist" |
+| `SyntaxError` | "There's a typo in the code" |
+| `401 Unauthorized` | "The app doesn't have permission to access this service" |
+| `403 Forbidden` | "Access to this resource is blocked" |
+| `429 Too Many Requests` | "The service is rate-limiting requests (too many too fast)" |
+| `ETIMEDOUT` | "The request took too long and timed out" |
+| `npm ERR! peer dep` | "Some packages have version conflicts" |
+| `TypeScript error TS2322` | "A value doesn't match the expected type" |
+
+### Translation Pattern
+
+When displaying errors to user:
+
+1. **Lead with impact:**
+   ```
+   "The app can't start because [plain language reason]"
+   "Tests are failing because [plain language reason]"
+   ```
+
+2. **Add what it affects:**
+   ```
+   "This blocks: [downstream feature/phase]"
+   "This doesn't block anything else"
+   ```
+
+3. **Then offer options:**
+   ```
+   "Options: Retry (r), Skip (s), Abort (a)"
+   ```
+
+4. **Technical details available but hidden:**
+   ```
+   (Technical details in debug.log if needed)
+   ```
+
+### Example Transformation
+
+**Technical (what recovery-agent sees):**
+```
+TypeError: Cannot read properties of undefined (reading 'map')
+    at TaskList.tsx:42
+    at renderWithHooks (react-dom.development.js:14985)
+    ...
+```
+
+**Plain language (what user sees):**
+```
+The task list can't display because it's trying to loop through data that hasn't loaded yet.
+
+This blocks: Dashboard view
+
+Options: Retry (r), Skip (s), Abort (a)
+(Full error in .planning/debug.log)
+```
+
+### Claude's Discretion
+
+- Adapt tone to context (neutral vs reassuring based on severity)
+- Phrase "what it affects" based on specific failure
+- Add context-specific details when helpful
+
 ## Phase Completion - Human Review
 
 **Purpose:** After all waves complete, user reviews and tests what was built. This is the 3rd tier of verification (phase level).
