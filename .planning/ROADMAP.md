@@ -115,12 +115,16 @@ Plans:
   2. HTML dashboard shows real-time task status and progress
   3. User can interact with dashboard to view details or take action
   4. Dashboard updates automatically without manual refresh
-**Plans**: TBD
+**Plans**: 7 plans
 
 Plans:
-- [ ] 06-01: Task system integration
-- [ ] 06-02: HTML dashboard implementation
-- [ ] 06-03: Real-time updates and interactivity
+- [ ] 06-01-PLAN.md — Dashboard package setup, types, and HTTP server
+- [ ] 06-02-PLAN.md — File watcher and parser with SSE pipeline
+- [ ] 06-03-PLAN.md — Dashboard HTML, CSS, and core JavaScript
+- [ ] 06-04-PLAN.md — Task views (Kanban, List, Roadmap)
+- [ ] 06-05-PLAN.md — Dependency lines with Leader-line
+- [ ] 06-06-PLAN.md — CLI dashboard command integration
+- [ ] 06-07-PLAN.md — Human verification checkpoint
 
 ## Progress
 
@@ -134,7 +138,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 | 3. Entry Points | 2/2 | Complete | 2026-01-24 |
 | 4. State Management | 4/4 | Complete | 2026-01-24 |
 | 5. Execution Flow | 10/10 | Complete | 2026-01-25 |
-| 6. Task Visibility | 0/3 | Not started | - |
+| 6. Task Visibility | 0/7 | Not started | - |
 
 ---
 *Created: 2026-01-24*
