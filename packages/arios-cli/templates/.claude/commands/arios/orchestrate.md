@@ -572,6 +572,121 @@ For a wave with plans [08-01, 08-02, 08-03]:
 4. Collect results when all complete
 ```
 
+## Wave Verification (After Each Wave)
+
+**Purpose:** Verify work after wave completion before proceeding to next wave. Verification is silent unless issues found - user doesn't see success messages.
+
+**When to run:**
+- After each wave completes (all wave-executors return)
+- Before starting next wave
+- Verification is ALWAYS run (not optional)
+
+**Steps:**
+
+### 1. Collect Wave Results
+
+After all wave-executors return:
+```
+Parse each return message:
+- Extract commit hashes
+- Extract files_modified from each plan
+- Build aggregated file list (union of all files)
+```
+
+### 2. Generate Aggregated Diff (for parallel waves)
+
+```bash
+# If wave had multiple parallel plans:
+git diff {first_commit}^..{last_commit} --name-only  # List changed files
+git diff {first_commit}^..{last_commit}  # Full diff content
+```
+
+For single-plan waves, use that plan's commits only.
+
+### 3. Load Verification Config
+
+Use Read tool to load .planning/config.json:
+```json
+{
+  "checkpoint": {
+    "testCommand": "npm test",
+    "buildCommand": "npm run build",
+    "lintCommand": "npm run lint"
+  }
+}
+```
+
+If no checkpoint config, still run verifier for stub/integration checks.
+
+### 4. Spawn Verifier
+
+**No announcement to user** (verification is silent unless issues found).
+
+Use Task tool to spawn verifier-agent.md:
+
+```
+<verification_context>
+wave: {N}
+tier: wave
+plans_completed: [{plan IDs from this wave}]
+files_changed: [{aggregated file list}]
+commits: [{commit hashes from all wave-executors}]
+diff: |
+  {aggregated diff content - inlined}
+config:
+  test_command: {from config.json or null}
+  build_command: {from config.json or null}
+  lint_command: {from config.json or null}
+</verification_context>
+```
+
+### 5. Parse Verifier Return
+
+Look for "## VERIFICATION COMPLETE" in return message.
+
+Extract:
+- Status: passed | gaps_found | needs_review
+- Recommendation: continue | recovery_needed | human_review
+- Gaps section (if present)
+
+### 6. Act on Verification Result
+
+```
+IF status == "passed" AND recommendation == "continue":
+  # Silent success - no user message
+  Proceed to next wave
+
+ELSE IF status == "gaps_found" AND recommendation == "recovery_needed":
+  Display brief: "Wave {N} verification found issues. Auto-fixing..."
+
+  FOR each gap with severity == "blocker":
+    Spawn recovery-agent with:
+    <failure_context>
+    type: verification_failure
+    wave: {N}
+    plan_id: verification
+    attempt: {1-3}
+    error: {gap.issue}
+    files_affected: [{gap.file}]
+    recent_commits: [{commits from this wave}]
+    </failure_context>
+
+    IF recovery succeeds:
+      Re-run verification (loop back to step 4)
+
+    IF recovery fails 3x:
+      Escalate to user:
+      "Wave {N} verification failed after 3 auto-fix attempts.
+       Issue: {gap.issue}
+       Options: Debug (d), Skip (s - if no downstream deps), Abort (a)"
+
+ELSE IF status == "needs_review" AND recommendation == "human_review":
+  # Defer to phase-end review (don't stop now)
+  Log warning internally, continue to next wave
+```
+
+**Note:** Skip option follows same downstream dependency check as task failures (from 08-02).
+
 ## Report
 
 **During execution (per wave):**
