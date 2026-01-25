@@ -16,6 +16,41 @@ Stay lean - delegate all heavy work to subagents. Never implement features direc
 **Dynamic:** $COMMAND (research | plan | execute | auto)
 **Static:** .planning/STATE.md, .planning/config.json, .planning/roadmaps/
 
+## Dashboard Coordination
+
+**Before starting execution, ensure dashboard server is running:**
+
+1. **Probe dashboard port:**
+   ```
+   Use Bash tool:
+   command: "curl -s -o /dev/null -w '%{http_code}' http://localhost:3456 || echo 'not_running'"
+   timeout: 3000
+   ```
+
+2. **If not running (response != 200), start it:**
+   ```
+   Use Bash tool:
+   command: "npx tsx packages/arios-dashboard/src/server.ts"
+   run_in_background: true
+   timeout: 5000
+   ```
+   Wait 2 seconds for server to initialize.
+
+3. **Verify it's now running:**
+   ```
+   Use Bash tool:
+   command: "curl -s -o /dev/null -w '%{http_code}' http://localhost:3456"
+   timeout: 3000
+   ```
+   If still not running, log warning but continue (dashboard is nice-to-have, not required).
+
+4. **Post dashboard link once at execution start:**
+   ```
+   Dashboard: http://localhost:3456
+   ```
+
+**Note:** Dashboard is NOT auto-opened. User clicks link if they want visual monitoring. Some users prefer CLI-only.
+
 ## Context
 
 Read before any action:
@@ -80,6 +115,8 @@ Full details: `{output file path}`
 4. If planning needed:
    - Spawn planner with findings path, phase context, output path
 5. If execution needed:
+   - **Ensure dashboard running (see Dashboard Coordination section above)**
+   - Post dashboard link once: "Dashboard: http://localhost:3456"
    - **Extract codebase patterns before spawning executor**
    - **Build wave schedule from phase plan frontmatter:**
      a. Read all PLAN.md files in current phase directory
