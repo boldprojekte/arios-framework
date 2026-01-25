@@ -6,7 +6,7 @@ description: Smart ARIOS entry - detects state and routes to appropriate workflo
 
 ## Purpose
 
-Detect project state and suggest the appropriate next action, with user confirmation before proceeding.
+Detect project state and provide a friendly entry point, helping users pick up where they left off or get started with clear options.
 
 ## Context
 
@@ -34,10 +34,12 @@ Detect config files:
 
 Read @.planning/STATE.md and parse the YAML frontmatter between `---` markers.
 
-**Extract these fields from frontmatter:**
-- phase, planIndex (current position)
-- totalPhases, totalPlans (totals)
-- status (e.g., "in-progress", "phase-complete")
+**Extract from frontmatter:**
+- phase, phaseName (current position)
+- planIndex, totalPlans (progress within phase)
+- totalPhases (overall progress)
+- status (e.g., "in-progress", "ready-for-planning")
+- lastActivity (when last worked on)
 - checksum (first 8 chars of MD5 hash)
 
 **Conflict detection:**
@@ -46,30 +48,76 @@ Read @.planning/STATE.md and parse the YAML frontmatter between `---` markers.
 - If they don't match: state was modified externally
 
 **If conflict detected:**
-Show collaborative message (never auto-fix):
+Display friendly conflict message:
 ```
-State file was modified. Something changed since last session.
-- (continue with loaded state)
-- (describe what changed so we can reconcile)
+## State Changed
+
+Something changed since your last session.
+
+Current state: Phase {phase}, {status}
+Expected checksum: {stored}
+Actual checksum: {calculated}
+
+**Options:**
+1. **Continue with current state** - Proceed as-is
+2. **Show details** - See what might have changed
+
+What would you like to do? (1/2):
 ```
 Wait for user input before proceeding.
 
 **If no conflict:**
-Show mini status table:
+Display welcome message:
 ```
-| Phase | Plan | Status |
-|-------|------|--------|
-| 2/6   | 1/3  | in-progress |
+## Welcome Back
+
+You were working on:
+
+| Progress | Phase | Status |
+|----------|-------|--------|
+| {phase}/{totalPhases} | {phaseName} | {status} |
+
+**Last activity:** {lastActivity}
+**Next action:** {determined from status - see Status Interpretation below}
+
+---
+
+**Options:**
+
+1. **Continue** - {action based on status}
+2. **Status** - See full project overview
+3. **Other** - Start something different
+
+What would you like to do? (1/2/3):
 ```
 
-Then offer choice (non-assertive):
-"Continue with Phase 2, or explore other options?"
+**Handle user choice:**
+- 1 (Continue): Route to appropriate command based on status (see Status Interpretation)
+- 2 (Status): Run `/arios:status`
+- 3 (Other): Show available commands:
+  ```
+  Available commands:
+  - `/ideate` - Explore ideas and clarify requirements
+  - `/plan` - Create structured implementation plans
+  - `/execute` - Build from plans with testable checkpoints
+  - `/arios:status` - See full project overview
+  - `/arios:help` - See all available commands
+  ```
 
 ### 2. Brownfield ARIOS Flow (.planning/ exists but no STATE.md)
 
-- ARIOS was initialized but state file is missing or corrupted
-- Show: "ARIOS initialized but state is missing."
-- Suggest: "Run `/arios:status` to check files, or `/arios:recover` to rebuild state."
+Display helpful recovery message:
+```
+## ARIOS Initialized
+
+ARIOS is set up but state file is missing.
+
+**Options:**
+1. **Check files** - Run `/arios:status` to see what exists
+2. **Recover state** - Run `/arios:recover` to rebuild state
+
+What would you like to do? (1/2):
+```
 
 ### 3. Fresh Start Flow (no .planning/ directory)
 
@@ -84,13 +132,26 @@ Detect tech stack from config files:
 - go.mod = Go
 - Cargo.toml = Rust
 
-Show detection result:
-"Detected: [Greenfield/Brownfield] project [with stack info]"
+Display welcome message:
+```
+## Welcome to ARIOS
 
-Suggest initialization:
-"Initialize ARIOS? Run `/arios:init`"
+**Detected:** {Greenfield|Brownfield} {stack info if any}
 
-Wait for confirmation before proceeding.
+ARIOS helps you build software through:
+- `/ideate` - Explore what to build
+- `/plan` - Structure the approach
+- `/execute` - Build it step by step
+
+**To get started:**
+
+Run `/arios:init` to initialize ARIOS for this project.
+
+Would you like to initialize? (yes/no):
+```
+
+If user confirms, run `/arios:init`.
+If user declines, show available commands with `/arios:help`.
 
 ## Workflow
 
@@ -98,40 +159,74 @@ Wait for confirmation before proceeding.
 2. If valid state exists:
    - Parse frontmatter for position and checksum
    - Check for state conflict (checksum mismatch)
-   - If conflict: show collaborative message, ask user
-   - If no conflict: show mini table, offer continuation choice
+   - If conflict: show State Changed message, ask user (1/2)
+   - If no conflict: show Welcome Back message, offer options (1/2/3)
 3. If .planning/ exists but no STATE.md:
-   - Report missing state, suggest recovery options
+   - Show ARIOS Initialized message, offer recovery options (1/2)
 4. If no .planning/:
    - Run greenfield/brownfield detection
-   - Show detection results with stack info
-   - Suggest `/arios:init`
-5. If user confirms suggested action:
-   - Route to appropriate command or spawn orchestrator
-6. If user declines:
-   - Show available commands with `/arios:help`
+   - Show Welcome to ARIOS message with detection results
+   - Offer initialization (yes/no)
+5. Route based on user selection using Status Interpretation table
+
+## Status Interpretation
+
+Map project status to suggested action:
+
+| Status | Meaning | Suggested Action |
+|--------|---------|------------------|
+| `ready-for-planning` | Phase has CONTEXT.md, needs planning | `/plan {phase}` |
+| `ready-for-execution` | Phase has PLAN.md, ready to build | `/execute {phase}` |
+| `in-progress` | Execution started, waves remaining | `/execute {phase}` (continue) |
+| `phase-complete` | All plans in phase done | `/ideate` for next phase |
+| `blocked` | Issue preventing progress | Show blocker details |
+
+**Autonomous routing:**
+When user selects "Continue" (option 1), route automatically:
+- Read status from STATE.md frontmatter
+- Determine appropriate command from table above
+- Execute that command (no additional confirmation needed)
 
 ## Report
 
-### Resume Report (when STATE.md exists)
+### Resume Report (Welcome Back)
 ```
-ARIOS
+## Welcome Back
 
-| Phase | Plan | Status |
-|-------|------|--------|
-| X/Y   | M/N  | [status] |
+You were working on:
 
-Continue with [current phase name], or explore other options?
+| Progress | Phase | Status |
+|----------|-------|--------|
+| {phase}/{totalPhases} | {phaseName} | {status} |
+
+**Last activity:** {lastActivity}
+**Next action:** {action from Status Interpretation}
+
+---
+
+**Options:**
+
+1. **Continue** - {action description}
+2. **Status** - See full project overview
+3. **Other** - Start something different
+
+What would you like to do? (1/2/3):
 ```
 
-### Fresh Start Report (no STATE.md)
+### Fresh Start Report (Welcome to ARIOS)
 ```
-ARIOS
+## Welcome to ARIOS
 
-Detection: [Greenfield/Brownfield] [with stack info if detected]
-Position: Not initialized
+**Detected:** {Greenfield|Brownfield} {stack info if detected}
 
-Suggested: /arios:init
+ARIOS helps you build software through:
+- `/ideate` - Explore what to build
+- `/plan` - Structure the approach
+- `/execute` - Build it step by step
 
-Proceed? (yes/no)
+**To get started:**
+
+Run `/arios:init` to initialize ARIOS for this project.
+
+Would you like to initialize? (yes/no):
 ```
