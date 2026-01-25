@@ -28,6 +28,49 @@ Start creative exploration for new features, project direction, or problem resea
 - Route to orchestrator for research; never do research directly
 - After completion, show stage completion prompt with next step
 
+## Mode-Aware Routing
+
+**Read mode from config.json before proceeding:**
+
+1. Read `.planning/config.json` if it exists
+2. Extract `mode` field: "feature" or "project"
+3. If no mode field: treat as "project" (legacy behavior)
+
+**Route based on mode:**
+
+| Mode | Ideation Output | Next Step |
+|------|-----------------|-----------|
+| Feature-Mode | Single CONTEXT.md in `feature-{name}/` | `/plan` for feature |
+| Project-Mode | ROADMAP.md with multi-phase structure | `/plan {phase}` for phases |
+
+### Feature-Mode Ideation
+
+When mode == "feature":
+
+1. **Do NOT create ROADMAP.md** - Feature-Mode has no multi-phase roadmap
+2. **Create feature phase folder:** `.planning/phases/feature-{name}/`
+   - Name derived from user's feature description (kebab-case, max 30 chars)
+3. **Create CONTEXT.md** in feature folder with:
+   - Feature goal and scope
+   - Success criteria
+   - Technical considerations
+4. **Update STATE.md** with feature as single phase:
+   ```yaml
+   phase: 1
+   totalPhases: 1
+   phaseName: "feature-{name}"
+   ```
+5. **Route to:** `/plan` (single feature phase)
+
+### Project-Mode Ideation
+
+When mode == "project":
+
+1. Follow standard ideation workflow
+2. Create ROADMAP.md with phases
+3. Create phase folders with numbered naming: `01-xxx/`, `02-xxx/`
+4. Route to: `/plan {phase}` for first phase
+
 ## Workflow
 
 1. Check ARIOS initialized (ls .planning/ succeeds)
