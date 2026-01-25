@@ -24,7 +24,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 ### Milestone v1.1: Polish & Complete
 
 - [x] **Phase 7: E2E Flow & Role Clarity** - Complete workflow from ideation through execution with clear orchestration
-- [ ] **Phase 8: Parallel Execution** - Wave-based parallel task execution with fresh contexts
+- [x] **Phase 8: Parallel Execution** - Wave-based parallel task execution with fresh contexts
 - [ ] **Phase 9: Verification System** - Verifier subagent with 3-tier verification model
 - [ ] **Phase 10: Debug & Recovery** - State integrity checks, self-correction, and escalation
 - [ ] **Phase 11: Smart Entry & Mode Detection** - Conversational routing for Feature-Mode vs Project-Mode
@@ -227,9 +227,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 08-01-PLAN.md — Wave-executor agent and parallel orchestration
-- [ ] 08-02-PLAN.md — Unified recovery agent for failures
-- [ ] 08-03-PLAN.md — Dashboard coordination and minimal announcements
+- [x] 08-01-PLAN.md — Wave-executor agent and parallel orchestration
+- [x] 08-02-PLAN.md — Unified recovery agent for failures
+- [x] 08-03-PLAN.md — Dashboard coordination and minimal announcements
 
 **Architecture note:** Parallel execution is mode-agnostic. Both Feature-Mode and Project-Mode use the same wave/task execution infrastructure.
 
@@ -320,7 +320,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 7. E2E Flow & Role Clarity | 4/4 | Complete | 2026-01-25 |
-| 8. Parallel Execution | 0/3 | Pending | — |
+| 8. Parallel Execution | 3/3 | Complete | 2026-01-25 |
 | 9. Verification System | 0/TBD | Pending | — |
 | 10. Debug & Recovery | 0/TBD | Pending | — |
 | 11. Smart Entry & Mode Detection | 0/TBD | Pending | — |

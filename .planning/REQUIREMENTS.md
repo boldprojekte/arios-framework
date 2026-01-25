@@ -45,9 +45,9 @@ Requirements for v1.1 milestone: Polish & Complete.
 
 ### Parallel Execution
 
-- [ ] **EXEC-01**: Parallel task execution within waves (up to 8 concurrent tasks)
-- [ ] **EXEC-02**: Fresh executor contexts per wave to prevent context degradation
-- [ ] **EXEC-03**: Wave boundaries enforce verification before proceeding
+- [x] **EXEC-01**: Parallel task execution within waves (up to 8 concurrent tasks)
+- [x] **EXEC-02**: Fresh executor contexts per wave to prevent context degradation
+- [x] **EXEC-03**: Wave boundaries enforce verification before proceeding
 
 ### Verification
 
@@ -132,9 +132,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | E2E-03 | Phase 7 | Complete |
 | E2E-04 | Phase 7 | Complete |
 | E2E-05 | Phase 7 | Complete |
-| EXEC-01 | Phase 8 | Pending |
-| EXEC-02 | Phase 8 | Pending |
-| EXEC-03 | Phase 8 | Pending |
+| EXEC-01 | Phase 8 | Complete |
+| EXEC-02 | Phase 8 | Complete |
+| EXEC-03 | Phase 8 | Complete |
 | VERIF-01 | Phase 9 | Pending |
 | VERIF-02 | Phase 9 | Pending |
 | VERIF-03 | Phase 9 | Pending |
