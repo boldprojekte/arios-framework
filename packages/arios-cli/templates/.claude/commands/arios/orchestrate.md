@@ -115,6 +115,44 @@ If issue is NOT auto-fixable:
 
 **Note:** Integrity check is transparent when everything is healthy. User only sees output when fixes are applied or decisions are needed.
 
+## Auto-Continue Interrupted Tasks
+
+When resuming a plan that was interrupted mid-execution:
+
+### Detection
+
+1. Read PLAN.md for current phase/plan
+2. For each task in the plan:
+   - Check if expected output files exist (use Glob/Read tools)
+   - Check if git commits exist with task's commit message pattern (use Bash: `git log --oneline --grep="{phase}-{plan}"`)
+3. Mark tasks as: complete (files exist AND commit exists), incomplete (no files or no commit)
+
+### Auto-Continue Behavior
+
+- Skip completed tasks (already done)
+- Start from first incomplete task
+- No "restart vs skip" prompt - just figure out state and continue
+
+**Key principle:** Agent verifies what was completed before proceeding. The user should never be asked "restart or skip?" - the agent figures it out automatically.
+
+### Announcement
+
+- If resuming mid-plan: `Resuming from Task {N}...` (one line)
+- If starting fresh (task 1): No announcement needed
+
+### Integration with Execution Flow
+
+After State Integrity Check passes and before wave execution begins:
+
+```
+1. Read current PLAN.md
+2. Run Auto-Continue Detection (this section)
+3. Determine resume point (first incomplete task)
+4. If resume point > 1: Display "Resuming from Task {N}..."
+5. Pass resume point to wave-executor
+6. Proceed to Dashboard Coordination
+```
+
 ## Dashboard Coordination
 
 **Before starting execution, ensure dashboard server is running:**
