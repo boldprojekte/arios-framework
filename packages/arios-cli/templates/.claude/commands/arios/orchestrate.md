@@ -295,8 +295,8 @@ Full details: `{output file path}`
 
 ## Workflow
 
-1. Read STATE.md to determine current position AND mode
-   - Extract mode from frontmatter (default: "project")
+1. Read STATE.md to determine current position, read config.json for mode
+   - Extract mode from config.json (default: "project")
 2. If $COMMAND == "auto": detect appropriate action from state
    - No findings file for phase? Research needed
    - Findings exist but no plan? Planning needed
