@@ -280,7 +280,12 @@ Plans:
   3. Feature-Mode skips roadmap creation and goes directly to wave/task planning
   4. Project-Mode follows full roadmap → phases → waves → tasks flow
   5. User can override detected mode if system guessed wrong
-**Plans**: TBD (created during planning)
+**Plans**: 3 plans
+
+Plans:
+- [ ] 11-01-PLAN.md — Mode detection conversation in /arios entry point
+- [ ] 11-02-PLAN.md — Explicit mode commands (/arios:feature, /arios:project)
+- [ ] 11-03-PLAN.md — Mode-aware orchestrator routing
 
 **Why this phase exists:**
 > v1.0 assumed all work is Project-Mode. During Phase 8 discussion (2026-01-25), we realized users have different scales of work. A user adding a single feature shouldn't need a full roadmap. This phase adds conversational routing to detect the appropriate mode and adapt ARIOS's behavior accordingly.
@@ -334,11 +339,11 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 8. Parallel Execution | 3/3 | Complete | 2026-01-25 |
 | 9. Verification System | 3/3 | Complete | 2026-01-25 |
 | 10. Debug & Recovery | 4/4 | Complete | 2026-01-25 |
-| 11. Smart Entry & Mode Detection | 0/TBD | Pending | — |
+| 11. Smart Entry & Mode Detection | 0/3 | Pending | — |
 | 12. State & Dashboard Polish | 0/TBD | Pending | — |
 
 ---
 *Created: 2026-01-24*
-*Updated: 2026-01-25 (Phase 10 complete: 4 plans executed)*
+*Updated: 2026-01-25 (Phase 11 planned: 3 plans in 2 waves)*
 *Depth: standard (5-8 phases per milestone)*
 *Coverage: v1.0 15/15, v1.1 24/24 requirements mapped (3 new MODE-xx requirements)*
