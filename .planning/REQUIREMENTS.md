@@ -58,10 +58,10 @@ Requirements for v1.1 milestone: Polish & Complete.
 
 ### Debugging & Recovery
 
-- [ ] **DEBUG-01**: State integrity checks validate files before execution begins
-- [ ] **DEBUG-02**: Self-correction attempts up to 3 times before escalating to user
-- [ ] **DEBUG-03**: Clear escalation triggers — user always knows why AI is asking for help
-- [ ] **DEBUG-04**: Plain-language error messages — impact-focused, not technical jargon
+- [x] **DEBUG-01**: State integrity checks validate files before execution begins
+- [x] **DEBUG-02**: Self-correction attempts up to 3 times before escalating to user
+- [x] **DEBUG-03**: Clear escalation triggers — user always knows why AI is asking for help
+- [x] **DEBUG-04**: Plain-language error messages — impact-focused, not technical jargon
 
 ### Dashboard Polish
 
@@ -139,10 +139,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | VERIF-02 | Phase 9 | Complete |
 | VERIF-03 | Phase 9 | Complete |
 | VERIF-04 | Phase 9 | Complete |
-| DEBUG-01 | Phase 10 | Pending |
-| DEBUG-02 | Phase 10 | Pending |
-| DEBUG-03 | Phase 10 | Pending |
-| DEBUG-04 | Phase 10 | Pending |
+| DEBUG-01 | Phase 10 | Complete |
+| DEBUG-02 | Phase 10 | Complete |
+| DEBUG-03 | Phase 10 | Complete |
+| DEBUG-04 | Phase 10 | Complete |
 | DASH-01 | Phase 11 | Pending |
 | DASH-02 | Phase 11 | Pending |
 | STATE-01 | Phase 11 | Pending |
