@@ -154,7 +154,7 @@ If issue is NOT auto-fixable:
 
 Read before any action:
 - @.planning/STATE.md - Current project position and progress
-- @.planning/config.json - Project settings and stack info
+- @.planning/config.json - Project settings, stack info, AND mode field
 - Active roadmap and phase files as needed
 
 ## Mode Detection
