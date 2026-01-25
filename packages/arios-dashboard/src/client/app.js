@@ -63,12 +63,13 @@ const elements = {
   inProgressCount: null,
   completeCount: null,
 
-  // Modal
-  modal: null,
-  modalTitle: null,
-  modalBody: null,
-  modalClose: null,
-  modalOverlay: null
+  // Panel (slide-out detail panel)
+  detailPanel: null,
+  panelTitle: null,
+  panelBody: null,
+  panelClose: null,
+  panelResizer: null,
+  mainContent: null
 };
 
 // ============================================
@@ -190,14 +191,14 @@ function setupEventListeners() {
     });
   });
 
-  // Modal close handlers
-  elements.modalClose?.addEventListener('click', closeModal);
-  elements.modalOverlay?.addEventListener('click', closeModal);
+  // Panel close and resize handlers
+  elements.panelClose?.addEventListener('click', closePanel);
+  elements.panelResizer?.addEventListener('mousedown', handleResizeStart);
 
-  // Keyboard shortcuts
+  // Keyboard shortcuts - Escape closes panel
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && state.selectedTaskId) {
-      closeModal();
+      closePanel();
     }
   });
 
@@ -286,22 +287,31 @@ function showTaskDetail(taskId) {
 
   state.selectedTaskId = taskId;
 
-  // Update modal content
-  if (elements.modalTitle) {
-    elements.modalTitle.textContent = task.name || `Task ${task.id}`;
+  // Update panel content
+  if (elements.panelTitle) {
+    elements.panelTitle.textContent = task.name || `Task ${task.id}`;
   }
 
-  if (elements.modalBody) {
-    elements.modalBody.innerHTML = renderTaskDetailHTML(task);
+  if (elements.panelBody) {
+    elements.panelBody.innerHTML = renderTaskDetailHTML(task);
   }
 
-  // Open modal
-  elements.modal?.classList.add('open');
+  // Open panel and compress main content
+  elements.detailPanel?.classList.add('open');
+  elements.mainContent?.classList.add('panel-open');
 }
 
-function closeModal() {
+function closePanel() {
   state.selectedTaskId = null;
-  elements.modal?.classList.remove('open');
+  elements.detailPanel?.classList.remove('open');
+  elements.mainContent?.classList.remove('panel-open');
+  // Reset panel width to default
+  if (elements.detailPanel) {
+    elements.detailPanel.style.width = '';
+  }
+  if (elements.mainContent) {
+    elements.mainContent.style.marginRight = '';
+  }
 }
 
 function renderTaskDetailHTML(task) {
@@ -441,12 +451,46 @@ function initElements() {
   elements.inProgressCount = document.getElementById('in-progress-count');
   elements.completeCount = document.getElementById('complete-count');
 
-  // Modal
-  elements.modal = document.getElementById('task-modal');
-  elements.modalTitle = document.getElementById('modal-title');
-  elements.modalBody = document.getElementById('modal-body');
-  elements.modalClose = document.getElementById('modal-close');
-  elements.modalOverlay = elements.modal?.querySelector('.modal-overlay');
+  // Panel (slide-out detail panel)
+  elements.detailPanel = document.getElementById('detail-panel');
+  elements.panelTitle = document.getElementById('panel-title');
+  elements.panelBody = document.getElementById('panel-body');
+  elements.panelClose = document.getElementById('panel-close');
+  elements.panelResizer = document.getElementById('panel-resizer');
+  elements.mainContent = document.querySelector('.main-content');
+}
+
+// ============================================
+// Panel Resize State and Handlers
+// ============================================
+
+let isResizing = false;
+let startX = 0;
+let startWidth = 0;
+
+function handleResizeStart(e) {
+  isResizing = true;
+  startX = e.clientX;
+  startWidth = elements.detailPanel.offsetWidth;
+  elements.panelResizer.classList.add('active');
+  document.addEventListener('mousemove', handleResizeMove);
+  document.addEventListener('mouseup', handleResizeEnd);
+  e.preventDefault();
+}
+
+function handleResizeMove(e) {
+  if (!isResizing) return;
+  const delta = startX - e.clientX;
+  const newWidth = Math.max(300, Math.min(800, startWidth + delta));
+  elements.detailPanel.style.width = `${newWidth}px`;
+  elements.mainContent.style.marginRight = `${newWidth}px`;
+}
+
+function handleResizeEnd() {
+  isResizing = false;
+  elements.panelResizer.classList.remove('active');
+  document.removeEventListener('mousemove', handleResizeMove);
+  document.removeEventListener('mouseup', handleResizeEnd);
 }
 
 function init() {
@@ -473,4 +517,4 @@ if (document.readyState === 'loading') {
 // Exports (for view module integration in 06-04)
 // ============================================
 
-export { state, render, setView, setTab, showTaskDetail, closeModal };
+export { state, render, setView, setTab, showTaskDetail, closePanel };
