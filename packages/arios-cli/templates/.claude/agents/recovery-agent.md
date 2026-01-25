@@ -40,8 +40,36 @@ attempt: {1-3}
 error: {error message or verification gap description}
 files_affected: [list of files]
 recent_commits: [list of recent commits for context]
+previous_attempts:
+  - attempt: 1
+    diagnosis: {what attempt 1 thought was wrong}
+    fix_tried: {what attempt 1 did}
+    result: {why it didn't work}
+  - attempt: 2
+    diagnosis: {what attempt 2 thought was wrong}
+    fix_tried: {what attempt 2 did}
+    result: {why it didn't work}
 </failure_context>
 ```
+
+## Fresh Spawn Philosophy
+
+Each recovery attempt is a NEW agent with fresh context. This avoids compounding bad assumptions from previous attempts.
+
+**What you receive:**
+- Current attempt number (1, 2, or 3)
+- The original error
+- Previous attempt history (diagnoses and outcomes)
+
+**How to use previous_attempts:**
+- Read what was tried before
+- Avoid repeating the same fixes
+- Build on insights from previous diagnoses
+- Consider alternative root causes
+
+**First attempt (no previous_attempts):** Analyze fresh, apply most likely fix
+**Second attempt:** Previous fix didn't work - try alternative diagnosis
+**Third attempt:** Two fixes failed - look for deeper root cause or external factors
 
 ## Workflow
 
