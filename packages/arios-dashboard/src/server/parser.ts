@@ -115,6 +115,8 @@ export function parsePlanFile(filePath: string, planningDir: string): Task | nul
       duration,
       completedAt,
       filesModified: frontmatter.files_modified as string[] | undefined,
+      planPath: filePath,
+      notes: (frontmatter.notes as Array<{ timestamp: string; content: string }>) || [],
     };
   } catch (err) {
     console.error(`Error parsing plan file ${filePath}:`, err);

@@ -6,6 +6,11 @@
 
 export type TaskStatus = 'pending' | 'in-progress' | 'complete';
 
+export type Note = {
+  timestamp: string;    // ISO timestamp
+  content: string;      // Note content
+};
+
 export type Task = {
   id: string;           // "05-01" (phase-plan)
   phase: string;        // "05-execution-flow"
@@ -18,6 +23,8 @@ export type Task = {
   duration?: string;    // From SUMMARY.md
   completedAt?: string; // From SUMMARY.md
   filesModified?: string[]; // From frontmatter
+  planPath?: string;    // Absolute path to PLAN.md file
+  notes?: Note[];       // User notes from frontmatter
 };
 
 export type Phase = {
