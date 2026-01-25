@@ -536,6 +536,8 @@ SUMMARY: {path to SUMMARY.md}
    - Let all wave-executors finish (don't stop on first failure)
    - Per CONTEXT.md: "Tasks in same wave are independent by definition"
    - Collect all return messages
+   - **Extract and store commit hashes from each wave-executor return**
+   - **Store for verification: commits[], files_modified[]**
 
 5. **Announce wave completion (MINIMAL - summary only):**
    ```
@@ -547,11 +549,21 @@ SUMMARY: {path to SUMMARY.md}
    Failed: {plan_id_1}, {plan_id_2}
    ```
 
-6. **Silent verification** (Phase 9 - no announcement unless issues found)
-   - Verification runs but only reports if issues found
-   - Auto-fix via recovery agent before blocking
+6. **Wave verification** (automatic, silent on success)
+   - After all wave-executors complete, run wave verification
+   - See "## Wave Verification (After Each Wave)" section for full flow
+   - Verification is silent unless issues found
+   - Auto-fix via recovery-agent before escalating to user
+   - Only proceed to next wave after verification passes
 
-7. **Proceed to next wave** (no pause, no confirmation)
+7. **Run wave verification**
+   - Collect commits and files from step 4
+   - Generate aggregated diff
+   - Spawn verifier-agent.md (see Wave Verification section)
+   - Handle result per decision tree
+   - Only proceed to step 8 after verification passes
+
+8. **Proceed to next wave** (no pause, no confirmation)
 
 **Parallel spawning example:**
 ```
