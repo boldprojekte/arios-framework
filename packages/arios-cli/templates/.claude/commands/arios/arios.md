@@ -139,6 +139,7 @@ What would you like to do? (1/2/3):
   - `/plan` - Create structured implementation plans
   - `/execute` - Build from plans with testable checkpoints
   - `/arios:status` - See full project overview
+  - `/arios:change-mode` - Override detected mode (switch between Feature-Mode and Project-Mode)
   - `/arios:help` - See all available commands
   ```
 
