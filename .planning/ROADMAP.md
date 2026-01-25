@@ -310,7 +310,15 @@ Plans:
   4. User can click dashboard tasks to see details and take actions
   5. Dashboard updates live during execution without manual refresh
   6. v1.0 gaps (CORE-03, AGENT-04, UX-01) are fully closed and working
-**Plans**: TBD (created during planning)
+**Plans**: 6 plans
+
+Plans:
+- [ ] 12-01-PLAN.md — Drift detection utility and /execute wiring
+- [ ] 12-02-PLAN.md — Action-first resume UX and auto-continue
+- [ ] 12-03-PLAN.md — Slide-out detail panel with resize
+- [ ] 12-04-PLAN.md — Feature-Mode folder structure and archive
+- [ ] 12-05-PLAN.md — Notes feature in detail panel
+- [ ] 12-06-PLAN.md — Integration verification checkpoint
 
 **Why mode-aware state matters:**
 > Phase 11 introduces Feature-Mode vs Project-Mode. This phase ensures state management respects that distinction:
@@ -344,10 +352,10 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 9. Verification System | 3/3 | Complete | 2026-01-25 |
 | 10. Debug & Recovery | 4/4 | Complete | 2026-01-25 |
 | 11. Smart Entry & Mode Detection | 7/7 | Complete | 2026-01-25 |
-| 12. State & Dashboard Polish | 0/TBD | Pending | — |
+| 12. State & Dashboard Polish | 0/6 | Pending | — |
 
 ---
 *Created: 2026-01-24*
-*Updated: 2026-01-25 (Phase 11 complete: 7 plans including 4 gap closure)*
+*Updated: 2026-01-25 (Phase 12 planned: 6 plans in 2 waves)*
 *Depth: standard (5-8 phases per milestone)*
 *Coverage: v1.0 15/15, v1.1 24/24 requirements mapped (3 new MODE-xx requirements)*
