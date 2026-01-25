@@ -1,12 +1,12 @@
 ---
 version: "1.1.0"
 phase: 10
-planIndex: 2
+planIndex: 4
 totalPhases: 12
 totalPlans: 4
-status: "in-progress"
+status: "phase-complete"
 lastActivity: "2026-01-25"
-checksum: "k9m2n4p7"
+checksum: "r8t3v5x9"
 phaseName: "Debug & Recovery"
 ---
 
@@ -22,11 +22,11 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 ## Current Position
 
 Phase: 10 of 12 — Debug & Recovery
-Plan: 2 of 4 in current phase
-Status: In progress
-Last activity: 2026-01-25 — Completed 10-02-PLAN.md (Fresh Spawn Recovery)
+Plan: 4 of 4 in current phase
+Status: Phase complete
+Last activity: 2026-01-25 — Completed 10-04-PLAN.md (Plain-Language Error Presentation)
 
-Progress: [####################] v1.0 complete | [████████████░░░░░░░░] v1.1 60%
+Progress: [####################] v1.0 complete | [████████████████░░░░] v1.1 80%
 
 ## v1.1 Milestone Overview
 
@@ -35,7 +35,7 @@ Progress: [####################] v1.0 complete | [██████████
 | 7 | E2E Flow & Role Clarity | E2E-01 to E2E-05 | Complete |
 | 8 | Parallel Execution | EXEC-01 to EXEC-03 | Complete |
 | 9 | Verification System | VERIF-01 to VERIF-04 | Complete |
-| 10 | Debug & Recovery | DEBUG-01 to DEBUG-04 | In Progress |
+| 10 | Debug & Recovery | DEBUG-01 to DEBUG-04 | Complete |
 | 11 | Smart Entry & Mode Detection | MODE-01 to MODE-03 | Pending |
 | 12 | State & Dashboard Polish | STATE-01 to STATE-03, DASH-01, DASH-02 | Pending |
 
@@ -187,6 +187,9 @@ Recent decisions affecting current work:
 - Fresh spawn philosophy: each recovery attempt is a NEW agent to avoid compounding bad assumptions (10-02)
 - Previous attempts passed as structured context, not chat history (10-02)
 - Progress indicator format: 'Fixing issue (attempt N/3)...' (10-02)
+- Error Translation Table maps 11 common technical errors to plain language (10-04)
+- Translation pattern: impact first, then affects, then options, technical hidden (10-04)
+- Debug.log only for escalated errors (not auto-fixes or eventual successes) (10-04)
 
 ### Pending Todos
 
@@ -199,8 +202,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 10-02-PLAN.md (Fresh Spawn Recovery)
+Stopped at: Completed 10-04-PLAN.md (Plain-Language Error Presentation)
 Resume file: None
 
 ---
-*Phase 10 in progress. 2/4 plans complete. Next: 10-03-PLAN.md (Diagnostic Output).*
+*Phase 10 complete. 4/4 plans done. Ready for Phase 11: Smart Entry & Mode Detection.*
