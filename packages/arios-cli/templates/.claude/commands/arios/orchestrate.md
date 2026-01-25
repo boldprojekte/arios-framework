@@ -199,30 +199,27 @@ Full details: `{output file path}`
    a. **First attempt automatic recovery (max 3 attempts):**
 
       For attempt = 1 to 3:
-        - Display: "Checkpoint failed. Recovery attempt {attempt}/3..."
-        - Spawn debug subagent to diagnose and fix:
+        - Display: "Recovery attempt {attempt}/3..."
+        - Spawn unified recovery agent:
           ```
-          Use Task tool:
-          subagent_type: "general-purpose" (acts as debugger)
-          prompt: |
-            Checkpoint failed after wave {N}.
+          Use Task tool to spawn .claude/agents/recovery-agent.md
 
-            Error output:
-            {checkpoint_error_output}
-
-            Failed component: {app_start|tests|both}
-
-            Diagnose the failure and create a fix. Steps:
-            1. Analyze the error output
-            2. Identify the root cause
-            3. Apply the fix (modify code)
-            4. Commit the fix: "fix({phase}): {description}"
-
-            Return when fix is applied.
+          <failure_context>
+          type: task_failure
+          wave: {N}
+          plan_id: {phase-plan}
+          attempt: {attempt}
+          error: {checkpoint_error_output}
+          files_affected: [files modified in this wave]
+          recent_commits: [commits from this wave]
+          </failure_context>
           ```
-        - Re-run checkpoint verification (repeat steps 2a-2f)
-        - If checkpoint passes: break, continue to next wave
-        - If checkpoint fails: continue to next attempt
+        - Parse recovery agent return message
+        - If "RECOVERY COMPLETE" with "Fixed: true":
+            - Re-run checkpoint verification
+            - If passes: break, continue to next wave
+        - If "RECOVERY FAILED":
+            - Continue to next attempt
 
    b. **If all recovery attempts exhausted (3/3 failed):**
       - Display diagnostic summary:
@@ -240,10 +237,19 @@ Full details: `{output file path}`
         - Attempt 2: {diagnosis} -> {result}
         - Attempt 3: {diagnosis} -> {result}
         ```
-      - Prompt user: "Manual fix needed. Options: retry (r), skip (s), abort (a)"
+      - Check if failed plan has downstream dependencies:
+        - Parse PLAN.md frontmatter for plans that depend_on this plan
+        - If no downstream dependencies: offer Skip option
+        - If has downstream dependencies: NO Skip option (would cascade)
+
+      - Prompt user:
+        If no downstream deps:
+          "Task {X} failed 3x: [error]. Options: Debug (d), Skip (s), Abort (a)"
+        If has downstream deps:
+          "Task {X} failed 3x: [error]. Cannot skip (downstream tasks depend on it). Options: Debug (d), Abort (a)"
       - Handle user choice:
-        * retry (r): reset attempt counter, restart recovery from step 3a
-        * skip (s): log warning, continue to next wave
+        * debug (d): reset attempt counter, restart recovery from step 3a
+        * skip (s): log warning, continue to next wave (only if no downstream deps)
         * abort (a): stop execution, preserve state for resume
 
 4. **If no checkpoint config:** Checkpoint skipped (greenfield/early stages - nothing to verify)
@@ -262,10 +268,62 @@ Full details: `{output file path}`
 
 **Recovery rules:**
 - maxAttempts: 3 (from .planning/config.json or default)
-- Each attempt spawns fresh debug subagent (no context pollution)
-- Debug subagent has full context: error output, affected files, recent commits
-- Commits from debug attempts use format: "fix({phase}): {description}"
+- Each attempt spawns fresh recovery agent (no context pollution)
+- Recovery agent has full context: error output, affected files, recent commits
+- Commits from recovery attempts use format: "fix({phase}): {description}"
 - Re-verify checkpoint after each fix attempt before continuing
+
+## Spawning Recovery Agent
+
+**Used for:** Both task failures during execution AND verification failures between waves.
+
+**Pre-spawn context gathering:**
+1. Collect error/gap details from the failed checkpoint or verification
+2. List files affected (modified in this wave or flagged by verifier)
+3. Get recent commits for context (from this wave)
+4. Determine failure type (task_failure or verification_failure)
+
+**Display announcement:**
+```
+## Delegating to Recovery Agent
+
+**Purpose:** Diagnose and fix {failure type}
+**Scope:** {affected files}
+**Attempt:** {N}/3
+
+Spawning recovery agent...
+```
+
+**Then use Task tool:**
+```
+Use Task tool to spawn .claude/agents/recovery-agent.md
+
+<failure_context>
+type: {task_failure | verification_failure}
+wave: {N}
+plan_id: {phase-plan or "verification"}
+attempt: {attempt}
+error: {error details}
+files_affected: [list]
+recent_commits: [list]
+</failure_context>
+```
+
+**After recovery agent returns:**
+Parse return message:
+- Look for "## RECOVERY COMPLETE" or "## RECOVERY FAILED"
+- Extract Fixed status (true/false)
+- Extract diagnosis and fix description
+
+If RECOVERY COMPLETE with Fixed: true:
+  - Re-verify checkpoint/verification
+  - If passes: continue execution
+  - If fails: increment attempt, retry recovery
+
+If RECOVERY FAILED:
+  - Increment attempt counter
+  - If attempts < 3: retry with fresh recovery agent
+  - If attempts >= 3: prompt user (see exhaustion handling)
 
 ## Spawn Patterns
 
