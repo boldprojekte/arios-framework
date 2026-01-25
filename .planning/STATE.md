@@ -1,13 +1,13 @@
 ---
 version: "1.1.0"
-phase: 9
-planIndex: 3
+phase: 10
+planIndex: 2
 totalPhases: 12
-totalPlans: 3
-status: "phase-complete"
+totalPlans: 4
+status: "in-progress"
 lastActivity: "2026-01-25"
-checksum: "h8j5k7f6"
-phaseName: "Verification System"
+checksum: "k9m2n4p7"
+phaseName: "Debug & Recovery"
 ---
 
 # Project State
@@ -21,12 +21,12 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 
 ## Current Position
 
-Phase: 9 of 12 — Verification System
-Plan: 3 of 3 in current phase
-Status: Phase complete
-Last activity: 2026-01-25 — Completed 09-03-PLAN.md (Phase-End Summary)
+Phase: 10 of 12 — Debug & Recovery
+Plan: 2 of 4 in current phase
+Status: In progress
+Last activity: 2026-01-25 — Completed 10-02-PLAN.md (Fresh Spawn Recovery)
 
-Progress: [####################] v1.0 complete | [██████████░░░░░░░░░░] v1.1 50%
+Progress: [####################] v1.0 complete | [████████████░░░░░░░░] v1.1 60%
 
 ## v1.1 Milestone Overview
 
@@ -35,7 +35,7 @@ Progress: [####################] v1.0 complete | [██████████
 | 7 | E2E Flow & Role Clarity | E2E-01 to E2E-05 | Complete |
 | 8 | Parallel Execution | EXEC-01 to EXEC-03 | Complete |
 | 9 | Verification System | VERIF-01 to VERIF-04 | Complete |
-| 10 | Debug & Recovery | DEBUG-01 to DEBUG-04 | Pending |
+| 10 | Debug & Recovery | DEBUG-01 to DEBUG-04 | In Progress |
 | 11 | Smart Entry & Mode Detection | MODE-01 to MODE-03 | Pending |
 | 12 | State & Dashboard Polish | STATE-01 to STATE-03, DASH-01, DASH-02 | Pending |
 
@@ -181,6 +181,9 @@ Recent decisions affecting current work:
 - User can approve, report issues, or ask questions at phase end (09-03)
 - 3-tier model: Auto (task), Wave (between), Phase (human) (09-03)
 - Philosophy: machines verify what machines can, humans verify UX (09-03)
+- Fresh spawn philosophy: each recovery attempt is a NEW agent to avoid compounding bad assumptions (10-02)
+- Previous attempts passed as structured context, not chat history (10-02)
+- Progress indicator format: 'Fixing issue (attempt N/3)...' (10-02)
 
 ### Pending Todos
 
@@ -193,8 +196,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 09-03-PLAN.md (Phase-End Summary) - Phase 9 complete
+Stopped at: Completed 10-02-PLAN.md (Fresh Spawn Recovery)
 Resume file: None
 
 ---
-*Phase 9 complete. All 3/3 plans executed. Ready for Phase 10: Debug & Recovery.*
+*Phase 10 in progress. 2/4 plans complete. Next: 10-03-PLAN.md (Diagnostic Output).*
