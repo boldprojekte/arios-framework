@@ -1,12 +1,12 @@
 ---
 version: "1.1.0"
 phase: 11
-planIndex: 3
+planIndex: 4
 totalPhases: 12
-totalPlans: 3
+totalPlans: 4
 status: "complete"
 lastActivity: "2026-01-25"
-checksum: "p6f9m4r3"
+checksum: "q7g0n5s4"
 phaseName: "Smart Entry & Mode Detection"
 ---
 
@@ -22,9 +22,11 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 ## Current Position
 
 Phase: 11 of 12 — Smart Entry & Mode Detection
-Plan: 3 of 3 in current phase
+Plan: 4 of 4 in current phase
 Status: Phase complete
-Last activity: 2026-01-25 — Completed 11-03-PLAN.md (Mode-Aware Orchestrator Routing)
+Last activity: 2026-01-25 — Completed 11-04-PLAN.md (Mode Storage Location Fix)
+
+Note: Plan 04 was a gap closure plan fixing mode read/write inconsistency.
 
 Progress: [####################] v1.0 complete | [██████████████████░░] v1.1 90%
 
@@ -204,6 +206,7 @@ Recent decisions affecting current work:
 - Mode Detection section placed before Workflow for routing context (11-03)
 - Scope creep thresholds: 4+ plans OR 2+ waves triggers upgrade prompt (11-03)
 - Feature completion archives to .planning/archive/ and clears mode (11-03)
+- Orchestrator reads mode from config.json (not STATE.md frontmatter) (11-04)
 
 ### Pending Todos
 
@@ -216,8 +219,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 11-03-PLAN.md (Mode-Aware Orchestrator Routing)
+Stopped at: Completed 11-04-PLAN.md (Mode Storage Location Fix)
 Resume file: None
 
 ---
-*Phase 11 complete. 3/3 plans done. Ready for Phase 12.*
+*Phase 11 complete. 4/4 plans done (including gap closure). Ready for Phase 12.*
