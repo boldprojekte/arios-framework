@@ -468,7 +468,9 @@ previous_attempts:
 
 **After recovery agent returns:**
 Parse return message:
-- Look for "## RECOVERY COMPLETE" or "## RECOVERY FAILED"
+- Look for "## RECOVERY COMPLETE" -> success flow
+- Look for "## RECOVERY FAILED" -> retry or exhaust flow
+- Look for "## RECOVERY ESCALATE" -> immediate user prompt (no retry)
 - Extract Fixed status (true/false)
 - Extract diagnosis and fix description
 - **Record to attempt_history for next spawn**
@@ -483,6 +485,55 @@ If RECOVERY FAILED:
   - Increment attempt counter
   - If attempts < 3: retry with fresh recovery agent (pass updated attempt_history)
   - If attempts >= 3: prompt user (see exhaustion handling)
+
+If RECOVERY ESCALATE:
+  - Skip retry loop (do NOT increment attempt counter)
+  - Proceed directly to "Handling Escalation" flow below
+
+## Handling Escalation
+
+When recovery agent returns "## RECOVERY ESCALATE":
+
+1. **Skip retry loop** - Do NOT increment attempt counter
+2. **Parse escalation details:**
+   - Category (why user is needed)
+   - Diagnosis (what's happening)
+   - Suggested action (what user should do)
+
+3. **Present to user with clear explanation:**
+   ```
+   ## Help Needed
+
+   **Issue:** {diagnosis in plain language}
+   **Why I'm asking:** {category-specific explanation}
+
+   {For ambiguous_requirements:}
+   "I found multiple valid approaches and need you to decide."
+
+   {For extreme_destructive:}
+   "This fix would delete data. I need your approval before proceeding."
+
+   {For external_service:}
+   "This looks like an authentication or network issue I can't fix."
+
+   **Suggested:** {suggested action}
+
+   Options: Retry (r), Skip (s), Abort (a)
+   ```
+
+4. **Handle user response:**
+   - Retry: User may have fixed external issue, restart recovery from attempt 1
+   - Skip: Log to debug.log, continue (if no downstream deps)
+   - Abort: Stop execution, preserve state
+
+5. **Log to debug.log:**
+   After user responds, log the escalation:
+   ```
+   [timestamp] [escalation] [{plan_id}] {category}: {diagnosis}
+   Technical: {original error}
+   Resolution: {user_choice}
+   ---
+   ```
 
 ## Spawn Patterns
 
