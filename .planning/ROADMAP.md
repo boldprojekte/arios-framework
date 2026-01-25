@@ -28,7 +28,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 9: Verification System** - Verifier subagent with 3-tier verification model
 - [x] **Phase 10: Debug & Recovery** - State integrity checks, self-correction, and escalation
 - [x] **Phase 11: Smart Entry & Mode Detection** - Conversational routing for Feature-Mode vs Project-Mode
-- [ ] **Phase 12: State & Dashboard Polish** - Mode-aware session resume, state validation, and dashboard interaction
+- [x] **Phase 12: State & Dashboard Polish** - Mode-aware session resume, state validation, and dashboard interaction
 
 ## Architectural Note: Work Scale & Modes
 
@@ -313,12 +313,12 @@ Plans:
 **Plans**: 6 plans
 
 Plans:
-- [ ] 12-01-PLAN.md — Drift detection utility and /execute wiring
-- [ ] 12-02-PLAN.md — Action-first resume UX and auto-continue
-- [ ] 12-03-PLAN.md — Slide-out detail panel with resize
-- [ ] 12-04-PLAN.md — Feature-Mode folder structure and archive
-- [ ] 12-05-PLAN.md — Notes feature in detail panel
-- [ ] 12-06-PLAN.md — Integration verification checkpoint
+- [x] 12-01-PLAN.md — Drift detection utility and /execute wiring
+- [x] 12-02-PLAN.md — Action-first resume UX and auto-continue
+- [x] 12-03-PLAN.md — Slide-out detail panel with resize
+- [x] 12-04-PLAN.md — Feature-Mode folder structure and archive
+- [x] 12-05-PLAN.md — Notes feature in detail panel
+- [x] 12-06-PLAN.md — Integration verification checkpoint (verified with known issues)
 
 **Why mode-aware state matters:**
 > Phase 11 introduces Feature-Mode vs Project-Mode. This phase ensures state management respects that distinction:
@@ -352,10 +352,11 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 9. Verification System | 3/3 | Complete | 2026-01-25 |
 | 10. Debug & Recovery | 4/4 | Complete | 2026-01-25 |
 | 11. Smart Entry & Mode Detection | 7/7 | Complete | 2026-01-25 |
-| 12. State & Dashboard Polish | 0/6 | Pending | — |
+| 12. State & Dashboard Polish | 6/6 | Complete | 2026-01-26 |
 
 ---
 *Created: 2026-01-24*
-*Updated: 2026-01-25 (Phase 12 planned: 6 plans in 2 waves)*
+*Updated: 2026-01-26 (v1.1 MILESTONE COMPLETE)*
 *Depth: standard (5-8 phases per milestone)*
-*Coverage: v1.0 15/15, v1.1 24/24 requirements mapped (3 new MODE-xx requirements)*
+*Coverage: v1.0 15/15, v1.1 24/24 requirements mapped*
+*Known Issues: STATE-02 drift detection partial, dashboard start UX needs improvement (see STATE.md)*

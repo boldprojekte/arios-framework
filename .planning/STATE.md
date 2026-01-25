@@ -1,12 +1,12 @@
 ---
 version: "1.1.0"
 phase: 12
-planIndex: 5
+planIndex: 6
 totalPhases: 12
 totalPlans: 6
-status: "in_progress"
-lastActivity: "2026-01-25"
-checksum: "r5s0t7u4"
+status: "phase_complete"
+lastActivity: "2026-01-26"
+checksum: "s6t1u8v5"
 phaseName: "State & Dashboard Polish"
 ---
 
@@ -22,11 +22,11 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 ## Current Position
 
 Phase: 12 of 12 — State & Dashboard Polish
-Plan: 5 of 6 in current phase
-Status: In progress
-Last activity: 2026-01-25 — Completed 12-05-PLAN.md (Notes feature in dashboard)
+Plan: 6 of 6 in current phase
+Status: Phase complete (v1.1 COMPLETE)
+Last activity: 2026-01-26 — Completed 12-06-PLAN.md (Integration verification)
 
-Progress: [####################] v1.0 complete | [████████████████████] v1.1 99%
+Progress: [####################] v1.0 complete | [####################] v1.1 complete
 
 ## v1.1 Milestone Overview
 
@@ -37,7 +37,7 @@ Progress: [####################] v1.0 complete | [██████████
 | 9 | Verification System | VERIF-01 to VERIF-04 | Complete |
 | 10 | Debug & Recovery | DEBUG-01 to DEBUG-04 | Complete |
 | 11 | Smart Entry & Mode Detection | MODE-01 to MODE-03 | Complete |
-| 12 | State & Dashboard Polish | STATE-01 to STATE-03, DASH-01, DASH-02 | In Progress |
+| 12 | State & Dashboard Polish | STATE-01 to STATE-03, DASH-01, DASH-02 | Complete |
 
 ## Performance Metrics
 
@@ -239,11 +239,27 @@ None yet.
 
 None yet.
 
+### Known Issues (v1.2 Backlog)
+
+1. **Drift Detection nicht implementiert** (STATE-02 partial)
+   - Spezifiziert in 12-01, aber nicht in execute.md/orchestrate.md integriert
+   - Soll: STATE.md claims vs. Dateisystem vergleichen vor /execute
+   - Fehlt: Check ob planIndex mit vorhandenen SUMMARY.md übereinstimmt
+
+2. **Dashboard Server Start UX**
+   - Aktuell: User muss manuell `cd` + `npx tsx ...` ausführen
+   - Soll: Smart start script das:
+     - Prüft ob Server bereits läuft (Port 3456)
+     - User fragt ob starten
+     - Link anzeigt nach Start
+     - Aus beliebigem Projektordner funktioniert
+   - Ziel: `arios dashboard` oder automatisch bei /execute
+
 ## Session Continuity
 
-Last session: 2026-01-25
-Stopped at: Completed 12-05-PLAN.md (Notes feature in dashboard)
+Last session: 2026-01-26
+Stopped at: v1.1 Milestone complete
 Resume file: None
 
 ---
-*Phase 12 (State & Dashboard Polish) IN PROGRESS. 5 of 6 plans done (12-01 to 12-05 complete).*
+*v1.1 MILESTONE COMPLETE. All 12 phases done. See Known Issues for v1.2 backlog.*
