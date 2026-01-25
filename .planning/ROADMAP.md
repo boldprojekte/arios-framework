@@ -25,7 +25,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 7: E2E Flow & Role Clarity** - Complete workflow from ideation through execution with clear orchestration
 - [x] **Phase 8: Parallel Execution** - Wave-based parallel task execution with fresh contexts
-- [ ] **Phase 9: Verification System** - Verifier subagent with 3-tier verification model
+- [x] **Phase 9: Verification System** - Verifier subagent with 3-tier verification model
 - [ ] **Phase 10: Debug & Recovery** - State integrity checks, self-correction, and escalation
 - [ ] **Phase 11: Smart Entry & Mode Detection** - Conversational routing for Feature-Mode vs Project-Mode
 - [ ] **Phase 12: State & Dashboard Polish** - Mode-aware session resume, state validation, and dashboard interaction
@@ -245,9 +245,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 09-01-PLAN.md — Verifier agent with stub detection and integration checks
-- [ ] 09-02-PLAN.md — Orchestrator wave verification integration
-- [ ] 09-03-PLAN.md — Phase-end human review flow
+- [x] 09-01-PLAN.md — Verifier agent with stub detection and integration checks
+- [x] 09-02-PLAN.md — Orchestrator wave verification integration
+- [x] 09-03-PLAN.md — Phase-end human review flow
 
 **Architecture note:** Verification is mode-agnostic. Same verification flow for Feature-Mode and Project-Mode.
 
@@ -326,13 +326,13 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 |-------|----------------|--------|-----------|
 | 7. E2E Flow & Role Clarity | 4/4 | Complete | 2026-01-25 |
 | 8. Parallel Execution | 3/3 | Complete | 2026-01-25 |
-| 9. Verification System | 0/3 | Pending | — |
+| 9. Verification System | 3/3 | Complete | 2026-01-25 |
 | 10. Debug & Recovery | 0/TBD | Pending | — |
 | 11. Smart Entry & Mode Detection | 0/TBD | Pending | — |
 | 12. State & Dashboard Polish | 0/TBD | Pending | — |
 
 ---
 *Created: 2026-01-24*
-*Updated: 2026-01-25 (Phase 9 planned: 3 plans in 3 waves)*
+*Updated: 2026-01-25 (Phase 9 complete: 3/3 plans executed)*
 *Depth: standard (5-8 phases per milestone)*
 *Coverage: v1.0 15/15, v1.1 24/24 requirements mapped (3 new MODE-xx requirements)*

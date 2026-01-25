@@ -51,10 +51,10 @@ Requirements for v1.1 milestone: Polish & Complete.
 
 ### Verification
 
-- [ ] **VERIF-01**: Verifier subagent checks work after each wave completes
-- [ ] **VERIF-02**: 3-tier verification model — auto (always), wave (boundaries), phase (human review)
-- [ ] **VERIF-03**: Integration validation ensures parallel work fits together correctly
-- [ ] **VERIF-04**: Verification failures block progression until resolved
+- [x] **VERIF-01**: Verifier subagent checks work after each wave completes
+- [x] **VERIF-02**: 3-tier verification model — auto (always), wave (boundaries), phase (human review)
+- [x] **VERIF-03**: Integration validation ensures parallel work fits together correctly
+- [x] **VERIF-04**: Verification failures block progression until resolved
 
 ### Debugging & Recovery
 
@@ -135,10 +135,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | EXEC-01 | Phase 8 | Complete |
 | EXEC-02 | Phase 8 | Complete |
 | EXEC-03 | Phase 8 | Complete |
-| VERIF-01 | Phase 9 | Pending |
-| VERIF-02 | Phase 9 | Pending |
-| VERIF-03 | Phase 9 | Pending |
-| VERIF-04 | Phase 9 | Pending |
+| VERIF-01 | Phase 9 | Complete |
+| VERIF-02 | Phase 9 | Complete |
+| VERIF-03 | Phase 9 | Complete |
+| VERIF-04 | Phase 9 | Complete |
 | DEBUG-01 | Phase 10 | Pending |
 | DEBUG-02 | Phase 10 | Pending |
 | DEBUG-03 | Phase 10 | Pending |
