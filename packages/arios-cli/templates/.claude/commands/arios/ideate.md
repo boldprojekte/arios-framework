@@ -21,12 +21,12 @@ Start creative exploration for new features, project direction, or problem resea
 
 ## Instructions
 
+- Ideation has NO prerequisites - can be run at any point in the workflow
 - Show brief status line before starting
-- Ideation is always valid - can be run at any point in the workflow
 - On first ideation (no approach set in config.json), prompt user to choose development approach
 - If $TOPIC provided, use it; otherwise ask user what to explore
 - Route to orchestrator for research; never do research directly
-- After completion, suggest /arios:plan as next step
+- After completion, show stage completion prompt with next step
 
 ## Workflow
 
@@ -64,7 +64,7 @@ Start creative exploration for new features, project direction, or problem resea
 6. If no $TOPIC:
    - Ask: "What would you like to explore or research?"
 7. Route to /arios:orchestrate research with the topic
-8. After completion, show: "Next: /arios:plan"
+8. After completion, show stage completion prompt (see Report section)
 
 ## Report
 
@@ -76,6 +76,20 @@ Approach: {approach}
 Topic: {ideation topic}
 
 [Routing to orchestrator for research...]
+```
 
-Next: /arios:plan
+After ideation completes, show stage completion prompt:
+
+```
+---
+
+Stage complete: Ideation finished for {topic}
+
+Findings: `.planning/phases/{phase}/{phase}-CONTEXT.md`
+
+Next: `/plan {phase}`
+
+_Tip: Run `/clear` first for fresh context_
+
+---
 ```
