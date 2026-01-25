@@ -1,12 +1,12 @@
 ---
 version: "1.1.0"
 phase: 11
-planIndex: 2
+planIndex: 3
 totalPhases: 12
 totalPlans: 3
-status: "in-progress"
+status: "complete"
 lastActivity: "2026-01-25"
-checksum: "n5e8l3q2"
+checksum: "p6f9m4r3"
 phaseName: "Smart Entry & Mode Detection"
 ---
 
@@ -22,11 +22,11 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 ## Current Position
 
 Phase: 11 of 12 — Smart Entry & Mode Detection
-Plan: 2 of 3 in current phase
-Status: In progress
-Last activity: 2026-01-25 — Completed 11-02-PLAN.md (Explicit Mode Commands)
+Plan: 3 of 3 in current phase
+Status: Phase complete
+Last activity: 2026-01-25 — Completed 11-03-PLAN.md (Mode-Aware Orchestrator Routing)
 
-Progress: [####################] v1.0 complete | [█████████████████░░░] v1.1 85%
+Progress: [####################] v1.0 complete | [██████████████████░░] v1.1 90%
 
 ## v1.1 Milestone Overview
 
@@ -36,7 +36,7 @@ Progress: [####################] v1.0 complete | [██████████
 | 8 | Parallel Execution | EXEC-01 to EXEC-03 | Complete |
 | 9 | Verification System | VERIF-01 to VERIF-04 | Complete |
 | 10 | Debug & Recovery | DEBUG-01 to DEBUG-04 | Complete |
-| 11 | Smart Entry & Mode Detection | MODE-01 to MODE-03 | In Progress (2/3) |
+| 11 | Smart Entry & Mode Detection | MODE-01 to MODE-03 | Complete |
 | 12 | State & Dashboard Polish | STATE-01 to STATE-03, DASH-01, DASH-02 | Pending |
 
 ## Performance Metrics
@@ -201,6 +201,9 @@ Recent decisions affecting current work:
 - Explicit commands skip mode detection but still check active state (11-02)
 - Feature command handles ROADMAP.md conflict with user options (11-02)
 - Project command blocks on both active feature and active project (11-02)
+- Mode Detection section placed before Workflow for routing context (11-03)
+- Scope creep thresholds: 4+ plans OR 2+ waves triggers upgrade prompt (11-03)
+- Feature completion archives to .planning/archive/ and clears mode (11-03)
 
 ### Pending Todos
 
@@ -213,8 +216,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 11-02-PLAN.md (Explicit Mode Commands)
+Stopped at: Completed 11-03-PLAN.md (Mode-Aware Orchestrator Routing)
 Resume file: None
 
 ---
-*Phase 11 in progress. 2/3 plans done. Continue with 11-03-PLAN.md.*
+*Phase 11 complete. 3/3 plans done. Ready for Phase 12.*
