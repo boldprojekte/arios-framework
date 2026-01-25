@@ -1,12 +1,12 @@
 ---
 version: "1.1.0"
 phase: 12
-planIndex: 2
+planIndex: 3
 totalPhases: 12
 totalPlans: 6
 status: "in_progress"
 lastActivity: "2026-01-25"
-checksum: "k4m7p2r8"
+checksum: "p3q8r5s2"
 phaseName: "State & Dashboard Polish"
 ---
 
@@ -22,11 +22,11 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 ## Current Position
 
 Phase: 12 of 12 — State & Dashboard Polish
-Plan: 2 of 6 in current phase
+Plan: 3 of 6 in current phase
 Status: In progress
-Last activity: 2026-01-25 — Completed 12-02-PLAN.md (Action-first resume & auto-continue)
+Last activity: 2026-01-25 — Completed 12-03-PLAN.md (Slide-out detail panel)
 
-Progress: [####################] v1.0 complete | [████████████████████] v1.1 97%
+Progress: [####################] v1.0 complete | [████████████████████] v1.1 98%
 
 ## v1.1 Milestone Overview
 
@@ -217,6 +217,9 @@ Recent decisions affecting current work:
 - One-liner status shows phase name + last completed task only (12-02)
 - Auto-continue checks both file existence AND git commits (12-02)
 - No restart/skip prompt - agent figures out state automatically (12-02)
+- Panel uses transform3d for GPU-accelerated slide animation (12-03)
+- Resizer width clamped between 300px and 800px (12-03)
+- Width resets to default on close (not persisted) (12-03)
 
 ### Pending Todos
 
@@ -229,8 +232,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 12-02-PLAN.md (Action-first resume & auto-continue)
+Stopped at: Completed 12-03-PLAN.md (Slide-out detail panel)
 Resume file: None
 
 ---
-*Phase 12 (State & Dashboard Polish) IN PROGRESS. 2 of 6 plans done.*
+*Phase 12 (State & Dashboard Polish) IN PROGRESS. 3 of 6 plans done.*
