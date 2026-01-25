@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARIOS Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="dashboard">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h1 class="logo">ARIOS</h1>
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M10.5 3L6 8l4.5 5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-tab="tasks">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <rect x="2" y="2" width="5" height="5" rx="1"/>
+            <rect x="9" y="2" width="5" height="5" rx="1"/>
+            <rect x="2" y="9" width="5" height="5" rx="1"/>
+            <rect x="9" y="9" width="5" height="5" rx="1"/>
+          </svg>
+          <span class="nav-label">Tasks</span>
+        </button>
+        <button class="nav-item" data-tab="roadmap">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M2 3h12M2 8h12M2 13h8" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          </svg>
+          <span class="nav-label">Roadmap</span>
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="connection-status" id="connection-status">
+          <span class="status-dot"></span>
+          <span class="status-text">Connecting...</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content">
+      <header class="content-header">
+        <div class="header-left">
+          <h2 class="page-title" id="page-title">Tasks</h2>
+          <span class="phase-indicator" id="phase-indicator">Phase 0 of 0</span>
+        </div>
+        <div class="header-right">
+          <div class="view-toggle" id="view-toggle">
+            <button class="toggle-btn active" data-view="kanban">Kanban</button>
+            <button class="toggle-btn" data-view="list">List</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Tasks view -->
+      <section class="view tasks-view active" id="tasks-view">
+        <!-- Kanban board (default) -->
+        <div class="kanban-board" id="kanban-board">
+          <div class="kanban-column" data-status="pending">
+            <h3 class="column-header">
+              <span class="column-dot pending"></span>
+              Pending
+              <span class="column-count" id="pending-count">0</span>
+            </h3>
+            <div class="column-content" id="pending-tasks"></div>
+          </div>
+          <div class="kanban-column" data-status="in-progress">
+            <h3 class="column-header">
+              <span class="column-dot in-progress"></span>
+              In Progress
+              <span class="column-count" id="in-progress-count">0</span>
+            </h3>
+            <div class="column-content" id="in-progress-tasks"></div>
+          </div>
+          <div class="kanban-column" data-status="complete">
+            <h3 class="column-header">
+              <span class="column-dot complete"></span>
+              Complete
+              <span class="column-count" id="complete-count">0</span>
+            </h3>
+            <div class="column-content" id="complete-tasks"></div>
+          </div>
+        </div>
+        <!-- List view (hidden by default) -->
+        <div class="list-view hidden" id="list-view">
+          <div class="list-header">
+            <span class="list-col task-col">Task</span>
+            <span class="list-col phase-col">Phase</span>
+            <span class="list-col status-col">Status</span>
+            <span class="list-col wave-col">Wave</span>
+          </div>
+          <div class="list-content" id="list-content"></div>
+        </div>
+      </section>
+
+      <!-- Roadmap view -->
+      <section class="view roadmap-view" id="roadmap-view">
+        <div class="roadmap-content" id="roadmap-content">
+          <p class="empty-state">Loading roadmap...</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Task detail modal -->
+    <div class="modal" id="task-modal">
+      <div class="modal-overlay"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="modal-title">Task Details</h3>
+          <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-body" id="modal-body"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>
