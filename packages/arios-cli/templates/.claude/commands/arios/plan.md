@@ -63,29 +63,59 @@ When mode == "project":
 ## Workflow
 
 1. **Prerequisite check (MANDATORY - before anything else):**
-   - Use Glob to check for `.planning/phases/{phase}/*-CONTEXT.md`
-   - If CONTEXT.md found: proceed to step 2
-   - If NOT found: display refusal message and STOP:
-     ```
-     ## Cannot Plan
-
-     No ideation context found for this phase.
-
-     Expected: `.planning/phases/{phase}/{phase}-CONTEXT.md`
-
-     ---
-
-     Run first: `/ideate`
-
-     Planning requires ideation findings as input.
-     ```
-   - Do NOT offer "continue anyway" option. STOP here.
+   - **Read mode from config.json** (default: "project")
+   - **If mode == "feature":**
+     - Use Glob to check for `.planning/phases/feature-*/*-CONTEXT.md`
+     - If CONTEXT.md found: proceed
+     - If NOT found: display Feature-Mode refusal (see below)
+   - **If mode == "project":**
+     - Use Glob to check for `.planning/phases/{phase}/*-CONTEXT.md`
+     - If CONTEXT.md found: proceed
+     - If NOT found: display Project-Mode refusal (see below)
 2. Check ARIOS initialized (ls .planning/ succeeds)
    - If not: "ARIOS not initialized. Run `arios init` first."
 3. Read STATE.md for current position and active roadmap/phase
 4. Display status: "Phase X/Y, Plan M/N"
-5. Route to /arios:orchestrate plan
+5. **Route based on mode (see Mode-Aware Planning section for phase structure):**
+   - **Feature-Mode:** Route to /arios:orchestrate plan with feature folder path
+   - **Project-Mode:** Route to /arios:orchestrate plan with phase number
 6. After completion, show stage completion prompt (see Report section)
+
+### Feature-Mode Refusal
+
+If no CONTEXT.md found for feature:
+
+```
+## Cannot Plan
+
+No ideation context found for this feature.
+
+Expected: `.planning/phases/feature-{name}/{name}-CONTEXT.md`
+
+---
+
+Run first: `/ideate`
+
+Planning requires ideation findings as input.
+```
+
+### Project-Mode Refusal
+
+If no CONTEXT.md found for phase (existing behavior):
+
+```
+## Cannot Plan
+
+No ideation context found for this phase.
+
+Expected: `.planning/phases/{phase}/{phase}-CONTEXT.md`
+
+---
+
+Run first: `/ideate`
+
+Planning requires ideation findings as input.
+```
 
 ## Report
 
