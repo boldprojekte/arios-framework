@@ -12,23 +12,30 @@ A personal AI programming system for Claude Code that acts as a creative's codin
 
 ### Validated
 
-(None yet — ship to validate)
+<!-- v1.0 shipped 2026-01-25 -->
+- ✓ Slash commands as entry points (/ideate, /plan, /execute) — v1.0
+- ✓ CLAUDE.md integration for automatic system context loading — v1.0
+- ✓ Orchestrator pattern with subagent spawning — v1.0
+- ✓ Subagent prompt files for specialized roles — v1.0
+- ✓ Structured handoffs via markdown files — v1.0
+- ✓ Greenfield vs brownfield detection — v1.0
+- ✓ Context-aware routing with next step suggestions — v1.0
+- ✓ Complexity scaling (simple=one wave, complex=phased) — v1.0
+- ✓ Testable checkpoints in execution flow — v1.0
+- ✓ User-choosable approach (ground-up vs UI-first) — v1.0
+- ✓ Professional project setup with SOTA structure — v1.0
+- ✓ HTML dashboard for task visibility — v1.0
 
 ### Active
 
-- [ ] Slash commands as entry points (/ideate, /plan, /execute, and supporting commands)
-- [ ] CLAUDE.md integration for automatic system context loading
-- [ ] Subagent prompt files (researcher, explorer, executor, planner, etc.)
-- [ ] State management system that persists across sessions
-- [ ] Task system integration throughout the workflow
-- [ ] HTML dashboard for real-time task visibility and interaction
-- [ ] Context-aware routing that suggests next steps but allows flexibility
-- [ ] Greenfield vs brownfield detection with adapted workflows
-- [ ] Complexity scaling — simple tasks = one wave, complex = phased waves
-- [ ] Testable checkpoints — pause at verifiable points, not arbitrary phases
-- [ ] Professional project setup with SOTA structure as foundation
-- [ ] Proper subagent handoffs — findings persist and surface to orchestrator
-- [ ] User-choosable approach (ground-up vs UI-first with mocks)
+<!-- v1.1: Polish & Complete -->
+- [ ] E2E flow — full /ideate → /plan → /execute workflow works end-to-end
+- [ ] Orchestration logic — clear roles for ideate/explore/research/plan/execute
+- [ ] Dashboard interaction — click tasks, see details, take actions
+- [ ] Task system wiring — Claude's Task tool integrated with ARIOS execution
+- [ ] State continuity — resume exactly where you left off across sessions
+- [ ] Verifier subagent — validates work after parallel execution
+- [ ] Debug capability — recover when logic gets out of sync
 
 ### Out of Scope
 
@@ -102,6 +109,17 @@ tools: [allowed tools]
 - Less orchestration structure, more task clarity
 - Reference GSD agents as patterns
 
+## Current Milestone: v1.1 Polish & Complete
+
+**Goal:** Make v1.0 actually work end-to-end with clear orchestration logic and quality improvements.
+
+**Target features:**
+- E2E workflow functioning from ideation through execution
+- Clear separation: Ideate (WHAT) → Explore (codebase) → Research (external) → Plan (structure) → Execute (build)
+- Dashboard clickable with task details and actions
+- Verifier subagent for post-execution validation
+- Debug mode for when things get out of sync
+
 ## Constraints
 
 - **Context window**: Must manage context deliberately — not too much, not too little
@@ -121,4 +139,4 @@ tools: [allowed tools]
 | Lean prompts that leave room for LLM thinking | Opus is smart, over-specification hurts more than helps | — Pending |
 
 ---
-*Last updated: 2026-01-24 after prompt philosophy added*
+*Last updated: 2026-01-25 after v1.1 milestone started*
