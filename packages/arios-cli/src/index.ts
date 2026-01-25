@@ -2,6 +2,7 @@
 import { program } from 'commander';
 import { init } from './commands/init.js';
 import { update } from './commands/update.js';
+import { dashboardCommand } from './commands/dashboard.js';
 
 // Handoff utilities for subagent communication
 export * from './types/handoff.js';
@@ -25,5 +26,7 @@ program
   .command('update')
   .description('Update ARIOS to the latest version')
   .action(update);
+
+program.addCommand(dashboardCommand);
 
 program.parse();
