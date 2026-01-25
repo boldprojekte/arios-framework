@@ -17,12 +17,13 @@ Start creative exploration for new features, project direction, or problem resea
 
 - `!ls .planning/ 2>/dev/null || echo "NO_PLANNING"`
 - @.planning/STATE.md - Current project position
-- @.planning/config.json - Project settings
+- @.planning/config.json - Project settings and approach
 
 ## Instructions
 
 - Show brief status line before starting
 - Ideation is always valid - can be run at any point in the workflow
+- On first ideation (no approach set in config.json), prompt user to choose development approach
 - If $TOPIC provided, use it; otherwise ask user what to explore
 - Route to orchestrator for research; never do research directly
 - After completion, suggest /arios:plan as next step
@@ -32,13 +33,38 @@ Start creative exploration for new features, project direction, or problem resea
 1. Check ARIOS initialized (ls .planning/ succeeds)
    - If not: "ARIOS not initialized. Run `arios init` first."
 2. Read STATE.md for current position
-3. Display status: "Phase X/Y, Plan M/N"
-4. If $TOPIC provided:
+3. Check if approach is set:
+   - Use Read tool to check .planning/config.json
+   - If file exists, look for "approach" and "approachSetAt" fields
+   - If approachSetAt has a value (not empty string): approach already set, skip selection
+   - If no approachSetAt or empty string (approach never explicitly set):
+     1. Present approach selection prompt:
+        ```
+        Before we begin ideation, let's set your development approach:
+
+        1. **ground-up** - Build foundation first (data models -> business logic -> API -> UI)
+        2. **balanced** - Interleave UI and logic as each feature requires (default)
+        3. **ui-first** - Visual mockups with stub data first, then wire real data
+
+        Which approach? (1/2/3 or name):
+        ```
+     2. Wait for user choice
+     3. Use Read tool to get current config.json content (or assume {} if not exists)
+     4. Use Write tool to update .planning/config.json with:
+        ```json
+        {
+          "approach": "{user choice: ground-up|balanced|ui-first}",
+          "approachSetAt": "{current ISO timestamp}"
+        }
+        ```
+     5. Acknowledge: "Approach set to: {choice}"
+4. Display status: "Phase X/Y, Plan M/N | Approach: {approach}"
+5. If $TOPIC provided:
    - Confirm: "Ideating on: {topic}. Proceed? (yes/no)"
-5. If no $TOPIC:
+6. If no $TOPIC:
    - Ask: "What would you like to explore or research?"
-6. Route to /arios:orchestrate research with the topic
-7. After completion, show: "Next: /arios:plan"
+7. Route to /arios:orchestrate research with the topic
+8. After completion, show: "Next: /arios:plan"
 
 ## Report
 
@@ -46,6 +72,7 @@ Start creative exploration for new features, project direction, or problem resea
 ARIOS Ideation
 
 Status: Phase {X}/{Y}, Plan {M}/{N}
+Approach: {approach}
 Topic: {ideation topic}
 
 [Routing to orchestrator for research...]
