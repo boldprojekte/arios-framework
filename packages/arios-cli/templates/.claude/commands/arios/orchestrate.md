@@ -295,11 +295,18 @@ Full details: `{output file path}`
 
 ## Workflow
 
-1. Read STATE.md to determine current position
+1. Read STATE.md to determine current position AND mode
+   - Extract mode from frontmatter (default: "project")
 2. If $COMMAND == "auto": detect appropriate action from state
    - No findings file for phase? Research needed
    - Findings exist but no plan? Planning needed
    - Plan exists? Execution needed
+2a. If mode == "feature":
+    - Skip roadmap-related checks
+    - Phase is always feature phase (feature-{name})
+    - Skip to step 5 for execution (no multi-phase logic)
+2b. If mode == "project":
+    - Continue with normal flow (roadmap, phase transitions)
 3. If research needed:
    - Ask user to confirm research topic
    - Spawn researcher with topic, phase context, output path
@@ -325,6 +332,10 @@ Full details: `{output file path}`
    - Read handoff file (findings/plan/wave-result)
    - Update STATE.md with progress
    - Report results to user
+   - **If Feature-Mode AND status == "complete":**
+     - Run Feature Archive Workflow (see Feature-Mode Routing section)
+   - **If Project-Mode AND phase complete:**
+     - Suggest next phase or project completion
 7. Suggest next action or `/clear` if context getting full
 
 ## Pattern Extraction (Before Execution)
