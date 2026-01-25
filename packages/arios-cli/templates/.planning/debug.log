@@ -1,0 +1,9 @@
+# ARIOS Debug Log
+
+This file records errors encountered during execution that required user escalation.
+Auto-fixed issues are NOT logged here (they're handled silently).
+
+Format:
+[TIMESTAMP] [TYPE] [PHASE-PLAN] Description
+---
+
