@@ -1,12 +1,12 @@
 ---
 version: "1.1.0"
 phase: 12
-planIndex: 4
+planIndex: 5
 totalPhases: 12
 totalPlans: 6
 status: "in_progress"
 lastActivity: "2026-01-25"
-checksum: "q4r9s6t3"
+checksum: "r5s0t7u4"
 phaseName: "State & Dashboard Polish"
 ---
 
@@ -22,9 +22,9 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 ## Current Position
 
 Phase: 12 of 12 — State & Dashboard Polish
-Plan: 4 of 6 in current phase
+Plan: 5 of 6 in current phase
 Status: In progress
-Last activity: 2026-01-25 — Completed 12-04-PLAN.md (Feature-Mode folder structure)
+Last activity: 2026-01-25 — Completed 12-05-PLAN.md (Notes feature in dashboard)
 
 Progress: [####################] v1.0 complete | [████████████████████] v1.1 99%
 
@@ -227,6 +227,9 @@ Recent decisions affecting current work:
 - Both modes use same STATE.md schema - lighter means folder isolation, not schema differences (12-04)
 - Archive moves feature folder to .planning/archive/feature-{name}/ (12-04)
 - config.json stores feature_name for path resolution (12-04)
+- Notes stored in PLAN.md frontmatter as timestamped array (12-05)
+- planPath passed from parser to client for note targeting (12-05)
+- orchestrate.md instructs Claude to read notes before task execution (12-05)
 
 ### Pending Todos
 
@@ -239,8 +242,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 12-04-PLAN.md (Feature-Mode folder structure)
+Stopped at: Completed 12-05-PLAN.md (Notes feature in dashboard)
 Resume file: None
 
 ---
-*Phase 12 (State & Dashboard Polish) IN PROGRESS. 4 of 6 plans done (12-01 to 12-04 complete).*
+*Phase 12 (State & Dashboard Polish) IN PROGRESS. 5 of 6 plans done (12-01 to 12-05 complete).*
