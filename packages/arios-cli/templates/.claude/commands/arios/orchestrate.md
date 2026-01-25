@@ -157,6 +157,28 @@ Read before any action:
 - @.planning/config.json - Project settings and stack info
 - Active roadmap and phase files as needed
 
+## Mode Detection
+
+**Extract mode from STATE.md frontmatter:**
+
+When reading STATE.md, parse the frontmatter for mode field:
+- `mode: "feature"` - Feature-Mode (single-phase workflow)
+- `mode: "project"` - Project-Mode (multi-phase workflow)
+- No mode field - Legacy state, treat as Project-Mode
+
+**Store mode for routing decisions:**
+```
+mode = STATE.mode || "project"  // default to project for legacy states
+```
+
+**Mode affects:**
+| Behavior | Feature-Mode | Project-Mode |
+|----------|--------------|--------------|
+| Roadmap checks | Skip | Required |
+| Phase numbering | `feature-{name}` | `01-xxx`, `02-xxx` |
+| Phase transitions | N/A (single phase) | Multi-phase flow |
+| Completion behavior | Archive to .planning/archive/ | Mark phase complete, suggest next |
+
 ## Instructions
 
 - Orchestrator ONLY coordinates - spawns subagents for all heavy work
