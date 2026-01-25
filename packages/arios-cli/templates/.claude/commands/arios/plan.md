@@ -17,7 +17,7 @@ Create or continue an execution plan from ideation findings.
 
 - `!ls .planning/ 2>/dev/null || echo "NO_PLANNING"`
 - @.planning/STATE.md - Current project position
-- @.planning/config.json - Project settings
+- @.planning/config.json - Project settings AND mode field
 
 ## Instructions
 
