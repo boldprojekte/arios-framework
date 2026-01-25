@@ -1,12 +1,12 @@
 ---
 version: "1.1.0"
 phase: 8
-planIndex: 1
+planIndex: 2
 totalPhases: 12
 totalPlans: 3
 status: "in-progress"
 lastActivity: "2026-01-25"
-checksum: "c3e0f2a1"
+checksum: "d4f1a3b2"
 phaseName: "Parallel Execution"
 ---
 
@@ -22,18 +22,18 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 ## Current Position
 
 Phase: 8 of 12 — Parallel Execution
-Plan: 1 of 3 in current phase
+Plan: 2 of 3 in current phase
 Status: In progress
-Last activity: 2026-01-25 — Completed 08-01-PLAN.md (Wave-Executor Agent & Inlined Content)
+Last activity: 2026-01-25 — Completed 08-02-PLAN.md (Unified Recovery Agent)
 
-Progress: [####################] v1.0 complete | [████░░░░░░░░░░░░░░░░] v1.1 22%
+Progress: [####################] v1.0 complete | [█████░░░░░░░░░░░░░░░] v1.1 28%
 
 ## v1.1 Milestone Overview
 
 | Phase | Name | Requirements | Status |
 |-------|------|--------------|--------|
 | 7 | E2E Flow & Role Clarity | E2E-01 to E2E-05 | Complete |
-| 8 | Parallel Execution | EXEC-01 to EXEC-03 | In Progress (1/3) |
+| 8 | Parallel Execution | EXEC-01 to EXEC-03 | In Progress (2/3) |
 | 9 | Verification System | VERIF-01 to VERIF-04 | Pending |
 | 10 | Debug & Recovery | DEBUG-01 to DEBUG-04 | Pending |
 | 11 | Smart Entry & Mode Detection | MODE-01 to MODE-03 | Pending |
@@ -161,6 +161,10 @@ Recent decisions affecting current work:
 - Inline content in Task prompts because @-references don't resolve across Task boundaries (08-01)
 - Read before spawn pattern: use Read tool to load content, then inline in prompt (08-01)
 - Multiple Task calls in same message spawn in parallel (08-01)
+- Single recovery agent handles both task_failure and verification_failure (08-02)
+- Recovery agent spawned with inlined failure_context (not @-references) (08-02)
+- Skip option conditional on downstream dependency check (08-02)
+- 3-attempt limit per failure before user prompt (08-02)
 
 ### Pending Todos
 
@@ -173,8 +177,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 08-01-PLAN.md (Wave-Executor Agent & Inlined Content)
+Stopped at: Completed 08-02-PLAN.md (Unified Recovery Agent)
 Resume file: None
 
 ---
-*Phase 8 in progress. 08-01 complete. Continue with 08-02 (Recovery Agent & Failure Handling).*
+*Phase 8 in progress. 08-02 complete. Continue with 08-03 (Dashboard Coordination).*
