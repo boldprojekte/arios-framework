@@ -154,6 +154,65 @@ When blocked:
 3. Suggest what user needs to do
 4. Return RECOVERY FAILED
 
+## Escalation Detection
+
+Some failures should NEVER be auto-retried. Detect these and flag for immediate user escalation.
+
+### ALWAYS-ESCALATE Categories
+
+| Category | Detection Patterns | Why Escalate |
+|----------|-------------------|--------------|
+| Ambiguous requirements | Error mentions "unclear", "ambiguous", "which approach", multiple valid options | Claude unsure what user wants |
+| Extreme destructive | Proposed fix includes: DROP TABLE, rm -rf, delete production, reset database, truncate | Risk too high for auto-fix |
+| External service | Error contains: 401, 403, rate limit, ECONNREFUSED, network timeout, API key invalid | Claude can't fix auth/network |
+
+### Detection Logic
+
+Before attempting fix:
+1. Parse error message against ALWAYS-ESCALATE patterns
+2. If match found:
+   - Set escalate_immediately: true
+   - Skip fix attempt
+   - Provide detailed diagnosis for user
+   - Explain WHY user involvement needed
+
+### Modified Output Format
+
+When escalate_immediately: true, return:
+
+```markdown
+## RECOVERY ESCALATE
+
+**Type:** {failure type}
+**Category:** {ambiguous_requirements | extreme_destructive | external_service}
+**Diagnosis:** {what's happening - technical details}
+**Why User Needed:** {plain language explanation of why AI can't proceed}
+**Suggested Action:** {what user should do}
+```
+
+### Examples
+
+**Ambiguous:**
+```
+Error: "Should login use session or JWT? Both patterns exist in codebase."
+Detection: "which" pattern + multiple options
+-> RECOVERY ESCALATE: User must decide auth strategy
+```
+
+**Destructive:**
+```
+Proposed fix: "Run prisma migrate reset to fix schema"
+Detection: "reset database" equivalent
+-> RECOVERY ESCALATE: User must approve destructive action
+```
+
+**External:**
+```
+Error: "401 Unauthorized from Stripe API"
+Detection: 401 + API reference
+-> RECOVERY ESCALATE: User must check API credentials
+```
+
 ## Output Format
 
 ### On Success
