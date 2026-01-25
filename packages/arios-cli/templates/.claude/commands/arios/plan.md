@@ -27,6 +27,39 @@ Create or continue an execution plan from ideation findings.
 - Route to orchestrator for planning; never do planning directly
 - After completion, show stage completion prompt with next step
 
+## Mode-Aware Planning
+
+**Read mode from config.json before planning:**
+
+1. Read `.planning/config.json` and extract mode field
+2. Default to "project" if no mode field
+
+### Feature-Mode Planning
+
+When mode == "feature":
+
+1. **Phase structure:** Single phase in `feature-{name}/` folder
+2. **Prerequisite check:** Look for CONTEXT.md in feature folder
+   - Use Glob: `.planning/phases/feature-*/*-CONTEXT.md`
+3. **No roadmap dependency:** Don't check for ROADMAP.md
+4. **Plan output:** Create plans numbered within feature:
+   - `feature-{name}/feature-01-PLAN.md`
+   - `feature-{name}/feature-02-PLAN.md`
+5. **Route to:** `/arios:orchestrate plan` with feature context
+
+### Project-Mode Planning
+
+When mode == "project":
+
+1. **Phase structure:** Numbered phases from ROADMAP.md
+2. **Prerequisite check:** Standard CONTEXT.md check in numbered phase folder
+   - Use Glob: `.planning/phases/{phase}/*-CONTEXT.md`
+3. **Requires ROADMAP.md:** Multi-phase coordination
+4. **Plan output:** Plans numbered by phase:
+   - `{phase}/{phase}-01-PLAN.md`
+   - `{phase}/{phase}-02-PLAN.md`
+5. **Route to:** `/arios:orchestrate plan` with phase context
+
 ## Workflow
 
 1. **Prerequisite check (MANDATORY - before anything else):**
