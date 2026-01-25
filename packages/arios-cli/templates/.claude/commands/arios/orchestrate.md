@@ -159,14 +159,78 @@ Read before any action:
       command: "pkill -f '{startCommand}' || true"
       ```
 
-3. **If checkpoint fails:**
-   - Display diagnostic: what failed (start or tests) and error output
-   - Prompt user: "Fix the issue and press Enter to re-verify, or type 'skip' to continue, or 'abort' to stop"
-   - If re-verify (Enter): repeat steps 2a-2f
-   - If skip: log warning and continue to next wave
-   - If abort: stop execution entirely
+3. **If checkpoint fails - trigger recovery flow:**
+
+   a. **First attempt automatic recovery (max 3 attempts):**
+
+      For attempt = 1 to 3:
+        - Display: "Checkpoint failed. Recovery attempt {attempt}/3..."
+        - Spawn debug subagent to diagnose and fix:
+          ```
+          Use Task tool:
+          subagent_type: "general-purpose" (acts as debugger)
+          prompt: |
+            Checkpoint failed after wave {N}.
+
+            Error output:
+            {checkpoint_error_output}
+
+            Failed component: {app_start|tests|both}
+
+            Diagnose the failure and create a fix. Steps:
+            1. Analyze the error output
+            2. Identify the root cause
+            3. Apply the fix (modify code)
+            4. Commit the fix: "fix({phase}): {description}"
+
+            Return when fix is applied.
+          ```
+        - Re-run checkpoint verification (repeat steps 2a-2f)
+        - If checkpoint passes: break, continue to next wave
+        - If checkpoint fails: continue to next attempt
+
+   b. **If all recovery attempts exhausted (3/3 failed):**
+      - Display diagnostic summary:
+        ```
+        Recovery exhausted (3/3 attempts failed).
+
+        Last error:
+        {final_error_output}
+
+        Files modified during recovery:
+        {list of files touched by debug attempts}
+
+        Recovery attempt history:
+        - Attempt 1: {diagnosis} -> {result}
+        - Attempt 2: {diagnosis} -> {result}
+        - Attempt 3: {diagnosis} -> {result}
+        ```
+      - Prompt user: "Manual fix needed. Options: retry (r), skip (s), abort (a)"
+      - Handle user choice:
+        * retry (r): reset attempt counter, restart recovery from step 3a
+        * skip (s): log warning, continue to next wave
+        * abort (a): stop execution, preserve state for resume
 
 4. **If no checkpoint config:** Checkpoint skipped (greenfield/early stages - nothing to verify)
+
+## Recovery Configuration
+
+**Default settings (can be overridden in .planning/config.json):**
+```json
+{
+  "recovery": {
+    "maxAttempts": 3,
+    "commitPrefix": "fix"
+  }
+}
+```
+
+**Recovery rules:**
+- maxAttempts: 3 (from .planning/config.json or default)
+- Each attempt spawns fresh debug subagent (no context pollution)
+- Debug subagent has full context: error output, affected files, recent commits
+- Commits from debug attempts use format: "fix({phase}): {description}"
+- Re-verify checkpoint after each fix attempt before continuing
 
 ## Spawn Patterns
 
@@ -242,6 +306,12 @@ Wave 3: FAILED (app: ok, tests: failed)
         Error: 3 tests failed (see output above)
         Action needed: Fix failing tests before continuing
 
+### Recovery Status
+Wave 1: No recovery needed (checkpoint passed)
+Wave 2: Recovery successful (attempt 2/3)
+        Fix: "fix(05): handle null response in API call"
+Wave 3: Recovery exhausted (3/3 failed), user skipped
+
 ### Results
 {Summary from handoff file}
 
@@ -249,20 +319,25 @@ Wave 3: FAILED (app: ok, tests: failed)
 {Suggested next action or /clear recommendation}
 ```
 
-**On checkpoint failure, prompt user:**
+**On recovery exhausted, prompt user:**
 ```
-Checkpoint FAILED after Wave {n}
+Recovery exhausted (3/3 attempts failed) after Wave {n}
 
 App starts: {yes|no}
 Tests pass: {yes|no}
 
-Error output:
+Last error output:
 {error details from Bash tool}
 
+Recovery attempts:
+1. {diagnosis} -> failed
+2. {diagnosis} -> failed
+3. {diagnosis} -> failed
+
 Options:
-- Press Enter to re-verify after fixing
-- Type 'skip' to continue anyway (not recommended)
-- Type 'abort' to stop execution
+- Type 'retry' (r) to reset and try recovery again
+- Type 'skip' (s) to continue anyway (not recommended)
+- Type 'abort' (a) to stop execution
 
 Your choice:
 ```
