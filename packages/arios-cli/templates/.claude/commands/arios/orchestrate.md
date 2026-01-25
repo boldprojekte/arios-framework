@@ -45,12 +45,50 @@ Read before any action:
 4. If planning needed:
    - Spawn planner with findings path, phase context, output path
 5. If execution needed:
-   - Spawn executor with plan path, wave number, task IDs, problems path
+   - **Extract codebase patterns before spawning executor**
+   - Spawn executor with plan path, wave number, task IDs, problems path, **patterns path**
 6. After subagent returns:
    - Read handoff file (findings/plan/wave-result)
    - Update STATE.md with progress
    - Report results to user
 7. Suggest next action or `/clear` if context getting full
+
+## Pattern Extraction (Before Execution)
+
+**Purpose:** Ensure generated code matches existing codebase conventions.
+
+**Steps:**
+1. Use Glob tool to find existing code files:
+   - Pattern: "src/**/*.{ts,tsx}" or "**/*.{ts,tsx}"
+   - Limit to 5 files for analysis
+
+2. Use Read tool on 3-5 representative files to analyze:
+   - Indentation (tabs vs spaces, count spaces)
+   - Quote style (single vs double)
+   - Semicolon usage (yes/no)
+   - Component structure (functional, class)
+   - Export style (named, default)
+
+3. Use Write tool to persist patterns to .planning/patterns.json:
+   ```json
+   {
+     "indentation": { "type": "spaces", "size": 2 },
+     "quotes": "single",
+     "semicolons": true,
+     "confidence": "high",
+     "examples": {
+       "component": "export function MyComponent() {...}",
+       "function": "const myFunc = () => {...}"
+     }
+   }
+   ```
+
+**Greenfield fallback:** If Glob finds no existing code files:
+   - Write default patterns.json with sensible defaults:
+     * indentation: { "type": "spaces", "size": 2 }
+     * quotes: "single"
+     * semicolons: true
+     * naming: kebab-case files, camelCase functions, PascalCase components
 
 ## Spawn Patterns
 
@@ -83,6 +121,10 @@ Provide:
 - Wave number to execute
 - Task IDs for this wave
 - Problems directory: .planning/roadmaps/{roadmap}/{phase}/problems/
+- Patterns file path: .planning/patterns.json
+
+Task description MUST include:
+"Read .planning/patterns.json for code style context before executing tasks"
 ```
 
 ## Report
