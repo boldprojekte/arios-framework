@@ -1,13 +1,13 @@
 ---
 version: "1.1.0"
-phase: 10
-planIndex: 4
+phase: 11
+planIndex: 1
 totalPhases: 12
-totalPlans: 4
-status: "phase-complete"
+totalPlans: 3
+status: "in-progress"
 lastActivity: "2026-01-25"
-checksum: "r8t3v5x9"
-phaseName: "Debug & Recovery"
+checksum: "m4d7k2p1"
+phaseName: "Smart Entry & Mode Detection"
 ---
 
 # Project State
@@ -21,12 +21,12 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 
 ## Current Position
 
-Phase: 10 of 12 — Debug & Recovery
-Plan: 4 of 4 in current phase
-Status: Phase complete
-Last activity: 2026-01-25 — Completed 10-04-PLAN.md (Plain-Language Error Presentation)
+Phase: 11 of 12 — Smart Entry & Mode Detection
+Plan: 1 of 3 in current phase
+Status: In progress
+Last activity: 2026-01-25 — Completed 11-01-PLAN.md (Mode Detection Conversation)
 
-Progress: [####################] v1.0 complete | [████████████████░░░░] v1.1 80%
+Progress: [####################] v1.0 complete | [█████████████████░░░] v1.1 85%
 
 ## v1.1 Milestone Overview
 
@@ -36,7 +36,7 @@ Progress: [####################] v1.0 complete | [██████████
 | 8 | Parallel Execution | EXEC-01 to EXEC-03 | Complete |
 | 9 | Verification System | VERIF-01 to VERIF-04 | Complete |
 | 10 | Debug & Recovery | DEBUG-01 to DEBUG-04 | Complete |
-| 11 | Smart Entry & Mode Detection | MODE-01 to MODE-03 | Pending |
+| 11 | Smart Entry & Mode Detection | MODE-01 to MODE-03 | In Progress (1/3) |
 | 12 | State & Dashboard Polish | STATE-01 to STATE-03, DASH-01, DASH-02 | Pending |
 
 ## Performance Metrics
@@ -194,6 +194,10 @@ Recent decisions affecting current work:
 - RECOVERY ESCALATE skips retry loop entirely (no attempt counter increment) (10-03)
 - User always sees category-specific "Why I'm asking" explanation (10-03)
 - Escalations logged to debug.log after user responds (10-03)
+- Mode stored in config.json, not STATE.md frontmatter (11-01)
+- v1.1 simplification: ROADMAP.md presence implies Project-Mode (11-01)
+- Feature-Mode resume shows Finish option for archive (11-01)
+- Default to Feature-Mode after 2-3 unclear exchanges (11-01)
 
 ### Pending Todos
 
@@ -206,8 +210,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 10-04-PLAN.md (Plain-Language Error Presentation)
+Stopped at: Completed 11-01-PLAN.md (Mode Detection Conversation)
 Resume file: None
 
 ---
-*Phase 10 complete. 4/4 plans done. Ready for Phase 11: Smart Entry & Mode Detection.*
+*Phase 11 in progress. 1/3 plans done. Continue with 11-02-PLAN.md.*
