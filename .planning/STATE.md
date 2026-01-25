@@ -1,12 +1,12 @@
 ---
 version: "1.1.0"
 phase: 11
-planIndex: 4
+planIndex: 6
 totalPhases: 12
-totalPlans: 4
-status: "complete"
+totalPlans: 7
+status: "in_progress"
 lastActivity: "2026-01-25"
-checksum: "q7g0n5s4"
+checksum: "m7k2p9f4"
 phaseName: "Smart Entry & Mode Detection"
 ---
 
@@ -22,11 +22,11 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 ## Current Position
 
 Phase: 11 of 12 — Smart Entry & Mode Detection
-Plan: 4 of 4 in current phase
-Status: Phase complete
-Last activity: 2026-01-25 — Completed 11-04-PLAN.md (Mode Storage Location Fix)
+Plan: 6 of 7 in current phase
+Status: In progress (gap closure)
+Last activity: 2026-01-25 — Completed 11-06-PLAN.md (Mode-Aware Planning Command)
 
-Note: Plan 04 was a gap closure plan fixing mode read/write inconsistency.
+Note: Plans 04-07 are gap closure plans addressing verification gaps.
 
 Progress: [####################] v1.0 complete | [██████████████████░░] v1.1 90%
 
@@ -207,6 +207,9 @@ Recent decisions affecting current work:
 - Scope creep thresholds: 4+ plans OR 2+ waves triggers upgrade prompt (11-03)
 - Feature completion archives to .planning/archive/ and clears mode (11-03)
 - Orchestrator reads mode from config.json (not STATE.md frontmatter) (11-04)
+- Mode check is part of prerequisite step in plan.md Workflow (11-06)
+- Feature-Mode uses feature-{name}/ folder structure (11-06)
+- Active work archived before mode switch for safety (11-06)
 
 ### Pending Todos
 
@@ -219,8 +222,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 11-04-PLAN.md (Mode Storage Location Fix)
+Stopped at: Completed 11-06-PLAN.md (Mode-Aware Planning Command)
 Resume file: None
 
 ---
-*Phase 11 complete. 4/4 plans done (including gap closure). Ready for Phase 12.*
+*Phase 11 gap closure in progress. 6/7 plans done. One more gap closure plan remaining.*
