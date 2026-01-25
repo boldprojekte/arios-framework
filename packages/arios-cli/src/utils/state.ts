@@ -12,6 +12,7 @@ import * as path from 'node:path';
 import fs from 'fs-extra';
 import type {
   DecisionRecord,
+  DriftResult,
   PhaseStatus,
   ProjectState,
   StateConflict,
@@ -212,6 +213,160 @@ export function formatStateMarkdown(state: ProjectState): string {
   }
 
   return `${statusTable}${decisionsSection}`;
+}
+
+/**
+ * Detect drift between state claims and file system reality.
+ *
+ * Checks for:
+ * 1. Checksum mismatch (state file modified) - auto-fixable
+ * 2. State claims completion but SUMMARY.md missing - not auto-fixable
+ * 3. State references PLAN.md that doesn't exist - not auto-fixable
+ *
+ * @param statePath - Path to STATE.md file
+ * @param planningDir - Path to .planning directory
+ * @returns DriftResult describing what drifted and whether it can be auto-fixed
+ */
+export async function detectDrift(
+  statePath: string,
+  planningDir: string
+): Promise<DriftResult> {
+  const details: string[] = [];
+
+  // Load state
+  const { state, conflict } = await loadProjectState(statePath);
+
+  if (!state) {
+    // No state file - not really drift, just uninitialized
+    return {
+      drifted: false,
+      type: 'none',
+      details: [],
+      autoFixable: false
+    };
+  }
+
+  // Check 1: Checksum mismatch (file changed outside ARIOS)
+  if (conflict?.hasConflict) {
+    return {
+      drifted: true,
+      type: 'file_changes',
+      details: ['State checksum mismatch - file was modified outside ARIOS'],
+      autoFixable: true
+    };
+  }
+
+  const { phase, planIndex, status, phaseName } = state.frontmatter as StateFrontmatter & { phaseName?: string };
+
+  // Pad phase and plan numbers to 2 digits for file matching
+  const paddedPhase = String(phase).padStart(2, '0');
+  const paddedPlan = String(planIndex).padStart(2, '0');
+
+  // Find the phase directory (pattern: XX-name or feature-name)
+  const phasesDir = path.join(planningDir, 'phases');
+
+  // Check 2: If state claims complete or in-progress, verify SUMMARY.md exists for current plan
+  if (status === 'complete' || status === 'in-progress') {
+    // Find phase directory
+    const phaseDir = await findPhaseDir(phasesDir, phase, phaseName);
+
+    if (phaseDir) {
+      // Check if SUMMARY.md exists for the current plan (if status is complete for that plan)
+      // For 'complete' status at phase level, check if the last plan has SUMMARY
+      if (status === 'complete') {
+        const summaryPattern = `${paddedPhase}-${paddedPlan}-SUMMARY.md`;
+        const summaryPath = path.join(phaseDir, summaryPattern);
+
+        if (!fs.existsSync(summaryPath)) {
+          // Try to find any summary matching the plan
+          const files = await fs.readdir(phaseDir);
+          const hasSummary = files.some(f =>
+            f.includes('-SUMMARY.md') && f.startsWith(`${paddedPhase}-${paddedPlan}`)
+          );
+
+          if (!hasSummary) {
+            details.push(
+              `State claims plan ${paddedPhase}-${paddedPlan} complete but SUMMARY.md not found`
+            );
+          }
+        }
+      }
+    }
+  }
+
+  // Check 3: Verify current PLAN.md exists
+  const phaseDir = await findPhaseDir(phasesDir, phase, phaseName);
+
+  if (phaseDir) {
+    // Look for PLAN.md matching current phase/plan
+    const files = await fs.readdir(phaseDir);
+    const hasPlan = files.some(f =>
+      f.includes('-PLAN.md') && f.startsWith(`${paddedPhase}-${paddedPlan}`)
+    );
+
+    if (!hasPlan && status !== 'phase_complete') {
+      details.push(
+        `State references plan ${paddedPhase}-${paddedPlan} but PLAN.md not found`
+      );
+    }
+  } else if (status !== 'not-started') {
+    details.push(`Phase directory for phase ${phase} not found`);
+  }
+
+  // Return results
+  if (details.length > 0) {
+    return {
+      drifted: true,
+      type: 'state_mismatch',
+      details,
+      autoFixable: false
+    };
+  }
+
+  return {
+    drifted: false,
+    type: 'none',
+    details: [],
+    autoFixable: false
+  };
+}
+
+/**
+ * Find the phase directory matching the given phase number.
+ *
+ * @param phasesDir - Path to .planning/phases directory
+ * @param phase - Phase number to find
+ * @param phaseName - Optional phase name for matching
+ * @returns Path to phase directory or null if not found
+ */
+async function findPhaseDir(
+  phasesDir: string,
+  phase: number,
+  phaseName?: string
+): Promise<string | null> {
+  try {
+    const dirs = await fs.readdir(phasesDir);
+    const paddedPhase = String(phase).padStart(2, '0');
+
+    // First try to match by phase number prefix (e.g., "12-state-dashboard-polish")
+    const matchingDir = dirs.find(d => d.startsWith(`${paddedPhase}-`));
+
+    if (matchingDir) {
+      return path.join(phasesDir, matchingDir);
+    }
+
+    // Try feature-mode pattern if phaseName is provided
+    if (phaseName && phaseName.startsWith('feature-')) {
+      const featureDir = dirs.find(d => d === phaseName);
+      if (featureDir) {
+        return path.join(phasesDir, featureDir);
+      }
+    }
+
+    return null;
+  } catch {
+    return null;
+  }
 }
 
 /**

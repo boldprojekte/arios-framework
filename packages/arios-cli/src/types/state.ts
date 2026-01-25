@@ -8,7 +8,7 @@
 /**
  * Phase execution status
  */
-export type PhaseStatus = 'not-started' | 'in-progress' | 'complete' | 'blocked';
+export type PhaseStatus = 'not-started' | 'in-progress' | 'complete' | 'phase_complete' | 'blocked';
 
 /**
  * Decision record for tracking both positive and negative decisions.
@@ -86,4 +86,23 @@ export type StateConflict = {
   actualChecksum: string;
   /** Human-readable conflict description */
   message: string;
+};
+
+/**
+ * Result of drift detection between state claims and file system reality.
+ *
+ * Drift occurs when:
+ * - Checksum mismatch (files changed outside ARIOS) - auto-fixable
+ * - State claims completion but SUMMARY.md missing - not auto-fixable
+ * - State references PLAN.md that doesn't exist - not auto-fixable
+ */
+export type DriftResult = {
+  /** Whether any drift was detected */
+  drifted: boolean;
+  /** Type of drift detected */
+  type: 'none' | 'file_changes' | 'state_mismatch';
+  /** Detailed descriptions of what drifted */
+  details: string[];
+  /** Whether the drift can be auto-fixed (checksum mismatch only) */
+  autoFixable: boolean;
 };
