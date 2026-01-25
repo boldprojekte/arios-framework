@@ -701,34 +701,79 @@ ELSE IF status == "needs_review" AND recommendation == "human_review":
 
 ## Report
 
+### Verification Tiers (3-tier model)
+
+| Tier | When | What | User Sees |
+|------|------|------|-----------|
+| Auto | During task | Syntax, compile, verify step | Only failures |
+| Wave | Between waves | npm scripts, code review, integration | Only failures |
+| Phase | After all waves | Human testing and approval | Always |
+
+**Philosophy:** Machines verify what machines can verify. Humans verify what matters to humans.
+
+### Message Templates
+
 **During execution (per wave):**
 ```
 Starting wave {N} ({count} plans)
 [execution happens]
 Wave {N} complete: {passed}/{total} plans passed
+[verification runs silently]
 ```
 
-**On completion:**
+**After all waves (phase review):**
 ```
-## Phase Execution Complete
+## Phase {N} Complete - Review Required
 
-Waves: {completed}/{total}
-Plans: {passed}/{total}
-Duration: {time}
+**Built:** {features summary}
+**Plans:** {count} plans executed
+**Tests:** {pass count}/{total} passing
+
+### What's New
+- {feature 1}
+- {feature 2}
+
+### Test Instructions
+{specific test steps}
+
+Please test and type "approved" or describe issues.
+```
+
+**On user approval:**
+```
+Phase {N} approved.
 
 Dashboard: http://localhost:3456 (for detailed review)
 
-Next: {suggested action}
+Next: {suggested action based on roadmap}
+Tip: Consider `/clear` before next phase for fresh context.
 ```
 
-**On failure (after recovery exhausted):**
+**On wave verification failure (after recovery exhausted):**
 ```
-## Phase Execution Blocked
+## Wave {N} Verification Failed
 
-Wave {N} failed after 3 recovery attempts.
-Error: {brief description}
+Attempted 3 auto-fixes without success.
+Issue: {brief description}
 
-Options: Debug (d), Skip (s), Abort (a)
+Options:
+(d) Debug - I'll investigate further
+(s) Skip - Continue anyway (if no downstream deps)
+(a) Abort - Stop execution, preserve state
+```
+
+**On user-reported issue (after recovery exhausted):**
+```
+## Unable to Auto-Fix Reported Issue
+
+Attempted 3 fixes for: "{user's issue description}"
+
+Latest attempt result: {what was tried}
+
+Options:
+- Provide more details about the issue
+- Type "continue" to proceed anyway
+- Type "abort" to stop and investigate manually
 ```
 
 **Detailed progress is in the dashboard.** Chat stays clean for user to see orchestrator actions clearly.
