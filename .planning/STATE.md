@@ -1,12 +1,12 @@
 ---
 version: "1.1.0"
 phase: 9
-planIndex: 2
+planIndex: 3
 totalPhases: 12
 totalPlans: 3
-status: "in-progress"
+status: "phase-complete"
 lastActivity: "2026-01-25"
-checksum: "g7i4d6e5"
+checksum: "h8j5k7f6"
 phaseName: "Verification System"
 ---
 
@@ -22,11 +22,11 @@ See: .planning/PROJECT.md (updated 2026-01-25)
 ## Current Position
 
 Phase: 9 of 12 — Verification System
-Plan: 2 of 3 in current phase
-Status: In progress
-Last activity: 2026-01-25 — Completed 09-02-PLAN.md (Orchestrator Verification Flow)
+Plan: 3 of 3 in current phase
+Status: Phase complete
+Last activity: 2026-01-25 — Completed 09-03-PLAN.md (Phase-End Summary)
 
-Progress: [####################] v1.0 complete | [████████░░░░░░░░░░░░] v1.1 45%
+Progress: [####################] v1.0 complete | [██████████░░░░░░░░░░] v1.1 50%
 
 ## v1.1 Milestone Overview
 
@@ -34,7 +34,7 @@ Progress: [####################] v1.0 complete | [████████░░
 |-------|------|--------------|--------|
 | 7 | E2E Flow & Role Clarity | E2E-01 to E2E-05 | Complete |
 | 8 | Parallel Execution | EXEC-01 to EXEC-03 | Complete |
-| 9 | Verification System | VERIF-01 to VERIF-04 | In Progress (2/3) |
+| 9 | Verification System | VERIF-01 to VERIF-04 | Complete |
 | 10 | Debug & Recovery | DEBUG-01 to DEBUG-04 | Pending |
 | 11 | Smart Entry & Mode Detection | MODE-01 to MODE-03 | Pending |
 | 12 | State & Dashboard Polish | STATE-01 to STATE-03, DASH-01, DASH-02 | Pending |
@@ -176,6 +176,11 @@ Recent decisions affecting current work:
 - Verification is silent on success (no user message) (09-02)
 - Parallel waves get aggregated diff from all commits (09-02)
 - Verification failures spawn recovery-agent before user sees issues (09-02)
+- Human review always happens at phase end (not optional) (09-03)
+- Test instructions adapt to feature complexity (simple vs complex) (09-03)
+- User can approve, report issues, or ask questions at phase end (09-03)
+- 3-tier model: Auto (task), Wave (between), Phase (human) (09-03)
+- Philosophy: machines verify what machines can, humans verify UX (09-03)
 
 ### Pending Todos
 
@@ -188,8 +193,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 09-02-PLAN.md (Orchestrator Verification Flow)
+Stopped at: Completed 09-03-PLAN.md (Phase-End Summary) - Phase 9 complete
 Resume file: None
 
 ---
-*Phase 9 in progress. 2/3 plans executed. Next: 09-03 (Phase-End Summary).*
+*Phase 9 complete. All 3/3 plans executed. Ready for Phase 10: Debug & Recovery.*
