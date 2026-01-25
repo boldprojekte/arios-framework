@@ -27,7 +27,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 8: Parallel Execution** - Wave-based parallel task execution with fresh contexts
 - [x] **Phase 9: Verification System** - Verifier subagent with 3-tier verification model
 - [x] **Phase 10: Debug & Recovery** - State integrity checks, self-correction, and escalation
-- [ ] **Phase 11: Smart Entry & Mode Detection** - Conversational routing for Feature-Mode vs Project-Mode
+- [x] **Phase 11: Smart Entry & Mode Detection** - Conversational routing for Feature-Mode vs Project-Mode
 - [ ] **Phase 12: State & Dashboard Polish** - Mode-aware session resume, state validation, and dashboard interaction
 
 ## Architectural Note: Work Scale & Modes
@@ -280,12 +280,16 @@ Plans:
   3. Feature-Mode skips roadmap creation and goes directly to wave/task planning
   4. Project-Mode follows full roadmap → phases → waves → tasks flow
   5. User can override detected mode if system guessed wrong
-**Plans**: 3 plans
+**Plans**: 7 plans
 
 Plans:
-- [ ] 11-01-PLAN.md — Mode detection conversation in /arios entry point
-- [ ] 11-02-PLAN.md — Explicit mode commands (/arios:feature, /arios:project)
-- [ ] 11-03-PLAN.md — Mode-aware orchestrator routing
+- [x] 11-01-PLAN.md — Mode detection conversation in /arios entry point
+- [x] 11-02-PLAN.md — Explicit mode commands (/arios:feature, /arios:project)
+- [x] 11-03-PLAN.md — Mode-aware orchestrator routing
+- [x] 11-04-PLAN.md — Fix mode storage location (gap closure)
+- [x] 11-05-PLAN.md — Mode-aware ideation workflow (gap closure)
+- [x] 11-06-PLAN.md — Mode-aware planning + change-mode command (gap closure)
+- [x] 11-07-PLAN.md — Document change-mode in arios.md (gap closure)
 
 **Why this phase exists:**
 > v1.0 assumed all work is Project-Mode. During Phase 8 discussion (2026-01-25), we realized users have different scales of work. A user adding a single feature shouldn't need a full roadmap. This phase adds conversational routing to detect the appropriate mode and adapt ARIOS's behavior accordingly.
@@ -339,11 +343,11 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 8. Parallel Execution | 3/3 | Complete | 2026-01-25 |
 | 9. Verification System | 3/3 | Complete | 2026-01-25 |
 | 10. Debug & Recovery | 4/4 | Complete | 2026-01-25 |
-| 11. Smart Entry & Mode Detection | 0/3 | Pending | — |
+| 11. Smart Entry & Mode Detection | 7/7 | Complete | 2026-01-25 |
 | 12. State & Dashboard Polish | 0/TBD | Pending | — |
 
 ---
 *Created: 2026-01-24*
-*Updated: 2026-01-25 (Phase 11 planned: 3 plans in 2 waves)*
+*Updated: 2026-01-25 (Phase 11 complete: 7 plans including 4 gap closure)*
 *Depth: standard (5-8 phases per milestone)*
 *Coverage: v1.0 15/15, v1.1 24/24 requirements mapped (3 new MODE-xx requirements)*
