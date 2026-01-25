@@ -103,35 +103,56 @@ Explicitly excluded. Documented to prevent scope creep.
 
 Which phases cover which requirements. Updated during roadmap creation.
 
+### v1.0 Requirements (Complete)
+
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| E2E-01 | TBD | Pending |
-| E2E-02 | TBD | Pending |
-| E2E-03 | TBD | Pending |
-| E2E-04 | TBD | Pending |
-| E2E-05 | TBD | Pending |
-| EXEC-01 | TBD | Pending |
-| EXEC-02 | TBD | Pending |
-| EXEC-03 | TBD | Pending |
-| VERIF-01 | TBD | Pending |
-| VERIF-02 | TBD | Pending |
-| VERIF-03 | TBD | Pending |
-| VERIF-04 | TBD | Pending |
-| DEBUG-01 | TBD | Pending |
-| DEBUG-02 | TBD | Pending |
-| DEBUG-03 | TBD | Pending |
-| DEBUG-04 | TBD | Pending |
-| DASH-01 | TBD | Pending |
-| DASH-02 | TBD | Pending |
-| STATE-01 | TBD | Pending |
-| STATE-02 | TBD | Pending |
-| STATE-03 | TBD | Pending |
+| CORE-01 | Phase 3 | Complete |
+| CORE-02 | Phase 1 | Complete |
+| CORE-03 | Phase 4 | Complete |
+| CORE-04 | Phase 3 | Complete |
+| AGENT-01 | Phase 2 | Complete |
+| AGENT-02 | Phase 2 | Complete |
+| AGENT-03 | Phase 2 | Complete |
+| AGENT-04 | Phase 6 | Complete |
+| UX-01 | Phase 6 | Complete |
+| UX-02 | Phase 5 | Complete |
+| UX-03 | Phase 5 | Complete |
+| UX-04 | Phase 3 | Complete |
+| QUAL-01 | Phase 1 | Complete |
+| QUAL-02 | Phase 5 | Complete |
+| QUAL-03 | Phase 5 | Complete |
+
+### v1.1 Requirements
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| E2E-01 | Phase 7 | Pending |
+| E2E-02 | Phase 7 | Pending |
+| E2E-03 | Phase 7 | Pending |
+| E2E-04 | Phase 7 | Pending |
+| E2E-05 | Phase 7 | Pending |
+| EXEC-01 | Phase 8 | Pending |
+| EXEC-02 | Phase 8 | Pending |
+| EXEC-03 | Phase 8 | Pending |
+| VERIF-01 | Phase 9 | Pending |
+| VERIF-02 | Phase 9 | Pending |
+| VERIF-03 | Phase 9 | Pending |
+| VERIF-04 | Phase 9 | Pending |
+| DEBUG-01 | Phase 10 | Pending |
+| DEBUG-02 | Phase 10 | Pending |
+| DEBUG-03 | Phase 10 | Pending |
+| DEBUG-04 | Phase 10 | Pending |
+| DASH-01 | Phase 11 | Pending |
+| DASH-02 | Phase 11 | Pending |
+| STATE-01 | Phase 11 | Pending |
+| STATE-02 | Phase 11 | Pending |
+| STATE-03 | Phase 11 | Pending |
 
 **Coverage:**
-- v1.1 requirements: 21 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 21
+- v1.0 requirements: 15/15 complete
+- v1.1 requirements: 21 total, 21 mapped to phases, 0 unmapped
 
 ---
 *Requirements defined: 2026-01-24*
-*Last updated: 2026-01-25 — v1.1 requirements added*
+*Last updated: 2026-01-25 — v1.1 traceability complete*
