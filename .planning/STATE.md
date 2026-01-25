@@ -147,6 +147,9 @@ Recent decisions affecting current work:
 - Three-option prompt (Continue/Status/Other) for resume flow (07-03)
 - Status-to-action mapping enables autonomous routing without re-confirmation (07-03)
 - Welcome Back vs Welcome to ARIOS for resume vs fresh start (07-03)
+- Hard refusal over soft warning for missing prerequisites (07-01)
+- Consistent stage completion format: Stage complete, file path, Next command, /clear tip (07-01)
+- Ideate confirmed as prerequisite-free: entry point to workflow (07-01)
 
 ### Pending Todos
 
@@ -159,8 +162,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 07-03-PLAN.md (/arios Resume Flow Enhancement)
+Stopped at: Completed 07-01-PLAN.md (Stage Transition Hardening)
 Resume file: None
 
 ---
-*Phase 7 in progress. 3/4 plans complete.*
+*Phase 7 in progress. 3/4 plans complete (07-01, 07-02, 07-03).*
