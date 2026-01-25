@@ -107,7 +107,7 @@ export function createWatcher(
     onStateChange(state);
   }
 
-  // Create watcher with recommended options
+  // Create watcher with polling for reliable cross-platform change detection
   const watcher = chokidar.watch(planningDir, {
     // Watch recursively to depth 5 (phases/XX-name/files)
     depth: 5,
@@ -138,11 +138,10 @@ export function createWatcher(
     // Don't emit events for initial files (we'll build state in ready handler)
     ignoreInitial: false,
 
-    // Wait for writes to finish before emitting events
-    awaitWriteFinish: {
-      stabilityThreshold: 300,
-      pollInterval: 100,
-    },
+    // Use polling for reliable change detection on macOS
+    // Native FSEvents can miss file modifications
+    usePolling: true,
+    interval: 500,
 
     // Persistent watching
     persistent: true,

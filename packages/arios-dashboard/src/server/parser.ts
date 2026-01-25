@@ -41,18 +41,46 @@ export function parseFile(
 
 /**
  * Parse PLAN.md files into Task objects
+ * Supports both Project-Mode (phase/plan) and Feature-Mode (plan_id/title) formats
  */
 export function parsePlanFile(filePath: string, planningDir: string): Task | null {
   try {
     const content = readFileSync(filePath, 'utf-8');
     const { data: frontmatter, content: body } = matter(content);
 
-    // Extract phase number and plan number from frontmatter or path
-    const phaseStr = frontmatter.phase as string | undefined;
-    const planNum = frontmatter.plan as number | undefined;
+    // Detect mode from frontmatter structure
+    const isFeatureMode = 'plan_id' in frontmatter || 'title' in frontmatter;
 
-    if (!phaseStr || planNum === undefined) {
-      return null;
+    let phaseStr: string;
+    let planNum: number;
+    let taskName: string;
+
+    if (isFeatureMode) {
+      // Feature-Mode format: plan_id, title
+      const planId = frontmatter.plan_id as string | undefined;
+      if (!planId) return null;
+
+      // Extract feature name from path: .planning/features/feature-{name}/01-PLAN.md
+      const pathParts = filePath.split('/');
+      const featureFolder = pathParts.find(p => p.startsWith('feature-'));
+      phaseStr = featureFolder || 'feature';
+      planNum = parseInt(planId, 10) || 1;
+      taskName = (frontmatter.title as string) || `Plan ${planNum}`;
+    } else {
+      // Project-Mode format: phase, plan
+      const phase = frontmatter.phase as string | undefined;
+      const plan = frontmatter.plan as number | undefined;
+
+      if (!phase || plan === undefined) {
+        return null;
+      }
+
+      phaseStr = phase;
+      planNum = plan;
+
+      // Extract task name from <objective> section
+      const objectiveMatch = body.match(/<objective>\s*([^\n]+)/);
+      taskName = objectiveMatch ? objectiveMatch[1].trim() : `Plan ${planNum}`;
     }
 
     // Parse phase number from string like "05-execution-flow" or just "05"
@@ -62,11 +90,7 @@ export function parsePlanFile(filePath: string, planningDir: string): Task | nul
     // Build task ID
     const id = `${String(phaseNum).padStart(2, '0')}-${String(planNum).padStart(2, '0')}`;
 
-    // Extract task name from <objective> section
-    const objectiveMatch = body.match(/<objective>\s*([^\n]+)/);
-    const name = objectiveMatch
-      ? objectiveMatch[1].trim()
-      : `Plan ${planNum}`;
+    const name = taskName;
 
     // Determine status by checking for SUMMARY.md
     const summaryPath = filePath.replace('-PLAN.md', '-SUMMARY.md');
@@ -322,6 +346,7 @@ export function parseAllFiles(
 
 /**
  * Build complete dashboard state from planning directory
+ * Supports both Project-Mode and Feature-Mode structures
  */
 export function buildDashboardState(planningDir: string): DashboardState {
   const tasks: Task[] = [];
@@ -330,8 +355,27 @@ export function buildDashboardState(planningDir: string): DashboardState {
   let currentPlan = 1;
   let roadmap = '';
 
+  // Detect mode: Feature-Mode has .planning/features/ folder, no ROADMAP.md
+  const featuresDir = join(planningDir, 'features');
+  const roadmapPath = join(planningDir, 'ROADMAP.md');
+  const isFeatureMode = existsSync(featuresDir) && !existsSync(roadmapPath);
+
   // Parse STATE.md for current position
-  const stateFilePath = join(planningDir, 'STATE.md');
+  // In Feature-Mode, state may be in feature folder
+  let stateFilePath = join(planningDir, 'STATE.md');
+  if (isFeatureMode && !existsSync(stateFilePath)) {
+    // Look for state in feature folders
+    const featureFolders = readdirSync(featuresDir).filter(f =>
+      f.startsWith('feature-') && statSync(join(featuresDir, f)).isDirectory()
+    );
+    if (featureFolders.length > 0) {
+      const featureStatePath = join(featuresDir, featureFolders[0], 'STATE.md');
+      if (existsSync(featureStatePath)) {
+        stateFilePath = featureStatePath;
+      }
+    }
+  }
+
   if (existsSync(stateFilePath)) {
     const stateData = parseStateFile(stateFilePath);
     if (stateData) {
@@ -340,8 +384,7 @@ export function buildDashboardState(planningDir: string): DashboardState {
     }
   }
 
-  // Parse ROADMAP.md for phases and content
-  const roadmapPath = join(planningDir, 'ROADMAP.md');
+  // Parse ROADMAP.md for phases (Project-Mode only)
   if (existsSync(roadmapPath)) {
     const roadmapData = parseRoadmapFile(roadmapPath);
     if (roadmapData) {
@@ -358,6 +401,32 @@ export function buildDashboardState(planningDir: string): DashboardState {
       if (task) {
         tasks.push(task);
       }
+    }
+  }
+
+  // Feature-Mode: create synthetic phase from feature folders
+  if (isFeatureMode && phases.length === 0 && tasks.length > 0) {
+    const featureFolders = readdirSync(featuresDir).filter(f =>
+      f.startsWith('feature-') && statSync(join(featuresDir, f)).isDirectory()
+    );
+
+    for (const folder of featureFolders) {
+      const featureName = folder.replace('feature-', '');
+      const featureTasks = tasks.filter(t => t.phase.includes(folder));
+      const completeTasks = featureTasks.filter(t => t.status === 'complete');
+
+      phases.push({
+        id: 1,
+        name: featureName,
+        fullName: featureName.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+        status: completeTasks.length === featureTasks.length && featureTasks.length > 0
+          ? 'complete'
+          : featureTasks.some(t => t.status === 'in-progress')
+            ? 'in-progress'
+            : 'pending',
+        plansTotal: featureTasks.length,
+        plansComplete: completeTasks.length,
+      });
     }
   }
 

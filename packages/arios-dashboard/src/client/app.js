@@ -146,6 +146,17 @@ function handleMessage(message) {
     if (roadmap !== undefined) state.roadmap = roadmap;
 
     render(changedTaskIds);
+
+    // Re-render detail panel if open (to show updated notes, status, etc.)
+    if (state.selectedTaskId) {
+      const updatedTask = state.tasks.find(t => t.id === state.selectedTaskId);
+      if (updatedTask && elements.panelBody) {
+        elements.panelBody.innerHTML = renderTaskDetailHTML(updatedTask);
+        // Re-attach event listener to Add Note button
+        const addNoteBtn = document.getElementById('add-note-btn');
+        addNoteBtn?.addEventListener('click', handleAddNote);
+      }
+    }
   }
 }
 

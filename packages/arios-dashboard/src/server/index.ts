@@ -172,6 +172,12 @@ export async function startServer(planningDir: string, portOverride?: number): P
           const updated = matter.stringify(markdown, { ...frontmatter, notes });
           await writeFile(planPath, updated, 'utf-8');
 
+          // Immediately rebuild and broadcast state (don't wait for watcher)
+          const newState = buildDashboardState(resolvedDir);
+          currentState = newState;
+          broadcast({ type: 'update', payload: newState });
+          console.log('[api] Note added, broadcast update');
+
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ success: true, noteCount: notes.length }));
         } catch (error) {
@@ -206,15 +212,28 @@ export async function startServer(planningDir: string, portOverride?: number): P
 export async function stopServer(): Promise<void> {
   console.log('[server] Shutting down...');
 
-  // Close watcher
+  // Close watcher first
   if (fileWatcher) {
     await fileWatcher.close();
     fileWatcher = null;
     console.log('[server] File watcher closed');
   }
 
+  // End all SSE client connections BEFORE closing server
+  // This is critical - server.close() waits for open connections
+  for (const client of clients) {
+    client.end();
+  }
+  clients.clear();
+  console.log('[server] All SSE clients disconnected');
+
   // Close HTTP server
   if (httpServer) {
+    // Use closeAllConnections if available (Node 18.2+)
+    if (typeof httpServer.closeAllConnections === 'function') {
+      httpServer.closeAllConnections();
+    }
+
     await new Promise<void>((resolve, reject) => {
       httpServer!.close((err) => {
         if (err) reject(err);
@@ -225,10 +244,7 @@ export async function stopServer(): Promise<void> {
     console.log('[server] HTTP server closed');
   }
 
-  // Clear all clients
-  clients.clear();
   currentState = null;
-
   console.log('[server] Shutdown complete');
 }
 
