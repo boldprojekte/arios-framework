@@ -21,7 +21,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 5: Execution Flow** - Checkpoints, complexity scaling, and approach selection
 - [x] **Phase 6: Task Visibility** - Task system integration and HTML dashboard
 
-### Milestone v1.1: Polish & Complete
+### Milestone v1.1: Polish & Complete (Complete)
 
 - [x] **Phase 7: E2E Flow & Role Clarity** - Complete workflow from ideation through execution with clear orchestration
 - [x] **Phase 8: Parallel Execution** - Wave-based parallel task execution with fresh contexts
@@ -29,6 +29,13 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 10: Debug & Recovery** - State integrity checks, self-correction, and escalation
 - [x] **Phase 11: Smart Entry & Mode Detection** - Conversational routing for Feature-Mode vs Project-Mode
 - [x] **Phase 12: State & Dashboard Polish** - Mode-aware session resume, state validation, and dashboard interaction
+
+### Milestone v1.2: Visibility & Refinement
+
+- [ ] **Phase 13: Gap Closure - State & Session** - Reliable session resume, state validation, and drift detection
+- [ ] **Phase 14: Gap Closure - Dashboard** - Task details panel, live updates reliability, and smart server start
+- [ ] **Phase 15: Execution Diagrams** - Mermaid diagrams documenting all ARIOS flows
+- [ ] **Phase 16: Refinement Flow** - User annotations, discussion command, and prompt editing
 
 ## Architectural Note: Work Scale & Modes
 
@@ -327,10 +334,57 @@ Plans:
 
 ---
 
+### Phase 13: Gap Closure - State & Session
+**Goal**: Session resume and state management work reliably in all scenarios
+**Depends on**: Phase 12 (v1.1 foundation)
+**Requirements**: GAP-03, GAP-04, GAP-05
+**Success Criteria** (what must be TRUE):
+  1. User closes Claude Code mid-execution, reopens days later, and resumes exactly where they left off without confusion
+  2. On session start, system validates STATE.md against actual files and alerts user if plans claimed complete don't have SUMMARY.md
+  3. Running /execute when STATE.md claims progress that doesn't match filesystem triggers drift warning before proceeding
+  4. State validation auto-fixes trivial issues (checksum, timestamp) but prompts user for substantive drift
+**Plans**: TBD
+
+### Phase 14: Gap Closure - Dashboard
+**Goal**: Dashboard provides reliable real-time visibility with smooth UX
+**Depends on**: Phase 13
+**Requirements**: GAP-01, GAP-02, GAP-06
+**Success Criteria** (what must be TRUE):
+  1. User clicks any task in dashboard and sees detailed information in slide-out panel (plan content, notes, status)
+  2. During execution, dashboard updates within 1 second of state changes without manual refresh or connection drops
+  3. User can start dashboard server from any directory in the project - `arios dashboard` just works
+  4. Dashboard auto-detects if server is already running and connects to it instead of failing
+**Plans**: TBD
+
+### Phase 15: Execution Diagrams
+**Goal**: All ARIOS flows are documented as visual Mermaid diagrams for understanding and refinement
+**Depends on**: Phase 14
+**Requirements**: DIAG-01, DIAG-02, DIAG-03, DIAG-04, DIAG-05, DIAG-06
+**Success Criteria** (what must be TRUE):
+  1. User can view /arios entry point flow showing mode detection, resume check, and routing decisions
+  2. User can view /ideate, /plan, and /execute flows showing all decision branches and subagent spawns
+  3. User can view supporting commands flow showing /status, /help, and mode override commands
+  4. Master diagram shows how all flows connect - user can trace any workflow from entry to completion
+  5. Diagrams render correctly in GitHub, VS Code, and dashboard (standard Mermaid syntax)
+**Plans**: TBD
+
+### Phase 16: Refinement Flow
+**Goal**: User can annotate diagrams and trigger discussions to refine ARIOS behavior
+**Depends on**: Phase 15 (diagrams must exist)
+**Requirements**: REFINE-01, REFINE-02, REFINE-03
+**Success Criteria** (what must be TRUE):
+  1. DIAGRAM-NOTES.md exists with template for user to add annotations keyed to diagram nodes
+  2. User runs /arios:refine and system reads their notes, starting a discussion about requested changes
+  3. After discussion, system can edit prompt files and adjust flows based on agreed changes
+  4. Changes are committed with clear description of what was refined and why
+**Plans**: TBD
+
+---
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10 -> 11 -> 12
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10 -> 11 -> 12 -> 13 -> 14 -> 15 -> 16
 
 ### Milestone v1.0 (Complete)
 
@@ -343,7 +397,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 5. Execution Flow | 10/10 | Complete | 2026-01-25 |
 | 6. Task Visibility | 7/7 | Complete | 2026-01-25 |
 
-### Milestone v1.1: Polish & Complete
+### Milestone v1.1: Polish & Complete (Complete)
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -354,9 +408,17 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 11. Smart Entry & Mode Detection | 7/7 | Complete | 2026-01-25 |
 | 12. State & Dashboard Polish | 6/6 | Complete | 2026-01-26 |
 
+### Milestone v1.2: Visibility & Refinement
+
+| Phase | Plans Complete | Status | Completed |
+|-------|----------------|--------|-----------|
+| 13. Gap Closure - State & Session | 0/TBD | Pending | — |
+| 14. Gap Closure - Dashboard | 0/TBD | Pending | — |
+| 15. Execution Diagrams | 0/TBD | Pending | — |
+| 16. Refinement Flow | 0/TBD | Pending | — |
+
 ---
 *Created: 2026-01-24*
-*Updated: 2026-01-26 (v1.1 MILESTONE COMPLETE)*
+*Updated: 2026-01-27 (v1.2 roadmap added)*
 *Depth: standard (5-8 phases per milestone)*
-*Coverage: v1.0 15/15, v1.1 24/24 requirements mapped*
-*Known Issues: STATE-02 drift detection partial, dashboard start UX needs improvement (see STATE.md)*
+*Coverage: v1.0 15/15, v1.1 24/24, v1.2 15/15 requirements mapped*

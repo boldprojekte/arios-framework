@@ -179,27 +179,27 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| GAP-01 | — | Pending |
-| GAP-02 | — | Pending |
-| GAP-03 | — | Pending |
-| GAP-04 | — | Pending |
-| GAP-05 | — | Pending |
-| GAP-06 | — | Pending |
-| DIAG-01 | — | Pending |
-| DIAG-02 | — | Pending |
-| DIAG-03 | — | Pending |
-| DIAG-04 | — | Pending |
-| DIAG-05 | — | Pending |
-| DIAG-06 | — | Pending |
-| REFINE-01 | — | Pending |
-| REFINE-02 | — | Pending |
-| REFINE-03 | — | Pending |
+| GAP-01 | Phase 14 | Pending |
+| GAP-02 | Phase 14 | Pending |
+| GAP-03 | Phase 13 | Pending |
+| GAP-04 | Phase 13 | Pending |
+| GAP-05 | Phase 13 | Pending |
+| GAP-06 | Phase 14 | Pending |
+| DIAG-01 | Phase 15 | Pending |
+| DIAG-02 | Phase 15 | Pending |
+| DIAG-03 | Phase 15 | Pending |
+| DIAG-04 | Phase 15 | Pending |
+| DIAG-05 | Phase 15 | Pending |
+| DIAG-06 | Phase 15 | Pending |
+| REFINE-01 | Phase 16 | Pending |
+| REFINE-02 | Phase 16 | Pending |
+| REFINE-03 | Phase 16 | Pending |
 
 **Coverage:**
 - v1.0 requirements: 15/15 complete
 - v1.1 requirements: 24/24 complete
-- v1.2 requirements: 15 total, 0 mapped to phases (pending roadmap)
+- v1.2 requirements: 15/15 mapped to phases (0 complete)
 
 ---
 *Requirements defined: 2026-01-24*
-*Last updated: 2026-01-26 — v1.2 requirements defined*
+*Last updated: 2026-01-27 — v1.2 traceability complete*
