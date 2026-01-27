@@ -109,16 +109,14 @@ tools: [allowed tools]
 - Less orchestration structure, more task clarity
 - Reference GSD agents as patterns
 
-## Current Milestone: v1.1 Polish & Complete
+## Current Milestone: v1.2 Visibility & Refinement
 
-**Goal:** Make v1.0 actually work end-to-end with clear orchestration logic and quality improvements.
+**Goal:** Get full visibility into ARIOS execution flow and enable user-driven refinement based on what you see.
 
 **Target features:**
-- E2E workflow functioning from ideation through execution
-- Clear separation: Ideate (WHAT) → Explore (codebase) → Research (external) → Plan (structure) → Execute (build)
-- Dashboard clickable with task details and actions
-- Verifier subagent for post-execution validation
-- Debug mode for when things get out of sync
+- Close remaining v1.1 gaps (dashboard polish, state validation)
+- Full execution trace diagram (Mermaid) showing every decision, spawn, file interaction
+- Annotation-driven refinement flow — write thoughts, discuss with Claude, implement changes
 
 ## Constraints
 
@@ -139,4 +137,4 @@ tools: [allowed tools]
 | Lean prompts that leave room for LLM thinking | Opus is smart, over-specification hurts more than helps | — Pending |
 
 ---
-*Last updated: 2026-01-25 after v1.1 milestone started*
+*Last updated: 2026-01-26 after v1.2 milestone started*
