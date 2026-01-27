@@ -31,9 +31,9 @@ Requirements shipped in v1.0. These are locked.
 - [x] **QUAL-02**: Complexity scaling where simple tasks run in one wave, complex in phased waves
 - [x] **QUAL-03**: Production-ready code following best practices and existing codebase patterns
 
-## v1.1 Requirements
+## v1.1 Requirements (Validated)
 
-Requirements for v1.1 milestone: Polish & Complete.
+Requirements shipped in v1.1. These are locked.
 
 ### E2E Flow & Orchestration
 
@@ -63,16 +63,39 @@ Requirements for v1.1 milestone: Polish & Complete.
 - [x] **DEBUG-03**: Clear escalation triggers — user always knows why AI is asking for help
 - [x] **DEBUG-04**: Plain-language error messages — impact-focused, not technical jargon
 
-### Dashboard Polish
+### Mode Detection
 
-- [ ] **DASH-01**: Polish click-for-details interaction
-- [ ] **DASH-02**: Live updates work reliably during execution
+- [x] **MODE-01**: Conversational entry point detects work scale
+- [x] **MODE-02**: Feature-Mode provides streamlined single-phase workflow
+- [x] **MODE-03**: Mode selection persists and can be changed mid-session
 
-### State & Context
+## v1.2 Requirements
 
-- [ ] **STATE-01**: Session resume — pick up exactly where you left off
-- [ ] **STATE-02**: State validation on session start detects corruption or drift
-- [ ] **STATE-03**: v1.0 gaps closed — CORE-03, AGENT-04, UX-01 fully working
+Requirements for v1.2 milestone: Visibility & Refinement.
+
+### Gap Closure
+
+- [ ] **GAP-01**: Click dashboard task to see details in slide-out panel
+- [ ] **GAP-02**: Dashboard live updates work reliably during execution
+- [ ] **GAP-03**: Session resume — pick up exactly where you left off
+- [ ] **GAP-04**: State validation on session start detects corruption or drift
+- [ ] **GAP-05**: Drift detection integrated into /execute flow
+- [ ] **GAP-06**: Dashboard server start UX — smart start from any directory
+
+### Execution Diagram
+
+- [ ] **DIAG-01**: Mermaid diagram of /arios entry point flow (mode detection, routing)
+- [ ] **DIAG-02**: Mermaid diagram of /ideate flow (all decision branches, file outputs)
+- [ ] **DIAG-03**: Mermaid diagram of /plan flow (subagent spawns, file writes)
+- [ ] **DIAG-04**: Mermaid diagram of /execute flow (waves, verification, recovery)
+- [ ] **DIAG-05**: Mermaid diagram of supporting commands (/status, /help, mode commands)
+- [ ] **DIAG-06**: Master diagram linking all flows together
+
+### Refinement Flow
+
+- [ ] **REFINE-01**: DIAGRAM-NOTES.md template for user annotations
+- [ ] **REFINE-02**: /arios:refine command reads notes and starts discussion
+- [ ] **REFINE-03**: Implement changes from discussion (edit prompts, adjust flows)
 
 ## v2 Requirements
 
@@ -123,7 +146,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | QUAL-02 | Phase 5 | Complete |
 | QUAL-03 | Phase 5 | Complete |
 
-### v1.1 Requirements
+### v1.1 Requirements (Complete)
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
@@ -143,16 +166,40 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DEBUG-02 | Phase 10 | Complete |
 | DEBUG-03 | Phase 10 | Complete |
 | DEBUG-04 | Phase 10 | Complete |
-| DASH-01 | Phase 11 | Pending |
-| DASH-02 | Phase 11 | Pending |
-| STATE-01 | Phase 11 | Pending |
-| STATE-02 | Phase 11 | Pending |
-| STATE-03 | Phase 11 | Pending |
+| MODE-01 | Phase 11 | Complete |
+| MODE-02 | Phase 11 | Complete |
+| MODE-03 | Phase 11 | Complete |
+| DASH-01 | Phase 12 | Complete |
+| DASH-02 | Phase 12 | Complete |
+| STATE-01 | Phase 12 | Complete |
+| STATE-02 | Phase 12 | Complete |
+| STATE-03 | Phase 12 | Complete |
+
+### v1.2 Requirements
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| GAP-01 | — | Pending |
+| GAP-02 | — | Pending |
+| GAP-03 | — | Pending |
+| GAP-04 | — | Pending |
+| GAP-05 | — | Pending |
+| GAP-06 | — | Pending |
+| DIAG-01 | — | Pending |
+| DIAG-02 | — | Pending |
+| DIAG-03 | — | Pending |
+| DIAG-04 | — | Pending |
+| DIAG-05 | — | Pending |
+| DIAG-06 | — | Pending |
+| REFINE-01 | — | Pending |
+| REFINE-02 | — | Pending |
+| REFINE-03 | — | Pending |
 
 **Coverage:**
 - v1.0 requirements: 15/15 complete
-- v1.1 requirements: 21 total, 21 mapped to phases, 0 unmapped
+- v1.1 requirements: 24/24 complete
+- v1.2 requirements: 15 total, 0 mapped to phases (pending roadmap)
 
 ---
 *Requirements defined: 2026-01-24*
-*Last updated: 2026-01-25 — v1.1 traceability complete*
+*Last updated: 2026-01-26 — v1.2 requirements defined*
