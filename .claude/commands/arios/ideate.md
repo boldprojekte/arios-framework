@@ -41,7 +41,7 @@ Start creative exploration for new features, project direction, or problem resea
 | Mode | Ideation Output | Next Step |
 |------|-----------------|-----------|
 | Feature-Mode | CONTEXT.md + STATE.md in `.planning/features/feature-{name}/` | `/plan` for feature |
-| Project-Mode | ROADMAP.md with multi-phase structure | `/plan {phase}` for phases |
+| Project-Mode | ROADMAP.md + phase folders + CONTEXT.md for phase 1 | `/plan 1` for first phase |
 
 ### Feature-Mode Ideation
 
@@ -89,10 +89,36 @@ When mode == "feature":
 
 When mode == "project":
 
-1. Follow standard ideation workflow
-2. Create ROADMAP.md with phases
-3. Create phase folders with numbered naming: `01-xxx/`, `02-xxx/`
-4. Route to: `/plan {phase}` for first phase
+**Steps:**
+
+1. **Route to orchestrator for research** on the full project scope
+2. **Create ROADMAP.md** at `.planning/ROADMAP.md` with:
+   - Project overview and goals
+   - Phase breakdown with numbered phases
+   - Phase names and brief descriptions
+   - Dependencies between phases (if any)
+3. **Create phase folders** with numbered naming: `.planning/phases/01-xxx/`, `.planning/phases/02-xxx/`, etc.
+4. **Create CONTEXT.md for phase 1** at `.planning/phases/01-xxx/01-CONTEXT.md` with:
+   - Phase 1 goal and scope (derived from roadmap + research findings)
+   - Success criteria for phase 1
+   - Technical considerations specific to phase 1
+   - Key decisions and constraints
+   This is critical - `/plan 1` requires CONTEXT.md as prerequisite.
+   Later phases get their own CONTEXT.md when the user runs `/ideate` after completing the previous phase.
+5. **Create/update STATE.md** at `.planning/STATE.md`:
+   ```yaml
+   ---
+   version: "1.1.0"
+   phase: 1
+   planIndex: 0
+   totalPhases: {number of phases from roadmap}
+   totalPlans: 0
+   status: "ready-for-planning"
+   lastActivity: "{current date}"
+   phaseName: "{phase 1 name}"
+   ---
+   ```
+6. **Route to:** `/plan 1` for first phase
 
 ## Workflow
 
@@ -173,9 +199,10 @@ _Tip: Run `/clear` first for fresh context_
 
 Stage complete: Ideation finished for {topic}
 
-Findings: `.planning/phases/{phase}/{phase}-CONTEXT.md`
+Roadmap: `.planning/ROADMAP.md`
+Phase 1 context: `.planning/phases/01-xxx/01-CONTEXT.md`
 
-Next: `/plan {phase}`
+Next: `/plan 1`
 
 _Tip: Run `/clear` first for fresh context_
 
