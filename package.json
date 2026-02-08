@@ -13,6 +13,7 @@
   "scripts": {
     "build": "tsc && npm run copy-assets",
     "copy-assets": "cp -r src/dashboard/client dist/dashboard/client",
+    "prepare": "npm run build",
     "dev": "tsx src/index.ts"
   },
   "keywords": [
