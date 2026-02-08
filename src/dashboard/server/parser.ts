@@ -48,28 +48,45 @@ export function parsePlanFile(filePath: string, planningDir: string): Task | nul
     const content = readFileSync(filePath, 'utf-8');
     const { data: frontmatter, content: body } = matter(content);
 
-    // Detect mode from frontmatter structure
-    const isFeatureMode = 'plan_id' in frontmatter || 'title' in frontmatter;
+    // Detect mode from file path (more reliable than frontmatter fields)
+    const isFeatureMode = filePath.includes('/features/feature-');
 
     let phaseStr: string;
     let planNum: number;
     let taskName: string;
 
     if (isFeatureMode) {
-      // Feature-Mode format: plan_id, title
-      const planId = frontmatter.plan_id as string | undefined;
+      // Feature-Mode format: plan_id or id, title
+      const planId = (frontmatter.plan_id || frontmatter.id) as string | undefined;
       if (!planId) return null;
 
       // Extract feature name from path: .planning/features/feature-{name}/01-PLAN.md
       const pathParts = filePath.split('/');
       const featureFolder = pathParts.find(p => p.startsWith('feature-'));
       phaseStr = featureFolder || 'feature';
-      planNum = parseInt(planId, 10) || 1;
+      planNum = parseInt(planId.split('-').pop() || planId, 10) || 1;
       taskName = (frontmatter.title as string) || `Plan ${planNum}`;
     } else {
-      // Project-Mode format: phase, plan
+      // Project-Mode format: phase + plan (or extract from id/filename)
       const phase = frontmatter.phase as string | undefined;
-      const plan = frontmatter.plan as number | undefined;
+      let plan = frontmatter.plan as number | undefined;
+
+      // Fallback: extract plan number from id field (e.g., "01-02" → 2)
+      if (plan === undefined && frontmatter.id) {
+        const idStr = String(frontmatter.id);
+        const idParts = idStr.split('-');
+        if (idParts.length >= 2) {
+          plan = parseInt(idParts[idParts.length - 1], 10);
+        }
+      }
+
+      // Fallback: extract plan number from filename (e.g., "01-02-PLAN.md" → 2)
+      if (plan === undefined) {
+        const fileMatch = basename(filePath).match(/^\d+-(\d+)-PLAN\.md$/);
+        if (fileMatch) {
+          plan = parseInt(fileMatch[1], 10);
+        }
+      }
 
       if (!phase || plan === undefined) {
         return null;
@@ -78,9 +95,12 @@ export function parsePlanFile(filePath: string, planningDir: string): Task | nul
       phaseStr = phase;
       planNum = plan;
 
-      // Extract task name from <objective> section
-      const objectiveMatch = body.match(/<objective>\s*([^\n]+)/);
-      taskName = objectiveMatch ? objectiveMatch[1].trim() : `Plan ${planNum}`;
+      // Extract task name from title frontmatter, <objective> section, or ## Objective heading
+      taskName = (frontmatter.title as string) || '';
+      if (!taskName) {
+        const objectiveMatch = body.match(/<objective>\s*([^\n]+)/) || body.match(/## Objective\s*\n\s*([^\n]+)/);
+        taskName = objectiveMatch ? objectiveMatch[1].trim() : `Plan ${planNum}`;
+      }
     }
 
     // Parse phase number from string like "05-execution-flow" or just "05"

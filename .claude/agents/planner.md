@@ -32,19 +32,22 @@ From orchestrator:
 </workflow>
 
 <plan_format>
-YAML frontmatter:
+YAML frontmatter (ALL fields required for dashboard compatibility):
 ```yaml
 ---
-version: "001"
-type: plan
-status: complete
-created: [ISO timestamp]
-phase: [phase name]
-agent: planner
-tasks_created: [count]
-task_ids: [array of task IDs]
+id: "{phase}-{plan}"           # e.g., "01-03"
+phase: "{phase folder name}"   # e.g., "01-project-setup"
+plan: {plan number}            # e.g., 3 (integer, NOT string)
+title: "{descriptive title}"   # e.g., "Authentication Setup"
+wave: {wave number}            # e.g., 1 (integer)
+depends_on: []                 # array of plan IDs this depends on, e.g., ["01-01", "01-02"]
+estimated_tasks: {count}       # number of tasks in this plan
+status: "pending"              # always "pending" when created
 ---
 ```
+
+**CRITICAL:** The `plan` field (integer) is required for the dashboard to display tasks.
+The `id` field follows the pattern `{phase_num}-{plan_num}` zero-padded (e.g., "01-03").
 
 Plan structure:
 - Waves section: group tasks by dependency
