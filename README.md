@@ -32,7 +32,7 @@ This creates:
 /arios:start
 ```
 
-ARIOS detects your project type (Node/Python/Go/Rust), TypeScript usage, and package manager. Runtime configuration is saved to `.planning/config.json`.
+ARIOS detects runtime/tooling (Node/Python/Go/Rust), TypeScript usage, and package manager. For greenfield projects, the actual product/project type stays unset until you describe what to build. Runtime configuration is saved to `.planning/config.json`.
 
 After that, you're ready:
 

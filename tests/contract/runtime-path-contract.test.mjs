@@ -91,3 +91,21 @@ test('init command renders metadata and runtime config to separate targets', () 
     'init command must write runtime config to .planning/config.json'
   );
 });
+
+test('/arios:start contract keeps product type unset during setup', () => {
+  const startCommand = readFileSync(
+    join(repoRoot, 'templates', '.claude', 'commands', 'arios', 'start.md'),
+    'utf-8'
+  );
+
+  assert.match(
+    startCommand,
+    /must NOT lock in the final product\/project type/i,
+    '/arios:start should explicitly avoid fixing final project type'
+  );
+  assert.match(
+    startCommand,
+    /"type"\s*:\s*"unspecified"/,
+    '/arios:start should store neutral project type during setup'
+  );
+});
