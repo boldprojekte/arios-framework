@@ -6,7 +6,7 @@
  * only by explicit request. Stored in .planning/config.json (project-local).
  *
  * Note: The actual selection UI prompt (offering the user the choice) is
- * implemented by the orchestrator's /ideate command, not by this module.
+ * implemented by the orchestrator's /arios:ideate command, not by this module.
  * This module provides the storage and retrieval API that the orchestrator uses.
  */
 

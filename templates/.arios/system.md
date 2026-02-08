@@ -29,8 +29,6 @@ Run these from Claude Code:
 - `/arios:update` - Update ARIOS templates
 - `/arios:help` - Show command reference
 
-Legacy aliases like `/plan` and `/execute` still work temporarily and forward to `/arios:*`.
-
 ## How It Works
 
 1. ARIOS detects your project type and adapts recommendations

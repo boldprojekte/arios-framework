@@ -51,7 +51,7 @@ export async function init(): Promise<void> {
       ariosDir
     );
 
-    // Copy .claude/commands/ including /arios:* commands and legacy aliases
+    // Copy .claude/commands/ (namespaced /arios:* commands)
     await ensureDir(claudeCommandsDir);
     await copyTemplates(
       path.join(templatesDir, '.claude', 'commands'),
@@ -102,7 +102,7 @@ export async function init(): Promise<void> {
     console.log(chalk.dim('Created:'));
     console.log(chalk.dim('  .arios/           ARIOS system files'));
     console.log(chalk.dim('  .planning/        Runtime workflow state + config'));
-    console.log(chalk.dim('  .claude/commands/ Slash commands (/arios:* + legacy aliases)'));
+    console.log(chalk.dim('  .claude/commands/ Slash commands (/arios:*)'));
     console.log(chalk.dim('  .claude/agents/   Subagents (researcher, planner, executor)'));
     console.log('');
     console.log(chalk.cyan('Run /arios:start in Claude Code to complete setup'));

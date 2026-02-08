@@ -22,7 +22,6 @@ npx arios init
 This creates:
 - `.claude/agents/` — 6 specialized AI agents
 - `.claude/commands/arios/` — namespaced `/arios:*` commands
-- `.claude/commands/` — temporary legacy alias wrappers (`/plan`, `/execute`, ...)
 - `.planning/` — runtime workflow config + planning state
 - `.arios/` — install metadata + system prompt
 - `CLAUDE.md` — Claude Code entry point with ARIOS section
@@ -176,17 +175,6 @@ Each phase goes through the full ideate → plan → execute cycle.
 | `/arios:recover` | Rebuild missing/inconsistent state |
 | `/arios:reset` | Archive active planning state and start fresh |
 | `/arios:switch-feature` | Switch active feature folder |
-
-### Legacy Alias Transition
-
-Un-namespaced commands are still available as temporary aliases:
-- `/ideate` -> `/arios:ideate`
-- `/plan` -> `/arios:plan`
-- `/execute` -> `/arios:execute`
-- `/feature` -> `/arios:feature`
-- `/project` -> `/arios:project`
-- `/change-mode` -> `/arios:change-mode`
-- `/orchestrate` -> `/arios:orchestrate`
 
 ## Agents
 

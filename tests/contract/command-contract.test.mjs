@@ -7,7 +7,7 @@ const repoRoot = process.cwd();
 const commandsRoot = join(repoRoot, 'templates', '.claude', 'commands');
 const namespacedCommandsDir = join(commandsRoot, 'arios');
 
-const workflowAliases = [
+const legacyCommandNames = [
   'ideate',
   'plan',
   'execute',
@@ -66,10 +66,6 @@ test('canonical /arios docs do not use un-namespaced workflow commands', () => {
   const legacyWorkflowRegex = /(^|[\s`"'(])\/(ideate|plan|execute|feature|project|change-mode|orchestrate)(?!-|:)\b/gm;
 
   for (const filePath of getMarkdownFiles(namespacedCommandsDir)) {
-    if (basename(filePath) === 'help.md') {
-      continue;
-    }
-
     const content = readFileSync(filePath, 'utf-8');
     let match;
     while ((match = legacyWorkflowRegex.exec(content)) !== null) {
@@ -84,30 +80,18 @@ test('canonical /arios docs do not use un-namespaced workflow commands', () => {
   );
 });
 
-test('legacy alias wrapper commands exist and forward to /arios:*', () => {
-  const aliasMap = {
-    ideate: 'ideate',
-    plan: 'plan',
-    execute: 'execute',
-    feature: 'feature',
-    project: 'project',
-    'change-mode': 'change-mode',
-    orchestrate: 'orchestrate'
-  };
-
-  for (const aliasName of workflowAliases) {
-    const aliasFile = join(commandsRoot, `${aliasName}.md`);
-    assert.ok(existsSync(aliasFile), `missing legacy alias wrapper: ${aliasFile}`);
-    const content = readFileSync(aliasFile, 'utf-8');
-    assert.match(
-      content,
-      new RegExp(`/arios:${aliasMap[aliasName]}\\b`),
-      `alias wrapper does not forward to /arios:${aliasMap[aliasName]}: ${aliasFile}`
+test('legacy un-namespaced command wrappers are removed', () => {
+  for (const legacyCommandName of legacyCommandNames) {
+    const legacyFile = join(commandsRoot, `${legacyCommandName}.md`);
+    assert.equal(
+      existsSync(legacyFile),
+      false,
+      `legacy command wrapper should not exist anymore: ${legacyFile}`
     );
   }
 });
 
-test('init/update commands copy full command templates (namespaced + aliases)', () => {
+test('init/update commands copy full command templates', () => {
   const initSource = readFileSync(join(repoRoot, 'src', 'commands', 'init.ts'), 'utf-8');
   const updateSource = readFileSync(join(repoRoot, 'src', 'commands', 'update.ts'), 'utf-8');
 

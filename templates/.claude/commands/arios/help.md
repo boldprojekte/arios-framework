@@ -74,17 +74,6 @@ ARIOS uses specialized agents for heavy work:
 
 You see summaries from the orchestrator. Full details available via Ctrl+O.
 
-### Legacy Alias Compatibility
-
-Legacy commands without namespace still work during transition:
-- `/ideate` -> `/arios:ideate`
-- `/plan` -> `/arios:plan`
-- `/execute` -> `/arios:execute`
-- `/feature` -> `/arios:feature`
-- `/project` -> `/arios:project`
-- `/change-mode` -> `/arios:change-mode`
-- `/orchestrate` -> `/arios:orchestrate`
-
 ### Tips
 
 - Run `/clear` between stages for fresh context
