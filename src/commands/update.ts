@@ -1,9 +1,22 @@
 import chalk from 'chalk';
+import ora from 'ora';
 import path from 'node:path';
-import { fileExists, readFile } from '../utils/files.js';
+import { fileURLToPath } from 'node:url';
+import {
+  ensureDir,
+  copyTemplates,
+  fileExists,
+  readFile,
+} from '../utils/files.js';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+function getTemplatesDir(): string {
+  return path.resolve(__dirname, '../../templates');
+}
 
 /**
- * Update ARIOS to the latest version (placeholder)
+ * Update ARIOS commands, agents, and system files to the latest version
  */
 export async function update(): Promise<void> {
   const cwd = process.cwd();
@@ -29,14 +42,44 @@ export async function update(): Promise<void> {
       }
     }
 
-    // Placeholder message
-    console.log(chalk.yellow('Update checking is not yet implemented.'));
+    const spinner = ora('Updating ARIOS...').start();
+
+    const templatesDir = getTemplatesDir();
+
+    // Update .arios/system.md (but preserve config.json — user settings)
+    const systemMdSrc = path.join(templatesDir, '.arios', 'system.md');
+    const systemMdDest = path.join(ariosDir, 'system.md');
+    if (await fileExists(systemMdSrc)) {
+      const { copyFile } = await import('node:fs/promises');
+      await copyFile(systemMdSrc, systemMdDest);
+    }
+
+    // Update .claude/commands/arios/
+    const claudeDir = path.join(cwd, '.claude', 'commands', 'arios');
+    await ensureDir(path.join(cwd, '.claude', 'commands'));
+    await copyTemplates(
+      path.join(templatesDir, '.claude', 'commands', 'arios'),
+      claudeDir
+    );
+
+    // Update .claude/agents/
+    const agentsDir = path.join(cwd, '.claude', 'agents');
+    await copyTemplates(
+      path.join(templatesDir, '.claude', 'agents'),
+      agentsDir
+    );
+
+    spinner.succeed('ARIOS updated successfully!');
     console.log('');
-    console.log(`Current version: ${chalk.cyan(currentVersion)}`);
+    console.log(chalk.dim('Updated:'));
+    console.log(chalk.dim('  .arios/system.md  System instructions'));
+    console.log(chalk.dim('  .claude/commands/ Slash commands (12)'));
+    console.log(chalk.dim('  .claude/agents/   Subagents (6)'));
     console.log('');
-    console.log(chalk.dim('Check https://github.com/user/arios for updates.'));
+    console.log(chalk.dim(`Previous version: ${currentVersion}`));
+    console.log(chalk.dim('Your .arios/config.json and .planning/ were preserved.'));
   } catch (error) {
-    console.error(chalk.red('Failed to check for updates:'));
+    console.error(chalk.red('Failed to update ARIOS:'));
     console.error(error instanceof Error ? error.message : String(error));
     process.exit(1);
   }
