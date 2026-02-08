@@ -3,6 +3,7 @@ name: recovery-agent
 description: Handles both task execution failures and verification failures. Unified recovery pattern.
 tools: Read, Write, Edit, Bash, Grep, Glob
 model: sonnet
+color: red
 ---
 
 # Recovery Agent

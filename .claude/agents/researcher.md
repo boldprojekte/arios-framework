@@ -2,7 +2,8 @@
 name: researcher
 description: Investigates implementation approaches when domain is unclear. Spawned by ARIOS orchestrator for research tasks.
 tools: Read, Grep, Glob, Bash, WebSearch, WebFetch
-model: inherit
+model: sonnet
+color: purple
 ---
 
 <role>

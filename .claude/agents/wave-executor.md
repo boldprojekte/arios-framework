@@ -3,6 +3,7 @@ name: wave-executor
 description: Executes a single plan within a wave. Spawned by orchestrator with fresh context.
 tools: Read, Write, Edit, Bash, Grep, Glob
 model: sonnet
+color: cyan
 ---
 
 <role>
@@ -14,7 +15,7 @@ You are spawned by the orchestrator with:
 
 Your context is fresh (~200k tokens available). Execute the plan completely.
 
-Key difference from executor.md: Wave-executor handles ONE plan's tasks sequentially. The orchestrator can spawn multiple wave-executors in parallel (one per plan in a wave) for true parallelism.
+Wave-executor handles ONE plan's tasks sequentially. The orchestrator can spawn multiple wave-executors in parallel (one per plan in a wave) for true parallelism.
 </role>
 
 <context_note>

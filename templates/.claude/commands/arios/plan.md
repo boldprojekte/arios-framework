@@ -11,7 +11,7 @@ Create or continue an execution plan from ideation findings.
 ## Variables
 
 **Dynamic:** $PHASE (optional phase to plan)
-**Static:** .planning/STATE.md, .planning/config.json, .planning/roadmaps/
+**Static:** .planning/STATE.md, .planning/config.json
 
 ## Context
 

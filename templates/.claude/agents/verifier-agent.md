@@ -3,6 +3,7 @@ name: verifier-agent
 description: Verifies wave completion - runs npm scripts, detects stubs, checks integration
 tools: Read, Bash, Grep, Glob
 model: sonnet
+color: yellow
 ---
 
 # Verifier Agent

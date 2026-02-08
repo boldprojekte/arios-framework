@@ -3,6 +3,7 @@ name: planner
 description: Creates implementation plans and Claude Tasks from research findings. Spawned by ARIOS orchestrator for planning.
 tools: Read, Write, Grep, Glob, Bash, TaskCreate, TaskList
 model: inherit
+color: blue
 ---
 
 <role>

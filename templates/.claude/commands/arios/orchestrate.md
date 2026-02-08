@@ -14,7 +14,7 @@ Stay lean - delegate all heavy work to subagents. Never implement features direc
 ## Variables
 
 **Dynamic:** $COMMAND (research | plan | execute | auto)
-**Static:** .planning/STATE.md, .planning/config.json, .planning/roadmaps/
+**Static:** .planning/STATE.md, .planning/config.json
 
 ## State Integrity Check (Pre-Execution)
 
@@ -805,13 +805,17 @@ When recovery agent returns "## RECOVERY ESCALATE":
 
 ### Spawning Researcher
 
+Use the resolved phase directory from Mode-Aware Path Resolution:
+- **Project-Mode:** `.planning/phases/{phase}-{name}/`
+- **Feature-Mode:** `.planning/features/feature-{name}/`
+
 **Display announcement:**
 ```
 ## Delegating to Researcher
 
 **Purpose:** Investigate {topic}
 **Scope:** {investigation areas - APIs, libraries, patterns}
-**Output:** `.planning/roadmaps/{roadmap}/{phase}/findings.md`
+**Output:** `{resolved_phase_dir}/findings.md`
 
 Spawning researcher agent...
 ```
@@ -823,7 +827,7 @@ Use Task tool to spawn .claude/agents/researcher.md
 Provide:
 - Research topic/question
 - Phase name and context
-- Output path: .planning/roadmaps/{roadmap}/{phase}/findings.md
+- Output path: {resolved_phase_dir}/findings.md
 ```
 
 **After researcher returns, summarize:**
@@ -840,7 +844,7 @@ Key insights:
 - {finding 2 from return message}
 - {finding 3 from return message}
 
-Full details: `.planning/roadmaps/{roadmap}/{phase}/findings.md`
+Full details: `{resolved_phase_dir}/findings.md`
 ```
 
 ### Spawning Planner
@@ -851,7 +855,7 @@ Full details: `.planning/roadmaps/{roadmap}/{phase}/findings.md`
 
 **Purpose:** Create execution plan from research findings
 **Scope:** Phase {N} tasks breakdown
-**Output:** `.planning/roadmaps/{roadmap}/{phase}/plan.md`
+**Output:** `{resolved_phase_dir}/PLAN.md`
 
 Spawning planner agent...
 ```
@@ -861,9 +865,9 @@ Spawning planner agent...
 Use Task tool to spawn .claude/agents/planner.md
 
 Provide:
-- Findings file path (from researcher)
-- Phase name and CONTEXT.md path
-- Output path: .planning/roadmaps/{roadmap}/{phase}/plan.md
+- Findings file path (from researcher): {resolved_phase_dir}/findings.md
+- Phase name and CONTEXT.md path: {resolved_phase_dir}/CONTEXT.md (or {phase}-CONTEXT.md for Project-Mode)
+- Output path: {resolved_phase_dir}/{plan}-PLAN.md
 ```
 
 **After planner returns, summarize:**
@@ -879,7 +883,7 @@ Structure:
 - Wave 1: {plan IDs} ({parallel|sequential})
 - Wave 2: {plan IDs}
 
-Full details: `.planning/roadmaps/{roadmap}/{phase}/plan.md`
+Full details: `{resolved_phase_dir}/{plan}-PLAN.md`
 ```
 
 ### Spawning Wave-Executor (Parallel Waves)
@@ -922,7 +926,7 @@ Prompt includes:
 Additional context:
 - Wave number: {N}
 - Patterns file: .planning/patterns.json (executor reads this itself)
-- Problems directory: .planning/roadmaps/{roadmap}/{phase}/problems/
+- Problems directory: {resolved_phase_dir}/problems/
 ```
 
 **After wave-executor returns, summarize:**

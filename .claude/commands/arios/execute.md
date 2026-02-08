@@ -11,7 +11,7 @@ Execute tasks from the current plan, wave by wave.
 ## Variables
 
 **Dynamic:** $WAVE (optional specific wave number)
-**Static:** .planning/STATE.md, .planning/config.json, .planning/roadmaps/
+**Static:** .planning/STATE.md, .planning/config.json
 
 **Checkpoint config (in .planning/config.json):**
 ```json
