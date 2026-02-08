@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Archive (lokale Dev-Doku)
+.archive/
+
+# Local Claude Code config (persönliche Settings/Skills)
+.claude/settings.local.json
+.claude/skills/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Env
+.env
+.env.*

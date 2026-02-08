@@ -2,106 +2,290 @@
 
 AI-assisted development workflow for Claude Code.
 
-## What ARIOS Does
+ARIOS brings structure to AI-driven development. Instead of ad-hoc prompting, you work through a clear pipeline: **ideate, plan, execute** — with specialized agents, automatic checkpoints, and a real-time dashboard.
 
-ARIOS helps you build software by:
-1. **Understanding what you want** before writing code
-2. **Planning the approach** with clear structure
-3. **Building professionally** with quality checks at each step
-
-## Quick Start
+## Installation
 
 ```bash
-# In your project directory
-npx arios init
+npm install arios-framework
+```
 
-# Then in Claude Code
+## Setup
+
+Two steps — one in the Terminal, one in Claude Code:
+
+```bash
+# 1. Terminal: Initialize ARIOS in your project
+npx arios init
+```
+
+This creates:
+- `.claude/agents/` — 6 specialized AI agents
+- `.claude/commands/arios/` — 12 slash commands
+- `.arios/` — project config
+- `CLAUDE.md` — Claude Code entry point with ARIOS section
+
+```bash
+# 2. Claude Code: Complete setup (detects your stack)
+/arios:start
+```
+
+ARIOS detects your project type (Node/Python/Go/Rust), TypeScript usage, and package manager. Configuration is saved to `.arios/config.json`.
+
+After that, you're ready:
+
+```bash
 /arios
 ```
 
-## Workflow
+## How It Works
+
+ARIOS has three core stages. Each stage builds on the previous one:
 
 ```
-/arios      Start here - ARIOS detects your project state
-   |
-/ideate     Explore ideas, clarify requirements
-   |        Creates: CONTEXT.md
-/plan       Structure the implementation approach
-   |        Creates: PLAN.md with tasks in waves
-/execute    Build it wave by wave
-   |        Runs checkpoints to verify each wave
-Done!
+/ideate    →    /plan    →    /execute
+   |               |              |
+Research &     Create task    Build wave by
+explore        structure      wave with
+ideas          with waves     checkpoints
+   |               |              |
+CONTEXT.md     PLAN.md        SUMMARY.md
 ```
 
-### Commands
+### Stage 1: Ideate (`/ideate`)
 
-| Command | What it does | When to use |
-|---------|-------------|-------------|
-| `/arios` | Smart entry point | Always start here |
-| `/ideate` | Creative exploration | New features, research, direction changes |
-| `/plan` | Create execution plan | After ideation, when ready to build |
-| `/execute` | Run the plan | After planning, to build the feature |
-| `/arios:status` | Show progress | Check where you are anytime |
-| `/arios:help` | Command reference | Quick lookup |
+Creative exploration and requirements gathering. ARIOS spawns a **Researcher agent** that investigates your codebase, patterns, and approaches.
 
-### Tips
+**Output:** `CONTEXT.md` — findings, requirements, and decisions.
 
-- **Run `/clear` between stages** - Keeps context fresh
-- **`/ideate` works anytime** - Not just for new projects
-- **Checkpoints verify each wave** - Catches issues early
-- **ARIOS tries to fix failures** - 3 automatic attempts before asking you
+**No prerequisites** — you can run `/ideate` at any point.
 
-## How it Works
+### Stage 2: Plan (`/plan`)
 
-ARIOS uses an **orchestrator pattern**:
+Creates a structured execution plan from ideation findings. ARIOS spawns a **Planner agent** that breaks the work into numbered tasks organized in waves.
 
+**Output:** `PLAN.md` files — tasks with dependencies, grouped into waves for parallel/sequential execution.
+
+**Prerequisite:** `CONTEXT.md` must exist (run `/ideate` first).
+
+### Stage 3: Execute (`/execute`)
+
+Builds your project wave by wave. ARIOS spawns an **Executor agent** (or **Wave-Executor** for parallel tasks) that implements each task from the plan.
+
+After each wave, ARIOS runs **checkpoint verification**:
+- Starts your app (`npm run dev` or configured command)
+- Runs your tests (`npm test` or configured command)
+- If a checkpoint fails: pauses, shows diagnostics, and the **Recovery agent** attempts to fix (3 automatic retries before asking you)
+
+**Output:** `SUMMARY.md` files — results for each completed task.
+
+**Prerequisite:** `PLAN.md` must exist (run `/plan` first).
+
+## Two Modes
+
+ARIOS supports two modes of working:
+
+### Feature-Mode
+
+For focused, single-feature work. No roadmap, no phases — just one feature from idea to completion.
+
+```bash
+/feature            # Enter Feature-Mode directly
+# or
+/arios              # Auto-detects, asks "What would you like to build?"
 ```
-You run /ideate
-       |
-       v
-  Orchestrator
-       |
-       v
-  Spawns Researcher agent
-       |
-       v
-  Researcher investigates, writes findings
-       |
-       v
-  Orchestrator summarizes for you
-       |
-       v
-  You see: "Research complete: 3 patterns found. See CONTEXT.md"
+
+**File structure:**
+```
+.planning/features/feature-dark-mode/
+  CONTEXT.md        # Ideation findings
+  STATE.md          # Progress tracking
+  01-PLAN.md        # Task 1
+  02-PLAN.md        # Task 2
+  01-SUMMARY.md     # Task 1 results
 ```
 
-**What you see:** Orchestrator summaries and prompts
-**What happens behind the scenes:** Specialized agents do the heavy lifting
+When done, `/arios` offers a **Finish** option that archives the feature.
 
-### Agents
+### Project-Mode
 
-| Agent | Purpose | When spawned |
-|-------|---------|--------------|
-| Researcher | Investigate approaches, patterns | During `/ideate` |
-| Planner | Create execution structure | During `/plan` |
-| Executor | Implement tasks | During `/execute` |
+For multi-phase projects with a full roadmap. Think: building an entire app from scratch.
 
-### Files ARIOS Creates
+```bash
+/project            # Enter Project-Mode directly
+# or
+/arios              # Auto-detects based on your description
+```
 
+**File structure:**
 ```
 .planning/
-  STATE.md        Your progress, decisions, context
-  config.json     Project settings
+  ROADMAP.md        # Phase overview
+  STATE.md          # Progress tracking
   phases/
-    01-name/
-      01-CONTEXT.md   Ideation findings
-      01-01-PLAN.md   Execution plan
-      01-01-SUMMARY.md Results
+    01-foundation/
+      01-CONTEXT.md
+      01-01-PLAN.md
+      01-01-SUMMARY.md
+      01-02-PLAN.md
+    02-auth-system/
+      02-CONTEXT.md
+      02-01-PLAN.md
 ```
+
+Each phase goes through the full ideate → plan → execute cycle.
+
+**Switch modes anytime:** `/change-mode`
+
+## Commands
+
+### Workflow (in order)
+
+| Command | Purpose | Prerequisites |
+|---------|---------|---------------|
+| `/ideate` | Explore ideas, research approaches | None |
+| `/plan` | Create execution plan with waves | `CONTEXT.md` |
+| `/execute` | Build wave by wave with checkpoints | `PLAN.md` |
+
+### Entry & Navigation
+
+| Command | Purpose |
+|---------|---------|
+| `/arios` | Smart entry — detects state, routes to next step |
+| `/arios:start` | Complete setup after `npx arios init` |
+| `/arios:status` | Show current progress |
+| `/arios:help` | Command reference |
+
+### Mode Selection
+
+| Command | Purpose |
+|---------|---------|
+| `/feature` | Enter Feature-Mode directly |
+| `/project` | Enter Project-Mode directly |
+| `/change-mode` | Switch between modes |
+
+### Advanced
+
+| Command | Purpose |
+|---------|---------|
+| `/orchestrate` | Full orchestration (research + planning + execution) |
+| `/arios:update` | Update ARIOS to latest version |
+
+## Agents
+
+You don't interact with agents directly — the orchestrator spawns them behind the scenes.
+
+| Agent | What it does | Spawned by |
+|-------|-------------|------------|
+| **Researcher** | Investigates codebase, external patterns, approaches | `/ideate` |
+| **Planner** | Creates execution plans with task waves and dependencies | `/plan` |
+| **Executor** | Implements individual tasks from plans | `/execute` |
+| **Wave-Executor** | Runs multiple tasks in parallel within a wave | `/execute` (complex phases) |
+| **Verifier** | Validates that a phase actually achieves its goals | After phase execution |
+| **Recovery** | Diagnoses and fixes checkpoint failures automatically | On execution errors |
+
+## Dashboard
+
+Real-time browser dashboard showing task progress:
+
+```bash
+npx arios dashboard
+```
+
+Opens at `http://localhost:3456` with:
+- Kanban board view of all tasks
+- Phase progress bars
+- Real-time updates (tasks move as agents work)
+
+Options:
+```bash
+npx arios dashboard --port 8080    # Custom port
+npx arios dashboard --no-open      # Don't auto-open browser
+```
+
+## Typical Session
+
+```bash
+# First time setup
+npx arios init
+# In Claude Code:
+/arios:start
+
+# Start working
+/arios                    # "What would you like to build?"
+                          # → "Add user authentication"
+                          # → ARIOS detects: Feature-Mode
+
+/ideate                   # Researcher investigates auth approaches
+                          # → Creates CONTEXT.md
+
+/plan                     # Planner creates execution structure
+                          # → Creates 01-PLAN.md, 02-PLAN.md, 03-PLAN.md
+
+/execute                  # Executor builds wave by wave
+                          # → Checkpoint after each wave
+                          # → Creates SUMMARY.md for each task
+
+/arios                    # "Welcome back — Feature complete!"
+                          # → [Continue] [Status] [Finish]
+```
+
+**Tip:** Run `/clear` between stages for fresh context.
+
+## Checkpoint Configuration
+
+Configure automatic verification in `.arios/config.json`:
+
+```json
+{
+  "checkpoint": {
+    "startCommand": "npm run dev",
+    "startReadyPattern": "ready on|listening on",
+    "testCommand": "npm test",
+    "startTimeout": 30000,
+    "testTimeout": 120000
+  }
+}
+```
+
+If no checkpoint config is set, verification is skipped (useful for greenfield projects or early stages).
+
+## Development Approach
+
+On first `/ideate`, ARIOS asks you to pick a development approach:
+
+| Approach | Strategy |
+|----------|----------|
+| **ground-up** | Data models → business logic → API → UI |
+| **balanced** | Interleave UI and logic per feature (default) |
+| **ui-first** | Visual mockups with stub data first, then wire real data |
+
+This is stored in `.arios/config.json` and influences how the Planner structures tasks.
+
+## Resuming Work
+
+ARIOS tracks state across sessions. When you return:
+
+```bash
+/arios
+```
+
+```
+## Welcome Back
+
+Phase 2 (Auth System) - Plan 3 of 5
+
+[Continue] [Status] [Other]
+```
+
+- **Continue** — picks up exactly where you left off
+- **Status** — shows full project overview
+- **Other** — lists all available commands
 
 ## Requirements
 
-- Claude Code CLI
-- Node.js 18+
+- [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code)
+- Node.js >= 22.0.0
 
 ## License
 

@@ -1,0 +1,12 @@
+{
+  "version": "0.1.0",
+  "project": "Arios_v2",
+  "detected": {
+    "type": "unknown",
+    "typescript": false,
+    "packageManager": "npm"
+  },
+  "preferences": {
+    "workflow": "interactive"
+  }
+}
