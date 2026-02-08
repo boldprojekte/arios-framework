@@ -7,7 +7,7 @@ ARIOS brings structure to AI-driven development. Instead of ad-hoc prompting, yo
 ## Installation
 
 ```bash
-npm install arios-framework
+npm install github:boldprojekte/arios-framework
 ```
 
 ## Setup
@@ -207,6 +207,7 @@ npx arios dashboard --no-open      # Don't auto-open browser
 
 ```bash
 # First time setup
+npm install github:boldprojekte/arios-framework
 npx arios init
 # In Claude Code:
 /arios:start
@@ -281,6 +282,18 @@ Phase 2 (Auth System) - Plan 3 of 5
 - **Continue** — picks up exactly where you left off
 - **Status** — shows full project overview
 - **Other** — lists all available commands
+
+## Updating
+
+```bash
+# 1. Pull latest version from GitHub
+npm install github:boldprojekte/arios-framework
+
+# 2. Update commands and agents in your project
+npx arios update
+```
+
+This updates all 12 commands and 6 agents to the latest version. Your project config (`.arios/config.json`) and progress (`.planning/`) are preserved.
 
 ## Requirements
 
