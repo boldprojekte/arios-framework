@@ -14,11 +14,11 @@ Stay lean - delegate all heavy work to subagents. Never implement features direc
 ## Variables
 
 **Dynamic:** $COMMAND (research | plan | execute | auto)
-**Static:** .planning/STATE.md, .planning/config.json
+**Static:** mode-aware STATE.md, .planning/config.json
 
 ## State Integrity Check (Pre-Execution)
 
-**When to run:** At /execute initiation, before any wave-executor spawning. Run AFTER reading STATE.md but BEFORE dashboard startup.
+**When to run:** At /arios:execute initiation, before any wave-executor spawning. Run AFTER reading STATE.md but BEFORE dashboard startup.
 
 **Purpose:** Catch corruption or drift in STATE.md before execution begins. Auto-fixable issues are corrected silently. Unfixable issues prompt user before continuing.
 
@@ -218,7 +218,7 @@ After Auto-Continue detection, before Dashboard:
 2. **If not running (response != 200), start it:**
    ```
    Use Bash tool:
-   command: "npx tsx packages/arios-dashboard/src/server.ts"
+   command: "npx arios dashboard --no-open"
    run_in_background: true
    timeout: 5000
    ```
@@ -272,8 +272,9 @@ if (frontmatter.notes?.length > 0) {
 ## Context
 
 Read before any action:
-- @.planning/STATE.md - Current project position and progress
 - @.planning/config.json - Project settings, stack info, AND mode field
+- @.planning/STATE.md - Project-Mode state (if present)
+- @.planning/features/*/STATE.md - Feature-Mode state (if present)
 - Active roadmap and phase files as needed
 
 ## Mode-Aware Path Resolution
@@ -287,8 +288,8 @@ Read mode from config.json:
 
 **Project-Mode (default):**
 - STATE.md: `.planning/STATE.md`
-- Plans: `.planning/phases/{phase}-{name}/{phase}-{plan}-PLAN.md`
-- Summaries: `.planning/phases/{phase}-{name}/{phase}-{plan}-SUMMARY.md`
+- Plans: `.planning/phases/{phaseDir}/{phase}-{plan}-PLAN.md`
+- Summaries: `.planning/phases/{phaseDir}/{phase}-{plan}-SUMMARY.md`
 - Roadmap: `.planning/ROADMAP.md`
 
 **Feature-Mode:**
@@ -307,6 +308,8 @@ only in folder structure (no phases/, no ROADMAP.md), not in tracking capability
 - User can switch with `/arios:switch-feature {name}`
 
 Store resolved paths in working variables for use throughout orchestration.
+- `resolved_state_path` -> `.planning/STATE.md` or `.planning/features/feature-{name}/STATE.md`
+- `resolved_phase_dir` -> `.planning/phases/{phaseDir}/` or `.planning/features/feature-{name}/`
 
 ## Mode Detection
 
@@ -806,7 +809,7 @@ When recovery agent returns "## RECOVERY ESCALATE":
 ### Spawning Researcher
 
 Use the resolved phase directory from Mode-Aware Path Resolution:
-- **Project-Mode:** `.planning/phases/{phase}-{name}/`
+- **Project-Mode:** `.planning/phases/{phaseDir}/`
 - **Feature-Mode:** `.planning/features/feature-{name}/`
 
 **Display announcement:**
@@ -892,7 +895,7 @@ Full details: `{resolved_phase_dir}/{plan}-PLAN.md`
 
 Before spawning ANY wave-executor, you MUST:
 1. Use Read tool to load the plan file content
-2. Use Read tool to load .planning/STATE.md content
+2. Use Read tool to load `{resolved_state_path}` content
 3. These get inlined in the Task prompt below
 
 **Why inline?** The `@file` syntax only resolves in the main conversation. Task tool prompts receive literal text - `@path/to/file` would NOT be replaced with file contents. Always read first, then inline.
@@ -955,7 +958,7 @@ SUMMARY: {path to SUMMARY.md}
    For each plan in wave:
      - Use Read tool to load {plan_path} content
      - Store content for inlining in prompt
-   Use Read tool to load .planning/STATE.md content once (shared across wave)
+   Use Read tool to load {resolved_state_path} content once (shared across wave)
    ```
 
 2. **Announce wave start (MINIMAL - single line):**
@@ -1016,7 +1019,7 @@ For a wave with plans [08-01, 08-02, 08-03]:
    plan_01_content = Read(.planning/phases/08/08-01-PLAN.md)
    plan_02_content = Read(.planning/phases/08/08-02-PLAN.md)
    plan_03_content = Read(.planning/phases/08/08-03-PLAN.md)
-   state_content = Read(.planning/STATE.md)
+   state_content = Read({resolved_state_path})
 
 2. Spawn all three in single message (parallel):
    Task(wave-executor, prompt with plan_01_content inlined)

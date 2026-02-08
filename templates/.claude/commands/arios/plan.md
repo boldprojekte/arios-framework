@@ -104,7 +104,7 @@ Expected: `.planning/features/feature-{name}/CONTEXT.md`
 
 ---
 
-Run first: `/ideate`
+Run first: `/arios:ideate`
 
 Planning requires ideation findings as input.
 ```
@@ -122,7 +122,7 @@ Expected: `.planning/phases/{phase}/{phase}-CONTEXT.md`
 
 ---
 
-Run first: `/ideate`
+Run first: `/arios:ideate`
 
 Planning requires ideation findings as input.
 ```
@@ -148,7 +148,7 @@ Stage complete: Planning finished for feature {name}
 
 Plans: `.planning/features/feature-{name}/`
 
-Next: `/execute`
+Next: `/arios:execute`
 
 _Tip: Run `/clear` first for fresh context_
 
@@ -161,7 +161,7 @@ _Tip: Run `/clear` first for fresh context_
 
 Stage complete: Planning finished for Phase {X}
 
-Next: `/execute {phase}`
+Next: `/arios:execute {phase}`
 
 _Tip: Run `/clear` first for fresh context_
 

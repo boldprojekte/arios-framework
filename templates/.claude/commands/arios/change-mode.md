@@ -64,7 +64,7 @@ Which mode? (1/2):
 **If user confirms switch with active work:**
 
 1. Archive current work:
-   - If Feature-Mode: Move `feature-{name}/` to `.planning/archive/feature-{name}/`
+   - If Feature-Mode: Move `.planning/features/feature-{name}/` to `.planning/archive/feature-{name}/`
    - If Project-Mode: Move current phase to `.planning/archive/`
 2. Clear STATE.md (reset frontmatter)
 3. Update config.json with new mode

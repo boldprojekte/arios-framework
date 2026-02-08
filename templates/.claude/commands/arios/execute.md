@@ -11,7 +11,7 @@ Execute tasks from the current plan, wave by wave.
 ## Variables
 
 **Dynamic:** $WAVE (optional specific wave number)
-**Static:** .planning/STATE.md, .planning/config.json
+**Static:** mode-aware STATE.md, .planning/config.json
 
 **Checkpoint config (in .planning/config.json):**
 ```json
@@ -34,8 +34,9 @@ Execute tasks from the current plan, wave by wave.
 ## Context
 
 - `!ls .planning/ 2>/dev/null || echo "NO_PLANNING"`
-- @.planning/STATE.md - Current project position
-- @.planning/config.json - Project settings
+- @.planning/config.json - Project settings + mode
+- @.planning/STATE.md - Project-Mode state (if present)
+- @.planning/features/*/STATE.md - Feature-Mode state (if present)
 
 ## Instructions
 
@@ -50,10 +51,30 @@ Execute tasks from the current plan, wave by wave.
 - After wave completion, show wave completion prompt
 - After phase completion, show stage completion prompt
 
+## Mode-Aware Execution
+
+Read mode from `.planning/config.json` first:
+
+- **Feature-Mode (`mode == "feature"`):**
+  - Resolve `feature_name` from config
+  - STATE path: `.planning/features/feature-{name}/STATE.md`
+  - Plan glob: `.planning/features/feature-{name}/*-PLAN.md`
+  - Route: `/arios:orchestrate execute` with feature context
+
+- **Project-Mode (`mode == "project"` or missing mode):**
+  - STATE path: `.planning/STATE.md`
+  - Plan glob: `.planning/phases/{phase}/*-PLAN.md`
+  - Route: `/arios:orchestrate execute` with phase context
+
 ## Workflow
 
 1. **Prerequisite check (MANDATORY - before anything else):**
-   - Use Glob to check for `.planning/phases/{phase}/*-PLAN.md`
+   - Read mode from `.planning/config.json` (default: project)
+   - If mode == feature:
+     - Resolve `feature_name`
+     - Use Glob to check `.planning/features/feature-{name}/*-PLAN.md`
+   - If mode == project:
+     - Use Glob to check `.planning/phases/{phase}/*-PLAN.md`
    - If PLAN.md found: proceed to step 2
    - If NOT found: display refusal message and STOP:
      ```
@@ -61,11 +82,12 @@ Execute tasks from the current plan, wave by wave.
 
      No execution plan found for this phase.
 
-     Expected: `.planning/phases/{phase}/{phase}-*-PLAN.md`
+     Expected (Project-Mode): `.planning/phases/{phase}/{phase}-*-PLAN.md`
+     Expected (Feature-Mode): `.planning/features/feature-{name}/*-PLAN.md`
 
      ---
 
-     Run first: `/plan {phase}`
+     Run first: `/arios:plan`
 
      Execution requires a plan to work from.
      ```
@@ -119,7 +141,7 @@ Dashboard: http://localhost:3456
 Delegating to orchestrator...
 ```
 
-This ensures users see the dashboard link early, even if they /execute directly without going through /arios.
+This ensures users see the dashboard link early, even if they /arios:execute directly without going through /arios.
 
 ## Report
 
@@ -150,7 +172,7 @@ After wave completion (more waves remain), show:
 
 Wave {N} complete. {remaining} wave(s) remaining.
 
-Continue: `/execute {phase}`
+Continue: `/arios:execute {phase}`
 
 ---
 ```
@@ -162,7 +184,7 @@ After phase completion (all waves done), show stage completion prompt:
 
 Stage complete: Phase {X} execution finished
 
-Next: `/ideate` (if more features to build) or `/arios:status` (to review)
+Next: `/arios:ideate` (if more features to build) or `/arios:status` (to review)
 
 _Tip: Run `/clear` first for fresh context_
 

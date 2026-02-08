@@ -68,13 +68,13 @@ If no active work or user confirmed reset:
    ```
 4. Wait for user response
 5. Mirror understanding: "Got it - you want to [feature]. Let me plan that."
-6. Route to `/ideate` with feature context
+6. Route to `/arios:ideate` with feature context
 
 ### 3. Feature Context for Ideation
 
-When routing to /ideate, pass context indicating Feature-Mode:
+When routing to /arios:ideate, pass context indicating Feature-Mode:
 - Single-phase workflow (no multi-phase roadmap)
-- Phase folder will be `.planning/phases/feature-{name}/`
+- Feature folder will be `.planning/features/feature-{name}/`
 - On completion: archive to `.planning/archive/`
 
 ## Workflow
@@ -86,7 +86,7 @@ When routing to /ideate, pass context indicating Feature-Mode:
 5. Write mode to config.json
 6. Display Feature-Mode entry message
 7. Wait for user's feature description
-8. Route to /ideate with feature context
+8. Route to /arios:ideate with feature context
 
 ## Report
 

@@ -40,8 +40,8 @@ Start creative exploration for new features, project direction, or problem resea
 
 | Mode | Ideation Output | Next Step |
 |------|-----------------|-----------|
-| Feature-Mode | CONTEXT.md + STATE.md in `.planning/features/feature-{name}/` | `/plan` for feature |
-| Project-Mode | ROADMAP.md + phase folders + CONTEXT.md for phase 1 | `/plan 1` for first phase |
+| Feature-Mode | CONTEXT.md + STATE.md in `.planning/features/feature-{name}/` | `/arios:plan` for feature |
+| Project-Mode | ROADMAP.md + phase folders + CONTEXT.md for phase 1 | `/arios:plan 1` for first phase |
 
 ### Feature-Mode Ideation
 
@@ -71,7 +71,7 @@ When mode == "feature":
    planIndex: 0
    totalPhases: 1
    totalPlans: 0
-   status: "ideation-complete"
+   status: "ready-for-planning"
    lastActivity: "{current date}"
    phaseName: "feature-{name}"
    ---
@@ -83,7 +83,7 @@ When mode == "feature":
      "feature_name": "{name}"
    }
    ```
-6. **Route to:** `/plan` (single feature phase)
+6. **Route to:** `/arios:plan` (single feature phase)
 
 ### Project-Mode Ideation
 
@@ -103,8 +103,8 @@ When mode == "project":
    - Success criteria for phase 1
    - Technical considerations specific to phase 1
    - Key decisions and constraints
-   This is critical - `/plan 1` requires CONTEXT.md as prerequisite.
-   Later phases get their own CONTEXT.md when the user runs `/ideate` after completing the previous phase.
+   This is critical - `/arios:plan 1` requires CONTEXT.md as prerequisite.
+   Later phases get their own CONTEXT.md when the user runs `/arios:ideate` after completing the previous phase.
 5. **Create/update STATE.md** at `.planning/STATE.md`:
    ```yaml
    ---
@@ -118,7 +118,7 @@ When mode == "project":
    phaseName: "{phase 1 name}"
    ---
    ```
-6. **Route to:** `/plan 1` for first phase
+6. **Route to:** `/arios:plan 1` for first phase
 
 ## Workflow
 
@@ -186,7 +186,7 @@ Stage complete: Ideation finished for {topic}
 Findings: `.planning/features/feature-{name}/CONTEXT.md`
 State: `.planning/features/feature-{name}/STATE.md`
 
-Next: `/plan`
+Next: `/arios:plan`
 
 _Tip: Run `/clear` first for fresh context_
 
@@ -202,7 +202,7 @@ Stage complete: Ideation finished for {topic}
 Roadmap: `.planning/ROADMAP.md`
 Phase 1 context: `.planning/phases/01-xxx/01-CONTEXT.md`
 
-Next: `/plan 1`
+Next: `/arios:plan 1`
 
 _Tip: Run `/clear` first for fresh context_
 

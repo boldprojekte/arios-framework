@@ -16,6 +16,21 @@ export type ParsedStateFile = { currentPhase: number; currentPlan: number };
 export type ParsedRoadmapFile = { phases: Phase[]; roadmap: string };
 export type ParsedFile = ParsedPlanFile | ParsedSummaryFile | ParsedStateFile | ParsedRoadmapFile | null;
 
+type RuntimePlanningConfig = {
+  mode?: 'feature' | 'project' | null;
+  feature_name?: string | null;
+  active_feature?: string | null;
+};
+
+type ParsePlanOptions = {
+  stateFilePath?: string;
+  featurePhaseMap?: Map<string, number>;
+};
+
+function toPosixPath(filePath: string): string {
+  return filePath.replace(/\\/g, '/');
+}
+
 /**
  * Parse a single file and return typed data
  */
@@ -43,28 +58,39 @@ export function parseFile(
  * Parse PLAN.md files into Task objects
  * Supports both Project-Mode (phase/plan) and Feature-Mode (plan_id/title) formats
  */
-export function parsePlanFile(filePath: string, planningDir: string): Task | null {
+export function parsePlanFile(
+  filePath: string,
+  planningDir: string,
+  options: ParsePlanOptions = {}
+): Task | null {
   try {
     const content = readFileSync(filePath, 'utf-8');
     const { data: frontmatter, content: body } = matter(content);
+    const normalizedFilePath = toPosixPath(filePath);
 
     // Detect mode from file path (more reliable than frontmatter fields)
-    const isFeatureMode = filePath.includes('/features/feature-');
+    const isFeatureMode = normalizedFilePath.includes('/features/feature-');
 
     let phaseStr: string;
     let planNum: number;
     let taskName: string;
 
     if (isFeatureMode) {
-      // Feature-Mode format: plan_id or id, title
+      // Feature-Mode format: prefer plan_id/id from frontmatter, fallback to filename.
       const planId = (frontmatter.plan_id || frontmatter.id) as string | undefined;
-      if (!planId) return null;
 
       // Extract feature name from path: .planning/features/feature-{name}/01-PLAN.md
-      const pathParts = filePath.split('/');
+      const pathParts = normalizedFilePath.split('/');
       const featureFolder = pathParts.find(p => p.startsWith('feature-'));
       phaseStr = featureFolder || 'feature';
-      planNum = parseInt(planId.split('-').pop() || planId, 10) || 1;
+
+      if (planId) {
+        planNum = parseInt(planId.split('-').pop() || planId, 10) || 1;
+      } else {
+        const featureFileMatch = basename(filePath).match(/^(\d+)-PLAN\.md$/);
+        planNum = featureFileMatch ? parseInt(featureFileMatch[1], 10) : 1;
+      }
+
       taskName = (frontmatter.title as string) || `Plan ${planNum}`;
     } else {
       // Project-Mode format: phase + plan (or extract from id/filename)
@@ -103,9 +129,15 @@ export function parsePlanFile(filePath: string, planningDir: string): Task | nul
       }
     }
 
-    // Parse phase number from string like "05-execution-flow" or just "05"
-    const phaseMatch = phaseStr.match(/^(\d+)/);
-    const phaseNum = phaseMatch ? parseInt(phaseMatch[1], 10) : 0;
+    // Parse phase number from string like "05-execution-flow" or just "05".
+    // Feature-Mode uses synthetic phase numbering to avoid "00-*" IDs.
+    let phaseNum = 0;
+    if (isFeatureMode) {
+      phaseNum = options.featurePhaseMap?.get(phaseStr) ?? 1;
+    } else {
+      const phaseMatch = phaseStr.match(/^(\d+)/);
+      phaseNum = phaseMatch ? parseInt(phaseMatch[1], 10) : 0;
+    }
 
     // Build task ID
     const id = `${String(phaseNum).padStart(2, '0')}-${String(planNum).padStart(2, '0')}`;
@@ -120,7 +152,7 @@ export function parsePlanFile(filePath: string, planningDir: string): Task | nul
       status = 'complete';
     } else {
       // Check if this is the current plan from STATE.md
-      const stateFilePath = join(planningDir, 'STATE.md');
+      const stateFilePath = options.stateFilePath || join(planningDir, 'STATE.md');
       if (existsSync(stateFilePath)) {
         const stateData = parseStateFile(stateFilePath);
         if (
@@ -297,6 +329,110 @@ export function parseRoadmapFile(
   }
 }
 
+function loadRuntimeConfig(planningDir: string): RuntimePlanningConfig {
+  const configPath = join(planningDir, 'config.json');
+  if (!existsSync(configPath)) {
+    return {};
+  }
+
+  try {
+    return JSON.parse(readFileSync(configPath, 'utf-8')) as RuntimePlanningConfig;
+  } catch {
+    return {};
+  }
+}
+
+function normalizeFeatureFolder(featureName: string): string {
+  return featureName.startsWith('feature-') ? featureName : `feature-${featureName}`;
+}
+
+function detectMode(
+  planningDir: string,
+  config: RuntimePlanningConfig
+): 'feature' | 'project' {
+  if (config.mode === 'feature' || config.mode === 'project') {
+    return config.mode;
+  }
+
+  const featuresDir = join(planningDir, 'features');
+  const roadmapPath = join(planningDir, 'ROADMAP.md');
+  return existsSync(featuresDir) && !existsSync(roadmapPath) ? 'feature' : 'project';
+}
+
+function getFeatureFolders(featuresDir: string): string[] {
+  if (!existsSync(featuresDir)) {
+    return [];
+  }
+
+  return readdirSync(featuresDir)
+    .filter(f => f.startsWith('feature-') && statSync(join(featuresDir, f)).isDirectory())
+    .sort();
+}
+
+function resolveActiveFeatureFolder(
+  config: RuntimePlanningConfig,
+  featureFolders: string[]
+): string | null {
+  const preferred = config.active_feature || config.feature_name;
+  if (!preferred) {
+    return featureFolders.length === 1 ? featureFolders[0] : null;
+  }
+
+  const normalized = normalizeFeatureFolder(preferred);
+  return featureFolders.includes(normalized) ? normalized : null;
+}
+
+function resolveStateFilePath(
+  planningDir: string,
+  mode: 'feature' | 'project',
+  activeFeatureFolder: string | null,
+  featureFolders: string[]
+): string {
+  const rootStatePath = join(planningDir, 'STATE.md');
+
+  if (mode === 'project') {
+    return rootStatePath;
+  }
+
+  if (activeFeatureFolder) {
+    const activeStatePath = join(planningDir, 'features', activeFeatureFolder, 'STATE.md');
+    if (existsSync(activeStatePath)) {
+      return activeStatePath;
+    }
+  }
+
+  for (const folder of featureFolders) {
+    const candidate = join(planningDir, 'features', folder, 'STATE.md');
+    if (existsSync(candidate)) {
+      return candidate;
+    }
+  }
+
+  return rootStatePath;
+}
+
+function buildFeaturePhaseMap(
+  featureFolders: string[],
+  activeFeatureFolder: string | null
+): Map<string, number> {
+  const map = new Map<string, number>();
+  let index = 1;
+
+  if (activeFeatureFolder && featureFolders.includes(activeFeatureFolder)) {
+    map.set(activeFeatureFolder, index);
+    index += 1;
+  }
+
+  for (const folder of featureFolders) {
+    if (!map.has(folder)) {
+      map.set(folder, index);
+      index += 1;
+    }
+  }
+
+  return map;
+}
+
 /**
  * Recursively find all relevant files in planning directory
  */
@@ -338,12 +474,36 @@ export function parseAllFiles(
 ): Map<string, Task | Phase> {
   const result = new Map<string, Task | Phase>();
   const files = findPlanningFiles(planningDir);
+  const config = loadRuntimeConfig(planningDir);
+  const mode = detectMode(planningDir, config);
+  const featuresDir = join(planningDir, 'features');
+  const featureFolders = getFeatureFolders(featuresDir);
+  const activeFeatureFolder = resolveActiveFeatureFolder(config, featureFolders);
+  const featurePhaseMap = buildFeaturePhaseMap(featureFolders, activeFeatureFolder);
+  const stateFilePath = resolveStateFilePath(
+    planningDir,
+    mode,
+    activeFeatureFolder,
+    featureFolders
+  );
 
   for (const filePath of files) {
     const fileName = basename(filePath);
+    const normalizedFilePath = toPosixPath(filePath);
 
     if (fileName.endsWith('-PLAN.md')) {
-      const task = parsePlanFile(filePath, planningDir);
+      if (
+        mode === 'feature' &&
+        activeFeatureFolder &&
+        !normalizedFilePath.includes(`/features/${activeFeatureFolder}/`)
+      ) {
+        continue;
+      }
+
+      const task = parsePlanFile(filePath, planningDir, {
+        stateFilePath,
+        featurePhaseMap
+      });
       if (task) {
         result.set(task.id, task);
       }
@@ -352,7 +512,7 @@ export function parseAllFiles(
 
   // Parse roadmap for phases
   const roadmapPath = join(planningDir, 'ROADMAP.md');
-  if (existsSync(roadmapPath)) {
+  if (mode === 'project' && existsSync(roadmapPath)) {
     const roadmapData = parseRoadmapFile(roadmapPath);
     if (roadmapData) {
       for (const phase of roadmapData.phases) {
@@ -375,26 +535,20 @@ export function buildDashboardState(planningDir: string): DashboardState {
   let currentPlan = 1;
   let roadmap = '';
 
-  // Detect mode: Feature-Mode has .planning/features/ folder, no ROADMAP.md
+  const runtimeConfig = loadRuntimeConfig(planningDir);
   const featuresDir = join(planningDir, 'features');
   const roadmapPath = join(planningDir, 'ROADMAP.md');
-  const isFeatureMode = existsSync(featuresDir) && !existsSync(roadmapPath);
-
-  // Parse STATE.md for current position
-  // In Feature-Mode, state may be in feature folder
-  let stateFilePath = join(planningDir, 'STATE.md');
-  if (isFeatureMode && !existsSync(stateFilePath)) {
-    // Look for state in feature folders
-    const featureFolders = readdirSync(featuresDir).filter(f =>
-      f.startsWith('feature-') && statSync(join(featuresDir, f)).isDirectory()
-    );
-    if (featureFolders.length > 0) {
-      const featureStatePath = join(featuresDir, featureFolders[0], 'STATE.md');
-      if (existsSync(featureStatePath)) {
-        stateFilePath = featureStatePath;
-      }
-    }
-  }
+  const mode = detectMode(planningDir, runtimeConfig);
+  const isFeatureMode = mode === 'feature';
+  const featureFolders = getFeatureFolders(featuresDir);
+  const activeFeatureFolder = resolveActiveFeatureFolder(runtimeConfig, featureFolders);
+  const featurePhaseMap = buildFeaturePhaseMap(featureFolders, activeFeatureFolder);
+  const stateFilePath = resolveStateFilePath(
+    planningDir,
+    mode,
+    activeFeatureFolder,
+    featureFolders
+  );
 
   if (existsSync(stateFilePath)) {
     const stateData = parseStateFile(stateFilePath);
@@ -405,7 +559,7 @@ export function buildDashboardState(planningDir: string): DashboardState {
   }
 
   // Parse ROADMAP.md for phases (Project-Mode only)
-  if (existsSync(roadmapPath)) {
+  if (mode === 'project' && existsSync(roadmapPath)) {
     const roadmapData = parseRoadmapFile(roadmapPath);
     if (roadmapData) {
       phases.push(...roadmapData.phases);
@@ -416,8 +570,20 @@ export function buildDashboardState(planningDir: string): DashboardState {
   // Parse all PLAN.md files for tasks
   const files = findPlanningFiles(planningDir);
   for (const filePath of files) {
+    const normalizedFilePath = toPosixPath(filePath);
     if (basename(filePath).endsWith('-PLAN.md')) {
-      const task = parsePlanFile(filePath, planningDir);
+      if (
+        isFeatureMode &&
+        activeFeatureFolder &&
+        !normalizedFilePath.includes(`/features/${activeFeatureFolder}/`)
+      ) {
+        continue;
+      }
+
+      const task = parsePlanFile(filePath, planningDir, {
+        stateFilePath,
+        featurePhaseMap
+      });
       if (task) {
         tasks.push(task);
       }
@@ -426,17 +592,17 @@ export function buildDashboardState(planningDir: string): DashboardState {
 
   // Feature-Mode: create synthetic phase from feature folders
   if (isFeatureMode && phases.length === 0 && tasks.length > 0) {
-    const featureFolders = readdirSync(featuresDir).filter(f =>
-      f.startsWith('feature-') && statSync(join(featuresDir, f)).isDirectory()
-    );
-
     for (const folder of featureFolders) {
       const featureName = folder.replace('feature-', '');
       const featureTasks = tasks.filter(t => t.phase.includes(folder));
+      if (featureTasks.length === 0) {
+        continue;
+      }
       const completeTasks = featureTasks.filter(t => t.status === 'complete');
+      const phaseId = featurePhaseMap.get(folder) || 1;
 
       phases.push({
-        id: 1,
+        id: phaseId,
         name: featureName,
         fullName: featureName.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
         status: completeTasks.length === featureTasks.length && featureTasks.length > 0
@@ -452,10 +618,12 @@ export function buildDashboardState(planningDir: string): DashboardState {
 
   // Sort tasks by phase and plan number
   tasks.sort((a, b) => {
-    const phaseA = parseInt(a.phase.match(/^(\d+)/)?.[1] || '0', 10);
-    const phaseB = parseInt(b.phase.match(/^(\d+)/)?.[1] || '0', 10);
+    const phaseA = parseInt(a.id.split('-')[0], 10) || 0;
+    const phaseB = parseInt(b.id.split('-')[0], 10) || 0;
     if (phaseA !== phaseB) return phaseA - phaseB;
-    return a.plan - b.plan;
+    const planA = parseInt(a.id.split('-')[1], 10) || a.plan;
+    const planB = parseInt(b.id.split('-')[1], 10) || b.plan;
+    return planA - planB;
   });
 
   return {

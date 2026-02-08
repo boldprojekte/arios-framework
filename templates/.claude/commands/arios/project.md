@@ -67,11 +67,11 @@ If no active work:
    ```
 3. Wait for user response
 4. Mirror understanding: "Got it - you want to build [project]. Let me help you plan this."
-5. Route to `/ideate` with project context
+5. Route to `/arios:ideate` with project context
 
 ### 3. Project Context for Ideation
 
-When routing to /ideate, pass context indicating Project-Mode:
+When routing to /arios:ideate, pass context indicating Project-Mode:
 - Multi-phase roadmap workflow
 - Will create ROADMAP.md
 - Phase folders will be numbered `.planning/phases/01-xxx/`, `.planning/phases/02-xxx/`
@@ -84,7 +84,7 @@ When routing to /ideate, pass context indicating Project-Mode:
 4. Write mode to config.json
 5. Display Project-Mode entry message
 6. Wait for user's project description
-7. Route to /ideate with project context
+7. Route to /arios:ideate with project context
 
 ## Report
 

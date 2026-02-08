@@ -304,7 +304,7 @@ export async function detectDrift(
       f.includes('-PLAN.md') && f.startsWith(`${paddedPhase}-${paddedPlan}`)
     );
 
-    if (!hasPlan && status !== 'phase_complete') {
+    if (!hasPlan && status !== 'phase_complete' && status !== 'phase-complete') {
       details.push(
         `State references plan ${paddedPhase}-${paddedPlan} but PLAN.md not found`
       );

@@ -8,7 +8,15 @@
 /**
  * Phase execution status
  */
-export type PhaseStatus = 'not-started' | 'in-progress' | 'complete' | 'phase_complete' | 'blocked';
+export type PhaseStatus =
+  | 'not-started'
+  | 'ready-for-planning'
+  | 'ready-for-execution'
+  | 'in-progress'
+  | 'complete'
+  | 'phase_complete'
+  | 'phase-complete'
+  | 'blocked';
 
 /**
  * Decision record for tracking both positive and negative decisions.

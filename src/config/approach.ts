@@ -17,7 +17,10 @@ import type { Approach, ProjectConfig } from '../types/config.js';
 /** Default configuration when no config file exists */
 const DEFAULT_CONFIG: ProjectConfig = {
   approach: 'balanced',
-  approachSetAt: ''
+  approachSetAt: '',
+  mode: null,
+  feature_name: null,
+  active_feature: null
 };
 
 /** Config file path relative to project root */
@@ -36,10 +39,15 @@ async function loadConfig(projectDir: string): Promise<ProjectConfig> {
     const content = await fs.readFile(configPath, 'utf-8');
     const parsed = JSON.parse(content) as Partial<ProjectConfig>;
 
-    // Merge with defaults to ensure all fields exist
+    // Merge with defaults to ensure required fields exist while preserving
+    // unknown keys for forward compatibility.
     return {
+      ...parsed,
       approach: parsed.approach ?? DEFAULT_CONFIG.approach,
-      approachSetAt: parsed.approachSetAt ?? DEFAULT_CONFIG.approachSetAt
+      approachSetAt: parsed.approachSetAt ?? DEFAULT_CONFIG.approachSetAt,
+      mode: parsed.mode ?? DEFAULT_CONFIG.mode,
+      feature_name: parsed.feature_name ?? DEFAULT_CONFIG.feature_name,
+      active_feature: parsed.active_feature ?? DEFAULT_CONFIG.active_feature
     };
   } catch (err) {
     // File doesn't exist or invalid JSON - return defaults

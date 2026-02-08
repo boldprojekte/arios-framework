@@ -54,12 +54,12 @@ export async function update(): Promise<void> {
       await copyFile(systemMdSrc, systemMdDest);
     }
 
-    // Update .claude/commands/arios/
-    const claudeDir = path.join(cwd, '.claude', 'commands', 'arios');
+    // Update .claude/commands/ including /arios:* commands and legacy aliases
+    const commandsDir = path.join(cwd, '.claude', 'commands');
     await ensureDir(path.join(cwd, '.claude', 'commands'));
     await copyTemplates(
-      path.join(templatesDir, '.claude', 'commands', 'arios'),
-      claudeDir
+      path.join(templatesDir, '.claude', 'commands'),
+      commandsDir
     );
 
     // Update .claude/agents/
@@ -73,7 +73,7 @@ export async function update(): Promise<void> {
     console.log('');
     console.log(chalk.dim('Updated:'));
     console.log(chalk.dim('  .arios/system.md  System instructions'));
-    console.log(chalk.dim('  .claude/commands/ Slash commands (12)'));
+    console.log(chalk.dim('  .claude/commands/ Slash commands + aliases'));
     console.log(chalk.dim('  .claude/agents/   Subagents (6)'));
     console.log('');
     console.log(chalk.dim(`Previous version: ${currentVersion}`));

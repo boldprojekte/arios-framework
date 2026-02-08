@@ -10,11 +10,12 @@ Update ARIOS files to the latest version while preserving user customizations.
 
 ## Context
 
-- @.planning/config.json - User preferences to preserve
+- @.arios/config.json - ARIOS install metadata/version
+- @.planning/config.json - Runtime workflow preferences
 
 ## Instructions
 
-1. Check current ARIOS version in .planning/config.json
+1. Check current ARIOS version in .arios/config.json
 2. Show what's new in the update (changelog)
 3. Ask for confirmation before applying
 4. Update system files, preserving user preferences
@@ -22,12 +23,14 @@ Update ARIOS files to the latest version while preserving user customizations.
 
 ## Workflow
 
-1. Read current version from .planning/config.json
+1. Read current version from .arios/config.json
 2. Compare with latest version
 3. If already latest, report and exit
 4. Show changelog summary
 5. Ask: "Apply update? (yes/no)"
-6. If yes, update files preserving preferences
+6. If yes, update files while preserving:
+   - `.planning/config.json` runtime preferences
+   - `.planning/` project state
 7. Report completion
 
 ## Report

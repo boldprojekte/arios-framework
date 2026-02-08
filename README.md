@@ -21,8 +21,10 @@ npx arios init
 
 This creates:
 - `.claude/agents/` — 6 specialized AI agents
-- `.claude/commands/arios/` — 12 slash commands
-- `.arios/` — project config
+- `.claude/commands/arios/` — namespaced `/arios:*` commands
+- `.claude/commands/` — temporary legacy alias wrappers (`/plan`, `/execute`, ...)
+- `.planning/` — runtime workflow config + planning state
+- `.arios/` — install metadata + system prompt
 - `CLAUDE.md` — Claude Code entry point with ARIOS section
 
 ```bash
@@ -30,7 +32,7 @@ This creates:
 /arios:start
 ```
 
-ARIOS detects your project type (Node/Python/Go/Rust), TypeScript usage, and package manager. Configuration is saved to `.arios/config.json`.
+ARIOS detects your project type (Node/Python/Go/Rust), TypeScript usage, and package manager. Runtime configuration is saved to `.planning/config.json`.
 
 After that, you're ready:
 
@@ -43,7 +45,7 @@ After that, you're ready:
 ARIOS has three core stages. Each stage builds on the previous one:
 
 ```
-/ideate    →    /plan    →    /execute
+/arios:ideate    →    /arios:plan    →    /arios:execute
    |               |              |
 Research &     Create task    Build wave by
 explore        structure      wave with
@@ -52,23 +54,23 @@ ideas          with waves     checkpoints
 CONTEXT.md     PLAN.md        SUMMARY.md
 ```
 
-### Stage 1: Ideate (`/ideate`)
+### Stage 1: Ideate (`/arios:ideate`)
 
 Creative exploration and requirements gathering. ARIOS spawns a **Researcher agent** that investigates your codebase, patterns, and approaches.
 
 **Output:** `CONTEXT.md` — findings, requirements, and decisions.
 
-**No prerequisites** — you can run `/ideate` at any point.
+**No prerequisites** — you can run `/arios:ideate` at any point.
 
-### Stage 2: Plan (`/plan`)
+### Stage 2: Plan (`/arios:plan`)
 
 Creates a structured execution plan from ideation findings. ARIOS spawns a **Planner agent** that breaks the work into numbered tasks organized in waves.
 
 **Output:** `PLAN.md` files — tasks with dependencies, grouped into waves for parallel/sequential execution.
 
-**Prerequisite:** `CONTEXT.md` must exist (run `/ideate` first).
+**Prerequisite:** `CONTEXT.md` must exist (run `/arios:ideate` first).
 
-### Stage 3: Execute (`/execute`)
+### Stage 3: Execute (`/arios:execute`)
 
 Builds your project wave by wave. ARIOS spawns an **Executor agent** (or **Wave-Executor** for parallel tasks) that implements each task from the plan.
 
@@ -79,7 +81,7 @@ After each wave, ARIOS runs **checkpoint verification**:
 
 **Output:** `SUMMARY.md` files — results for each completed task.
 
-**Prerequisite:** `PLAN.md` must exist (run `/plan` first).
+**Prerequisite:** `PLAN.md` must exist (run `/arios:plan` first).
 
 ## Two Modes
 
@@ -90,7 +92,7 @@ ARIOS supports two modes of working:
 For focused, single-feature work. No roadmap, no phases — just one feature from idea to completion.
 
 ```bash
-/feature            # Enter Feature-Mode directly
+/arios:feature            # Enter Feature-Mode directly
 # or
 /arios              # Auto-detects, asks "What would you like to build?"
 ```
@@ -112,7 +114,7 @@ When done, `/arios` offers a **Finish** option that archives the feature.
 For multi-phase projects with a full roadmap. Think: building an entire app from scratch.
 
 ```bash
-/project            # Enter Project-Mode directly
+/arios:project            # Enter Project-Mode directly
 # or
 /arios              # Auto-detects based on your description
 ```
@@ -135,7 +137,7 @@ For multi-phase projects with a full roadmap. Think: building an entire app from
 
 Each phase goes through the full ideate → plan → execute cycle.
 
-**Switch modes anytime:** `/change-mode`
+**Switch modes anytime:** `/arios:change-mode`
 
 ## Commands
 
@@ -143,15 +145,16 @@ Each phase goes through the full ideate → plan → execute cycle.
 
 | Command | Purpose | Prerequisites |
 |---------|---------|---------------|
-| `/ideate` | Explore ideas, research approaches | None |
-| `/plan` | Create execution plan with waves | `CONTEXT.md` |
-| `/execute` | Build wave by wave with checkpoints | `PLAN.md` |
+| `/arios:ideate` | Explore ideas, research approaches | None |
+| `/arios:plan` | Create execution plan with waves | `CONTEXT.md` |
+| `/arios:execute` | Build wave by wave with checkpoints | `PLAN.md` |
 
 ### Entry & Navigation
 
 | Command | Purpose |
 |---------|---------|
 | `/arios` | Smart entry — detects state, routes to next step |
+| `/arios:init` | Initialize ARIOS from Claude Code |
 | `/arios:start` | Complete setup after `npx arios init` |
 | `/arios:status` | Show current progress |
 | `/arios:help` | Command reference |
@@ -160,16 +163,30 @@ Each phase goes through the full ideate → plan → execute cycle.
 
 | Command | Purpose |
 |---------|---------|
-| `/feature` | Enter Feature-Mode directly |
-| `/project` | Enter Project-Mode directly |
-| `/change-mode` | Switch between modes |
+| `/arios:feature` | Enter Feature-Mode directly |
+| `/arios:project` | Enter Project-Mode directly |
+| `/arios:change-mode` | Switch between modes |
 
 ### Advanced
 
 | Command | Purpose |
 |---------|---------|
-| `/orchestrate` | Full orchestration (research + planning + execution) |
+| `/arios:orchestrate` | Full orchestration (research + planning + execution) |
 | `/arios:update` | Update ARIOS to latest version |
+| `/arios:recover` | Rebuild missing/inconsistent state |
+| `/arios:reset` | Archive active planning state and start fresh |
+| `/arios:switch-feature` | Switch active feature folder |
+
+### Legacy Alias Transition
+
+Un-namespaced commands are still available as temporary aliases:
+- `/ideate` -> `/arios:ideate`
+- `/plan` -> `/arios:plan`
+- `/execute` -> `/arios:execute`
+- `/feature` -> `/arios:feature`
+- `/project` -> `/arios:project`
+- `/change-mode` -> `/arios:change-mode`
+- `/orchestrate` -> `/arios:orchestrate`
 
 ## Agents
 
@@ -177,10 +194,10 @@ You don't interact with agents directly — the orchestrator spawns them behind 
 
 | Agent | What it does | Spawned by |
 |-------|-------------|------------|
-| **Researcher** | Investigates codebase, external patterns, approaches | `/ideate` |
-| **Planner** | Creates execution plans with task waves and dependencies | `/plan` |
-| **Executor** | Implements individual tasks from plans | `/execute` |
-| **Wave-Executor** | Runs multiple tasks in parallel within a wave | `/execute` (complex phases) |
+| **Researcher** | Investigates codebase, external patterns, approaches | `/arios:ideate` |
+| **Planner** | Creates execution plans with task waves and dependencies | `/arios:plan` |
+| **Executor** | Implements individual tasks from plans | `/arios:execute` |
+| **Wave-Executor** | Runs multiple tasks in parallel within a wave | `/arios:execute` (complex phases) |
 | **Verifier** | Validates that a phase actually achieves its goals | After phase execution |
 | **Recovery** | Diagnoses and fixes checkpoint failures automatically | On execution errors |
 
@@ -217,13 +234,13 @@ npx arios init
                           # → "Add user authentication"
                           # → ARIOS detects: Feature-Mode
 
-/ideate                   # Researcher investigates auth approaches
+/arios:ideate                   # Researcher investigates auth approaches
                           # → Creates CONTEXT.md
 
-/plan                     # Planner creates execution structure
+/arios:plan                     # Planner creates execution structure
                           # → Creates 01-PLAN.md, 02-PLAN.md, 03-PLAN.md
 
-/execute                  # Executor builds wave by wave
+/arios:execute                  # Executor builds wave by wave
                           # → Checkpoint after each wave
                           # → Creates SUMMARY.md for each task
 
@@ -235,7 +252,7 @@ npx arios init
 
 ## Checkpoint Configuration
 
-Configure automatic verification in `.arios/config.json`:
+Configure automatic verification in `.planning/config.json`:
 
 ```json
 {
@@ -253,7 +270,7 @@ If no checkpoint config is set, verification is skipped (useful for greenfield p
 
 ## Development Approach
 
-On first `/ideate`, ARIOS asks you to pick a development approach:
+On first `/arios:ideate`, ARIOS asks you to pick a development approach:
 
 | Approach | Strategy |
 |----------|----------|
@@ -261,7 +278,7 @@ On first `/ideate`, ARIOS asks you to pick a development approach:
 | **balanced** | Interleave UI and logic per feature (default) |
 | **ui-first** | Visual mockups with stub data first, then wire real data |
 
-This is stored in `.arios/config.json` and influences how the Planner structures tasks.
+This is stored in `.planning/config.json` and influences how the Planner structures tasks.
 
 ## Resuming Work
 
@@ -293,7 +310,7 @@ npm install github:boldprojekte/arios-framework
 npx arios update
 ```
 
-This updates all 12 commands and 6 agents to the latest version. Your project config (`.arios/config.json`) and progress (`.planning/`) are preserved.
+This updates ARIOS commands and agents to the latest version. Runtime config (`.planning/config.json`), planning state (`.planning/`), and install metadata (`.arios/config.json`) are preserved.
 
 ## Requirements
 

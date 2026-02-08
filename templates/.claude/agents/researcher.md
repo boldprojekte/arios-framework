@@ -26,7 +26,9 @@ From orchestrator:
 </input>
 
 <workflow>
-1. Read .arios/STATE.md for project context
+1. Read mode-aware STATE.md for project context:
+   - Project-Mode: `.planning/STATE.md`
+   - Feature-Mode: `.planning/features/feature-{name}/STATE.md`
 2. Read phase CONTEXT.md if exists (locked decisions)
 3. Investigate using available tools
 4. Write findings to specified path

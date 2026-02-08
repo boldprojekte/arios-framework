@@ -90,7 +90,7 @@ Feature: {phaseName} - {last_completed_task}
 
 Where:
 - {phaseName} = feature name from STATE.md
-- {last_completed_task} = brief description of last completed task/plan (e.g., "Task 3 of 5" or "API endpoints")
+- {last_completed_task} = brief description of last completed task or plan (e.g., "Task 3 of 5" or "API endpoints")
 
 The three action buttons are inline choices (user types 1, 2, or 3).
 
@@ -112,7 +112,7 @@ Phase {phase} ({phaseName}) - {last_completed_task}
 Where:
 - {phase} = current phase number
 - {phaseName} = current phase name from STATE.md
-- {last_completed_task} = brief description of last completed task/plan (e.g., "Plan 3 of 5" or "Auth system")
+- {last_completed_task} = brief description of last completed task or plan (e.g., "Plan 3 of 5" or "Auth system")
 
 The three action buttons are inline choices (user types 1, 2, or 3).
 
@@ -122,9 +122,9 @@ The three action buttons are inline choices (user types 1, 2, or 3).
 - 3 (Other): Show available commands:
   ```
   Available commands:
-  - `/ideate` - Explore ideas and clarify requirements
-  - `/plan` - Create structured implementation plans
-  - `/execute` - Build from plans with testable checkpoints
+  - `/arios:ideate` - Explore ideas and clarify requirements
+  - `/arios:plan` - Create structured implementation plans
+  - `/arios:execute` - Build from plans with testable checkpoints
   - `/arios:status` - See full project overview
   - `/arios:change-mode` - Override detected mode (switch between Feature-Mode and Project-Mode)
   - `/arios:help` - See all available commands
@@ -147,7 +147,7 @@ When user selects "Finish" in Feature-Mode:
    ```
 
 2. **If user confirms:**
-   - Move `.planning/phases/feature-{name}/` to `.planning/archive/feature-{name}/`
+   - Move `.planning/features/feature-{name}/` to `.planning/archive/feature-{name}/`
    - Update `.planning/config.json`: remove or null the `mode` field
    - Reset STATE.md to clean state (remove phase-specific frontmatter)
    - Display completion message:
@@ -198,9 +198,9 @@ Display welcome message:
 **Detected:** {Greenfield|Brownfield} {stack info if any}
 
 ARIOS helps you build software through:
-- `/ideate` - Explore what to build
-- `/plan` - Structure the approach
-- `/execute` - Build it step by step
+- `/arios:ideate` - Explore what to build
+- `/arios:plan` - Structure the approach
+- `/arios:execute` - Build it step by step
 
 **To get started:**
 
@@ -320,12 +320,12 @@ Once mode is confirmed:
 #### Route Based on Mode
 
 **Feature-Mode:**
-- Route to `/ideate` with feature context
+- Route to `/arios:ideate` with feature context
 - Single-phase workflow: the feature becomes one "phase" with plans
 - Skip roadmap creation
 
 **Project-Mode:**
-- Route to `/ideate` with project context
+- Route to `/arios:ideate` with project context
 - Full multi-phase roadmap workflow
 
 #### Professional Tone Examples
@@ -367,10 +367,10 @@ Map project status to suggested action:
 
 | Status | Meaning | Suggested Action |
 |--------|---------|------------------|
-| `ready-for-planning` | Phase has CONTEXT.md, needs planning | `/plan {phase}` |
-| `ready-for-execution` | Phase has PLAN.md, ready to build | `/execute {phase}` |
-| `in-progress` | Execution started, waves remaining | `/execute {phase}` (continue) |
-| `phase-complete` | All plans in phase done | `/ideate` for next phase |
+| `ready-for-planning` | Phase has CONTEXT.md, needs planning | `/arios:plan {phase}` |
+| `ready-for-execution` | Phase has PLAN.md, ready to build | `/arios:execute {phase}` |
+| `in-progress` | Execution started, waves remaining | `/arios:execute {phase}` (continue) |
+| `phase-complete` | All plans in phase done | `/arios:ideate` for next phase |
 | `blocked` | Issue preventing progress | Show blocker details |
 
 **Autonomous routing:**
@@ -410,9 +410,9 @@ Where {last_completed_task} is derived from STATE.md (e.g., "Plan 3 of 5" or the
 **Detected:** {Greenfield|Brownfield} {stack info if detected}
 
 ARIOS helps you build software through:
-- `/ideate` - Explore what to build
-- `/plan` - Structure the approach
-- `/execute` - Build it step by step
+- `/arios:ideate` - Explore what to build
+- `/arios:plan` - Structure the approach
+- `/arios:execute` - Build it step by step
 
 **To get started:**
 

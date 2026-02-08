@@ -25,7 +25,8 @@ function getTemplatesDir(): string {
 export async function init(): Promise<void> {
   const cwd = process.cwd();
   const ariosDir = path.join(cwd, '.arios');
-  const claudeDir = path.join(cwd, '.claude', 'commands', 'arios');
+  const claudeCommandsDir = path.join(cwd, '.claude', 'commands');
+  const planningDir = path.join(cwd, '.planning');
 
   try {
     // Check if already initialized
@@ -50,11 +51,11 @@ export async function init(): Promise<void> {
       ariosDir
     );
 
-    // Copy .claude/commands/arios/
-    await ensureDir(path.join(cwd, '.claude', 'commands'));
+    // Copy .claude/commands/ including /arios:* commands and legacy aliases
+    await ensureDir(claudeCommandsDir);
     await copyTemplates(
-      path.join(templatesDir, '.claude', 'commands', 'arios'),
-      claudeDir
+      path.join(templatesDir, '.claude', 'commands'),
+      claudeCommandsDir
     );
 
     // Copy .claude/agents/
@@ -62,6 +63,12 @@ export async function init(): Promise<void> {
     await copyTemplates(
       path.join(templatesDir, '.claude', 'agents'),
       agentsDir
+    );
+
+    // Copy .planning/ static files (for example debug.log)
+    await copyTemplates(
+      path.join(templatesDir, '.planning'),
+      planningDir
     );
 
     // Render templated files
@@ -72,10 +79,17 @@ export async function init(): Promise<void> {
       version: '0.1.0'
     };
 
-    // Render config.json.hbs
+    // Render install metadata config (.arios/config.json)
     await renderTemplateToFile(
       path.join(templatesDir, '.arios', 'config.json.hbs'),
       path.join(ariosDir, 'config.json'),
+      templateData
+    );
+
+    // Render runtime workflow config (.planning/config.json)
+    await renderTemplateToFile(
+      path.join(templatesDir, '.planning', 'config.json.hbs'),
+      path.join(planningDir, 'config.json'),
       templateData
     );
 
@@ -87,7 +101,8 @@ export async function init(): Promise<void> {
     console.log('');
     console.log(chalk.dim('Created:'));
     console.log(chalk.dim('  .arios/           ARIOS system files'));
-    console.log(chalk.dim('  .claude/commands/ Slash commands (/arios:start, /arios:orchestrate)'));
+    console.log(chalk.dim('  .planning/        Runtime workflow state + config'));
+    console.log(chalk.dim('  .claude/commands/ Slash commands (/arios:* + legacy aliases)'));
     console.log(chalk.dim('  .claude/agents/   Subagents (researcher, planner, executor)'));
     console.log('');
     console.log(chalk.cyan('Run /arios:start in Claude Code to complete setup'));
